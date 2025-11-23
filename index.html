@@ -313,34 +313,40 @@
             color: #7f8c8d;
         }
 
-        /* 目次トグルボタン */
-        .top-controls {
+        /* 目次/テーマトグル */
+        .control-button {
             position: fixed;
-            top: 12px;
-            left: 300px;
-            display: flex;
-            gap: 10px;
+            top: 16px;
+            border: none;
+            border-radius: 999px;
+            background: #2c3e50;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: background 0.2s, transform 0.2s;
             z-index: 1200;
         }
 
-        .top-controls button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            background: #2c3e50;
-            color: #fff;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            transition: background 0.2s, left 0.3s;
-        }
-
-        .top-controls button:hover {
+        .control-button:hover {
             background: #1f2d3a;
+            transform: translateY(-1px);
         }
 
-        body.toc-hidden .top-controls {
+        .toc-toggle {
             left: 24px;
+            padding: 8px 18px;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle {
+            right: 24px;
+            width: 46px;
+            height: 46px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         body.toc-hidden .sidebar {
@@ -422,11 +428,22 @@
             border-left-color: #4fa3ff;
         }
 
-        body.dark-mode .top-controls button {
+        body.dark-mode .sidebar-header p,
+        body.dark-mode .stat-label,
+        body.dark-mode .nav-item-number,
+        body.dark-mode .expand-icon,
+        body.dark-mode .sub-nav-item {
+            color: #d6deff;
+        }
+        body.dark-mode .sub-nav-item::before {
+            color: #9fb9ff;
+        }
+
+        body.dark-mode .control-button {
             background: #344d6b;
         }
 
-        body.dark-mode .top-controls button:hover {
+        body.dark-mode .control-button:hover {
             background: #2a3b53;
         }
 
@@ -740,10 +757,8 @@
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <div class="top-controls">
-        <button id="toggleSidebar">目次を隠す</button>
-        <button id="toggleTheme">🌙 ナイトモード</button>
-    </div>
+    <button id="toggleSidebar" class="control-button toc-toggle" aria-label="目次の表示を切り替える">目次</button>
+    <button id="toggleTheme" class="control-button theme-toggle" aria-label="テーマを切り替える">🌙</button>
 
     <div class="container">
         <!-- サイドバー -->
@@ -7366,11 +7381,26 @@ Wait for the bus. → Wait the bus for. ❌
             }
         }
 
+        const CURRENT_PAGE_STORAGE_KEY = 'toeflCurrentPage';
+
+        function persistCurrentPage(index) {
+            localStorage.setItem(CURRENT_PAGE_STORAGE_KEY, String(index));
+        }
+
+        function loadCurrentPageIndex() {
+            const stored = parseInt(localStorage.getItem(CURRENT_PAGE_STORAGE_KEY), 10);
+            if (!Number.isNaN(stored) && stored >= 0 && stored < pages.length) {
+                return stored;
+            }
+            return 0;
+        }
+
         // ページに移動
         function navigateToPage(index) {
             if (index < 0 || index >= pages.length) return;
 
             currentPageIndex = index;
+            persistCurrentPage(index);
             const page = pages[index];
 
             if (!visitedSections.has(index)) {
@@ -7429,8 +7459,7 @@ Wait for the bus. → Wait the bus for. ❌
         if (toggleSidebarButton) {
             toggleSidebarButton.addEventListener('click', () => {
                 document.body.classList.toggle('toc-hidden');
-                const hidden = document.body.classList.contains('toc-hidden');
-                toggleSidebarButton.textContent = hidden ? '目次を表示' : '目次を隠す';
+                toggleSidebarButton.setAttribute('aria-pressed', document.body.classList.contains('toc-hidden'));
             });
         }
 
@@ -7440,7 +7469,11 @@ Wait for the bus. → Wait the bus for. ❌
         function setTheme(isDark, persist = true) {
             document.body.classList.toggle('dark-mode', isDark);
             if (themeToggleButton) {
-                themeToggleButton.textContent = isDark ? '☀️ ライトモード' : '🌙 ナイトモード';
+                themeToggleButton.textContent = isDark ? '☀️' : '🌙';
+                themeToggleButton.setAttribute(
+                    'aria-label',
+                    isDark ? 'ライトモードに切り替える' : 'ナイトモードに切り替える'
+                );
             }
             if (persist) {
                 localStorage.setItem(THEME_STORAGE_KEY, isDark ? 'dark' : 'light');
@@ -7461,7 +7494,7 @@ Wait for the bus. → Wait the bus for. ❌
         loadProgress();
         renderNavigation();
         if (pages.length > 0) {
-            renderContent(0);
+            navigateToPage(loadCurrentPageIndex());
         }
         updateStats();
         renderBadges();
