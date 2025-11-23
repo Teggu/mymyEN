@@ -1,0 +1,7260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEFL文法完全ガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 280px;
+            background: #2c3e50;
+            color: white;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #1a252f;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .sidebar-header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        /* 学習統計 */
+        .learning-stats {
+            padding: 15px 20px;
+            background: #1a252f;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 13px;
+        }
+
+        .stat-label {
+            color: #95a5a6;
+        }
+
+        .stat-value {
+            color: #3498db;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .stat-value.highlight {
+            color: #2ecc71;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* バッジシステム */
+        .badges {
+            padding: 15px 20px;
+            background: #1a252f;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .badges h3 {
+            font-size: 14px;
+            color: #ecf0f1;
+            margin-bottom: 10px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: #34495e;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .badge.unlocked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: badgeUnlock 0.6s ease-out;
+        }
+
+        .badge.locked {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+
+        @keyframes badgeUnlock {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .badge:hover {
+            transform: scale(1.1);
+        }
+
+        .badge-tooltip {
+            position: absolute;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .badge:hover .badge-tooltip {
+            opacity: 1;
+        }
+
+        /* 紙吹雪エフェクト */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s ease-out forwards;
+            z-index: 9999;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* モチベーションメッセージ */
+        .motivation-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: messagePopup 0.5s ease-out;
+            display: none;
+        }
+
+        .motivation-message.show {
+            display: block;
+        }
+
+        @keyframes messagePopup {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* レベルアップエフェクト */
+        .level-up {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 9999;
+            animation: slideInRight 0.5s ease-out;
+            display: none;
+        }
+
+        .level-up.show {
+            display: block;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .nav-section {
+            padding: 10px 0;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: #34495e;
+            border-left-color: #3498db;
+        }
+
+        .nav-item.active {
+            background: #34495e;
+            border-left-color: #3498db;
+            font-weight: bold;
+        }
+
+        .nav-item-number {
+            display: inline-block;
+            width: 30px;
+            color: #95a5a6;
+            font-size: 12px;
+        }
+
+        /* 展開アイコン */
+        .expand-icon {
+            float: right;
+            transition: transform 0.3s;
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        .nav-item.expanded .expand-icon {
+            transform: rotate(90deg);
+        }
+
+        /* 小目次スタイル */
+        .sub-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #1a252f;
+        }
+
+        .sub-nav.expanded {
+            max-height: 1000px;
+        }
+
+        .sub-nav-item {
+            padding: 8px 20px 8px 55px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #95a5a6;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sub-nav-item:hover {
+            background: #34495e;
+            color: #ecf0f1;
+            border-left-color: #3498db;
+        }
+
+        .sub-nav-item::before {
+            content: "▸ ";
+            margin-right: 5px;
+            color: #7f8c8d;
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 60px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* マークダウンスタイル */
+        .content-section h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .content-section h2 {
+            font-size: 26px;
+            margin: 30px 0 15px;
+            color: #2c3e50;
+        }
+
+        .content-section h3 {
+            font-size: 22px;
+            margin: 25px 0 12px;
+            color: #34495e;
+        }
+
+        .content-section h4 {
+            font-size: 18px;
+            margin: 20px 0 10px;
+            color: #34495e;
+        }
+
+        .content-section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .content-section ul, .content-section ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        .content-section li {
+            margin-bottom: 8px;
+        }
+
+        .content-section code {
+            background: #f8f8f8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #e74c3c;
+        }
+
+        .content-section pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .content-section pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .content-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .content-section th, .content-section td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .content-section th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        .content-section tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        .content-section blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #555;
+            font-style: italic;
+        }
+
+        .content-section hr {
+            border: none;
+            border-top: 2px solid #ecf0f1;
+            margin: 30px 0;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .nav-button {
+            padding: 12px 24px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #2980b9;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* プログレスバー */
+        .progress-bar {
+            height: 3px;
+            background: #ecf0f1;
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3498db;
+            transition: width 0.3s;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-height: 50vh;
+                z-index: 1000;
+            }
+
+            .main-content {
+                padding-bottom: 50vh;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .progress-bar {
+                left: 0;
+            }
+        }
+
+        /* 小目次スタイル */
+        .sub-toc {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px 25px;
+            margin: 25px 0 35px;
+            border-radius: 5px;
+        }
+
+        .sub-toc h3 {
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+        }
+
+        .sub-toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sub-toc li {
+            margin: 8px 0;
+        }
+
+        .sub-toc a {
+            color: #3498db;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 3px;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        .sub-toc a:hover {
+            background: #e3f2fd;
+            color: #2980b9;
+            padding-left: 16px;
+        }
+
+        .sub-toc a::before {
+            content: "▸ ";
+            color: #3498db;
+            margin-right: 5px;
+        }
+
+        /* チェックボックススタイル */
+        input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* 強調スタイル */
+        strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        em {
+            color: #e74c3c;
+            font-style: normal;
+        }
+
+        /* スクロールバーのスタイル */
+        .sidebar::-webkit-scrollbar,
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #1a252f;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #34495e;
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #4a6278;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #bdc3c7;
+            border-radius: 4px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="container">
+        <!-- サイドバー -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 TOEFL文法完全ガイド</h1>
+                <p>5ヶ月で80点突破を目指す</p>
+            </div>
+            
+            <!-- 学習統計 -->
+            <div class="learning-stats">
+                <div class="stat-item">
+                    <span class="stat-label">🔥 連続学習日数</span>
+                    <span class="stat-value" id="streakDays">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">✅ 完了セクション</span>
+                    <span class="stat-value" id="completedSections">0/18</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">⭐ レベル</span>
+                    <span class="stat-value highlight" id="userLevel">1</span>
+                </div>
+            </div>
+
+            <!-- バッジ -->
+            <div class="badges">
+                <h3>🏆 獲得バッジ</h3>
+                <div class="badge-container" id="badgeContainer"></div>
+            </div>
+
+            <div class="nav-section" id="navSection"></div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div class="main-content" id="mainContent">
+            <div class="content-wrapper" id="contentWrapper"></div>
+        </div>
+
+        <!-- モチベーションメッセージ -->
+        <div class="motivation-message" id="motivationMessage"></div>
+
+        <!-- レベルアップ通知 -->
+        <div class="level-up" id="levelUpNotification"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // マークダウンコンテンツをここに埋め込む
+        const markdownContent = `# TOEFL文法完全ガイド
+
+## 目次
+0. [基本5文型](#0-基本5文型)
+1. [時制](#1-時制)
+2. [仮定法](#2-仮定法)
+3. [受動態](#3-受動態)
+4. [関係詞](#4-関係詞)
+5. [分詞・分詞構文](#5-分詞分詞構文)
+6. [比較](#6-比較)
+7. [接続詞・接続副詞](#7-接続詞接続副詞)
+8. [不定詞・動名詞](#8-不定詞動名詞)
+9. [名詞・冠詞](#9-名詞冠詞)
+10. [副詞](#10-副詞)
+11. [前置詞](#11-前置詞)
+12. [話法](#12-話法)
+13. [倒置・強調構文](#13-倒置強調構文)
+14. [その他重要文法事項](#14-その他重要文法事項)
+
+---
+
+## 0. 基本5文型
+
+### なぜ5文型が重要なのか
+
+5文型は英文法の**最も重要な土台**です。TOEFLで高得点を取るために必須の知識です。
+
+**5文型を理解することのメリット**
+
+1. **文の構造を正確に理解できる**
+   - 長くて複雑な文でも骨格を見抜ける
+   - Reading の速度と精度が上がる
+
+2. **TOEFL Reading で必須**
+   - 主語・動詞・目的語を素早く特定できる
+   - 修飾語に惑わされず、文の核心を掴める
+
+3. **TOEFL Writing で正確な文が書ける**
+   - 文型を意識すると文法ミスが激減
+   - 自然で正確な英文が書ける
+
+4. **受動態・不定詞・分詞の理解に必須**
+   - 第4文型の受動態（2通りの作り方）
+   - 第5文型の使役動詞・知覚動詞
+
+5. **Speaking で瞬時に正しい文が作れる**
+   - 文型が体に染み込むと自然に話せる
+
+6. **動詞の使い方を正確に理解できる**
+   - どの動詞がどの文型で使えるか分かる
+   - 間違った使い方を避けられる
+
+### 5文型の全体像
+
+| 文型 | 構造 | 意味 | 例文 |
+|------|------|------|------|
+| 第1文型 | S + V | 主語が〜する | Birds fly. |
+| 第2文型 | S + V + C | 主語 = 補語 | He is a teacher. |
+| 第3文型 | S + V + O | 主語が目的語を〜する | I like music. |
+| 第4文型 | S + V + O + O | 主語が人に物を与える | He gave me a book. |
+| 第5文型 | S + V + O + C | 目的語 = 補語 | We call him Bob. |
+
+**記号の説明**
+- S (Subject) = 主語
+- V (Verb) = 動詞
+- O (Object) = 目的語
+- C (Complement) = 補語
+
+---
+
+### 第1文型：SV（主語 + 動詞）
+
+**基本構造**
+\`\`\`
+S + V
+主語が何かをする（完全自動詞）
+\`\`\`
+
+**特徴**
+- 動詞だけで文が完結する
+- 目的語・補語が不要
+- 修飾語（副詞・前置詞句）は自由に追加できる
+
+**基本例文**
+- Birds fly.（鳥が飛ぶ）
+- The sun rises.（太陽が昇る）
+- He smiled.（彼は微笑んだ）
+
+**修飾語を加えた例**
+- Birds fly **in the sky**.（鳥が空を飛ぶ）
+- The sun rises **in the east**.（太陽は東から昇る）
+- He smiled **happily**.（彼は幸せそうに微笑んだ）
+- She arrived **at the station** **at 9 AM**.（彼女は9時に駅に着いた）
+- The accident happened **yesterday**.（その事故は昨日起きた）
+
+**第1文型の主な動詞**
+- **移動を表す動詞**：go, come, arrive, leave, depart, return, walk, run
+- **存在を表す動詞**：exist, live, stay, remain, lie, sit, stand
+- **発生を表す動詞**：happen, occur, take place, arise, appear
+- **その他**：sleep, work, laugh, cry, die, fall, rise
+
+**重要ポイント**
+\`\`\`
+第1文型の動詞の後に名詞が来ても、それは目的語ではなく修飾語句の一部
+
+例：He went to school.
+    S   V   前置詞句（修飾語）
+    = 第1文型
+\`\`\`
+
+**間違いやすい例**
+\`\`\`
+❌ He arrived the station.（arriveは自動詞なので目的語を取れない）
+✅ He arrived at the station.（前置詞が必要）
+
+❌ She reached at the airport.（reachは他動詞）
+✅ She reached the airport.（前置詞不要）
+\`\`\`
+
+**there is/are構文も第1文型**
+- There is a book on the table.
+  - S (a book) + V (is) + 場所を表す修飾語
+
+---
+
+### 第2文型：SVC（主語 + 動詞 + 補語）
+
+**基本構造**
+\`\`\`
+S + V + C
+主語 = 補語（不完全自動詞）
+\`\`\`
+
+**特徴**
+- S = C の関係が成立
+- 補語（C）は名詞または形容詞
+- 動詞だけでは文が完結しない
+
+**基本例文**
+- He is a teacher.（彼 = 教師）
+- She looks happy.（彼女 = 幸せそう）
+- The soup tastes good.（スープ = おいしい）
+
+**補語が名詞の場合**
+- My father is a doctor.（父 = 医者）
+- She became a lawyer.（彼女 = 弁護士になった）
+- He remained a bachelor.（彼 = 独身のまま）
+
+**補語が形容詞の場合**
+- The flowers are beautiful.（花 = 美しい）
+- He looks tired.（彼 = 疲れている様子）
+- The milk smells bad.（ミルク = 臭い）
+- This sounds interesting.（これ = 面白そう）
+
+**第2文型の主な動詞**
+
+**be動詞**
+- am, is, are, was, were, been
+
+**状態を表す動詞（〜のままである）**
+- remain（〜のままである）
+- stay（〜のままでいる）
+- keep（〜のままでいる）
+- continue（〜のままである）
+
+**変化を表す動詞（〜になる）**
+- become（〜になる）
+- get（〜になる：口語的）
+- grow（〜になる：徐々に）
+- turn（〜になる：色・季節）
+- go（〜になる：悪い状態）
+- come（〜になる：実現）
+- fall（〜になる：突然）
+- run（〜になる：在庫など）
+
+**知覚・印象を表す動詞（〜に見える/聞こえる/感じる）**
+- look（〜に見える）
+- seem（〜のようだ）
+- appear（〜のように見える）
+- sound（〜に聞こえる）
+- smell（〜の匂いがする）
+- taste（〜の味がする）
+- feel（〜と感じる）
+
+**変化を表す動詞の使い分け**
+\`\`\`
+become：一般的な変化
+He became a doctor.（医者になった）
+
+get：口語的、徐々にまたは突然の変化
+It's getting dark.（暗くなってきた）
+
+grow：徐々に変化
+He grew old.（彼は年を取った）
+
+turn：色や季節の変化
+The leaves turned red.（葉が赤くなった）
+
+go：悪い状態への変化
+The milk went bad.（ミルクが腐った）
+
+come：望ましい結果の実現
+His dream came true.（彼の夢が実現した）
+
+fall：突然の変化
+He fell asleep.（彼は眠りに落ちた）
+
+run：在庫などが尽きる
+We ran short of time.（時間が足りなくなった）
+\`\`\`
+
+**知覚動詞の使い分け**
+\`\`\`
+look + 形容詞：視覚的印象
+She looks young.（彼女は若く見える）
+
+seem + 形容詞/to do：主観的判断
+He seems tired.（彼は疲れているようだ）
+
+appear + 形容詞/to do：外見から判断
+She appears to be happy.（彼女は幸せそうに見える）
+
+sound + 形容詞：聴覚的印象
+That sounds great!（それはいいですね！）
+
+smell + 形容詞：嗅覚
+This smells good.（これはいい匂いだ）
+
+taste + 形容詞：味覚
+This tastes delicious.（これはおいしい）
+
+feel + 形容詞：触覚・感覚
+I feel cold.（寒く感じる）
+\`\`\`
+
+**重要な注意点**
+
+第2文型と第3文型の見分け方：
+\`\`\`
+第2文型：S = C
+He is a teacher.（彼 = 教師）✅
+
+第3文型：S ≠ O
+He likes a teacher.（彼 ≠ 教師）✅
+\`\`\`
+
+---
+
+### 第3文型：SVO（主語 + 動詞 + 目的語）
+
+**基本構造**
+\`\`\`
+S + V + O
+主語が目的語を〜する（完全他動詞）
+\`\`\`
+
+**特徴**
+- 目的語（O）は動詞の動作の対象
+- 目的語は必ず名詞・代名詞・名詞相当語句
+- S ≠ O
+
+**基本例文**
+- I like music.（私は音楽が好き）
+- She speaks English.（彼女は英語を話す）
+- He bought a car.（彼は車を買った）
+
+**目的語の種類**
+
+**名詞**
+- I love pizza.
+- She reads books.
+
+**代名詞**
+- I know him.
+- She called me.
+
+**不定詞（to do）**
+- I want to go.（私は行きたい）
+- She decided to study abroad.（彼女は留学することを決めた）
+
+**動名詞（-ing）**
+- I enjoy reading.（私は読書を楽しむ）
+- She finished writing the report.（彼女は報告書を書き終えた）
+
+**that節**
+- I think that he is right.（私は彼が正しいと思う）
+- She knows that I'm busy.（彼女は私が忙しいことを知っている）
+
+**疑問詞節**
+- I don't know what he said.（彼が何を言ったか分からない）
+- Tell me where you live.（どこに住んでいるか教えて）
+
+**第3文型の主な動詞**
+
+**好き嫌い・感情**
+- like, love, hate, enjoy, prefer
+
+**知覚・認識**
+- know, understand, believe, think, remember, forget
+
+**所有・獲得**
+- have, own, possess, get, obtain, buy, purchase
+
+**使用・消費**
+- use, spend, waste
+
+**作成・破壊**
+- make, create, produce, break, destroy
+
+**移動**
+- bring, take, carry, send
+
+**その他頻出動詞**
+- do, say, tell, ask, answer, give, show, teach, help, watch, see, hear, read, write, eat, drink
+
+**前置詞が必要な自動詞との違い**
+
+\`\`\`
+他動詞（第3文型）：前置詞不要
+I reached the station.（駅に着いた）
+She entered the room.（部屋に入った）
+We discussed the problem.（問題を議論した）
+
+自動詞（第1文型）：前置詞必要
+I arrived at the station.
+She came into the room.
+We talked about the problem.
+\`\`\`
+
+**間違いやすい動詞**
+\`\`\`
+❌ I discussed about the problem.（discuss は他動詞）
+✅ I discussed the problem.
+
+❌ She married with him.（marry は他動詞）
+✅ She married him.
+
+❌ I reached at the top.（reach は他動詞）
+✅ I reached the top.
+
+❌ We entered into the building.（enter は他動詞）
+✅ We entered the building.
+
+❌ He answered to my question.（answer は他動詞）
+✅ He answered my question.
+\`\`\`
+
+---
+
+### 第4文型：SVOO（主語 + 動詞 + 目的語1 + 目的語2）
+
+**基本構造**
+\`\`\`
+S + V + O1(人) + O2(物)
+主語が人に物を与える（授与動詞）
+\`\`\`
+
+**特徴**
+- 2つの目的語を取る
+- O1（間接目的語）= 人
+- O2（直接目的語）= 物
+- 「人に物を〜する」という意味
+
+**基本例文**
+- He gave me a book.（彼は私に本をくれた）
+- She taught us English.（彼女は私たちに英語を教えた）
+- I'll show you the way.（あなたに道を教えましょう）
+
+**第4文型の主な動詞**
+
+**与える系（give型）**
+- give（与える）
+- hand（手渡す）
+- lend（貸す）
+- pass（手渡す）
+- send（送る）
+- bring（持ってくる）
+- offer（申し出る）
+- pay（支払う）
+
+**教える・伝える系（tell型）**
+- tell（話す、教える）
+- teach（教える）
+- show（見せる）
+- write（書く）
+
+**作る系（make型）**
+- make（作る）
+- cook（料理する）
+- buy（買う）
+- get（手に入れる）
+- find（見つける）
+
+**尋ねる系（ask型）**
+- ask（尋ねる）
+
+**第4文型から第3文型への書き換え**
+
+第4文型は第3文型に書き換えられます：
+
+**give型（to を使う）**
+\`\`\`
+He gave me a book.（第4文型）
+= He gave a book to me.（第3文型）
+
+She sent me a letter.
+= She sent a letter to me.
+
+I'll show you the way.
+= I'll show the way to you.
+\`\`\`
+
+**buy型（for を使う）**
+\`\`\`
+He bought me a present.（第4文型）
+= He bought a present for me.（第3文型）
+
+She made me a cake.
+= She made a cake for me.
+
+I'll cook you dinner.
+= I'll cook dinner for you.
+\`\`\`
+
+**ask型（of を使う）**
+\`\`\`
+He asked me a favor.（第4文型）
+= He asked a favor of me.（第3文型）
+\`\`\`
+
+**重要：第4文型で使えない動詞**
+
+以下の動詞は第4文型では使えません：
+
+\`\`\`
+❌ He explained me the answer.
+✅ He explained the answer to me.
+（explain は第4文型不可）
+
+❌ She said me the truth.
+✅ She told me the truth.
+（say は第4文型不可、tell を使う）
+
+❌ He proposed me a plan.
+✅ He proposed a plan to me.
+（propose は第4文型不可）
+
+❌ She suggested me an idea.
+✅ She suggested an idea to me.
+（suggest は第4文型不可）
+
+❌ I introduced him my friend.
+✅ I introduced my friend to him.
+（introduce は第4文型不可）
+
+❌ He announced us the result.
+✅ He announced the result to us.
+（announce は第4文型不可）
+\`\`\`
+
+**第4文型の受動態（2通り）**
+
+第4文型は2通りの受動態が作れます：
+
+\`\`\`
+能動態：He gave me a book.
+
+受動態1（人を主語）：
+I was given a book (by him).
+← より一般的
+
+受動態2（物を主語）：
+A book was given to me (by him).
+\`\`\`
+
+**その他の例**
+\`\`\`
+She taught us English.
+→ We were taught English (by her).
+→ English was taught to us (by her).
+
+He showed me the way.
+→ I was shown the way (by him).
+→ The way was shown to me (by him).
+\`\`\`
+
+---
+
+### 第5文型：SVOC（主語 + 動詞 + 目的語 + 補語）
+
+**基本構造**
+\`\`\`
+S + V + O + C
+目的語 = 補語（不完全他動詞）
+\`\`\`
+
+**特徴**
+- O = C の関係が成立
+- 補語（C）は名詞・形容詞・原形不定詞・現在分詞・過去分詞
+- 「OをCにする」「OがCだと〜する」という意味
+
+**基本例文**
+- We call him Bob.（私たちは彼をボブと呼ぶ：彼 = ボブ）
+- The news made me happy.（そのニュースは私を幸せにした：私 = 幸せ）
+- I found the book interesting.（その本は面白いと分かった：本 = 面白い）
+
+**補語の種類別の例**
+
+**補語が名詞**
+\`\`\`
+We call him Bob.（彼 = Bob）
+They elected him president.（彼 = 大統領）
+I consider her a genius.（彼女 = 天才）
+They named the baby John.（赤ちゃん = John）
+\`\`\`
+
+**補語が形容詞**
+\`\`\`
+The news made me happy.（私 = 幸せ）
+I found the book interesting.（本 = 面白い）
+Please keep the room clean.（部屋 = きれい）
+The song made her sad.（彼女 = 悲しい）
+I left the door open.（ドア = 開いた状態）
+\`\`\`
+
+**補語が原形不定詞（動詞の原形）**
+\`\`\`
+使役動詞：
+I made him go.（私は彼を行かせた）
+Let me help you.（私に手伝わせて）
+He had me clean the room.（彼は私に部屋を掃除させた）
+
+知覚動詞：
+I saw him enter the room.（彼が部屋に入るのを見た）
+I heard her sing.（彼女が歌うのを聞いた）
+\`\`\`
+
+**補語が現在分詞（-ing）**
+\`\`\`
+知覚動詞（進行中の動作）：
+I saw him entering the room.（彼が部屋に入っているのを見た）
+I heard her singing.（彼女が歌っているのを聞いた）
+I found him sleeping.（彼が寝ているのを見つけた）
+
+keep/leave（状態の継続）：
+Don't keep me waiting.（私を待たせ続けないで）
+He left the engine running.（エンジンをかけたままにした）
+\`\`\`
+
+**補語が過去分詞（-ed）**
+\`\`\`
+知覚動詞（受動・完了）：
+I saw the window broken.（窓が壊れているのを見た）
+I heard my name called.（自分の名前が呼ばれるのを聞いた）
+
+使役動詞（〜してもらう）：
+I had my car repaired.（車を修理してもらった）
+She got her hair cut.（髪を切ってもらった）
+
+make/keep/leave（状態）：
+Please make yourself understood.（自分の言いたいことを分かってもらって）
+He kept the door closed.（ドアを閉めたままにした）
+\`\`\`
+
+**第5文型の主な動詞**
+
+**知覚動詞（〜が...するのを見る/聞く/感じる）**
+- see, watch, look at, observe, notice
+- hear, listen to
+- feel
+
+**使役動詞（〜に...させる）**
+- make（強制的に）
+- let（許可して）
+- have（〜してもらう）
+- get（説得して：get + O + to do）
+
+**名付ける系**
+- call（〜を...と呼ぶ）
+- name（〜を...と名付ける）
+- elect（〜を...に選ぶ）
+- appoint（〜を...に任命する）
+
+**判断・認識系**
+- consider（〜を...と見なす）
+- think（〜を...と思う）
+- believe（〜を...と信じる）
+- find（〜が...だと分かる）
+- suppose（〜を...と思う）
+
+**状態変化系**
+- make（〜を...にする）
+- keep（〜を...のままにする）
+- leave（〜を...のままにしておく）
+- turn（〜を...に変える）
+- drive（〜を...の状態に追い込む）
+
+**依頼・希望系**
+- want（〜に...してほしい：want + O + to do）
+- ask（〜に...するよう頼む：ask + O + to do）
+- tell（〜に...するよう言う：tell + O + to do）
+- allow（〜が...するのを許す：allow + O + to do）
+- enable（〜が...できるようにする：enable + O + to do）
+
+**使役動詞の使い分け**
+
+\`\`\`
+make + O + 原形不定詞（強制的に〜させる）
+My mother made me clean my room.
+（母は私に部屋を掃除させた：強制）
+
+let + O + 原形不定詞（許可して〜させる）
+My father let me use his car.
+（父は私に車を使わせてくれた：許可）
+
+have + O + 原形不定詞（〜してもらう）
+I had him repair my car.
+（彼に車を修理してもらった）
+
+get + O + to do（説得して〜させる）
+I got him to help me.
+（彼を説得して手伝ってもらった）
+\`\`\`
+
+**知覚動詞の補語の使い分け**
+
+\`\`\`
+原形不定詞：完了した動作全体
+I saw him cross the street.
+（彼が通りを渡るのを見た：渡り終えた）
+
+現在分詞：進行中の動作
+I saw him crossing the street.
+（彼が通りを渡っているのを見た：途中）
+
+過去分詞：受動・完了の状態
+I saw the window broken.
+（窓が壊れているのを見た）
+\`\`\`
+
+**第5文型の受動態**
+
+\`\`\`
+能動態：They call him Bob.
+受動態：He is called Bob (by them).
+
+能動態：The news made me happy.
+受動態：I was made happy by the news.
+
+使役動詞の受動態：to不定詞になる
+能動態：He made me apologize.
+受動態：I was made to apologize (by him).
+
+能動態：I saw him enter the building.
+受動態：He was seen to enter the building.
+\`\`\`
+
+---
+
+### 文型の見分け方
+
+**ステップ1：動詞を探す**
+文の中心となる動詞を見つける
+
+**ステップ2：動詞の後ろを確認**
+- 何もない → 第1文型
+- 補語（S=C）→ 第2文型
+- 目的語1つ → 第3文型
+- 目的語2つ → 第4文型
+- 目的語+補語（O=C）→ 第5文型
+
+**見分けのポイント**
+
+**第1文型 vs 第3文型**
+\`\`\`
+動詞の後ろの名詞が前置詞句の一部か目的語かを判断
+
+He went to school.（第1文型：to schoolは修飾語）
+He attended school.（第3文型：schoolは目的語）
+\`\`\`
+
+**第2文型 vs 第5文型**
+\`\`\`
+S = C なら第2文型
+O = C なら第5文型
+
+He is a teacher.（第2文型：He = teacher）
+We call him a teacher.（第5文型：him = teacher）
+\`\`\`
+
+**第3文型 vs 第4文型**
+\`\`\`
+目的語が1つか2つかを確認
+
+She gave a book.（第3文型：目的語1つ）
+She gave me a book.（第4文型：目的語2つ）
+\`\`\`
+
+**第4文型 vs 第5文型**
+\`\`\`
+2つの名詞の関係を確認
+
+He gave me a book.（第4文型：me ≠ book）
+They elected him president.（第5文型：him = president）
+\`\`\`
+
+---
+
+### TOEFL での活用例
+
+**Reading：長文の骨格を素早く把握**
+
+\`\`\`
+複雑な文：
+The professor, who had been teaching at the university 
+for over 30 years, explained the theory carefully to 
+the students in the lecture hall.
+
+骨格だけ抽出：
+The professor explained the theory to the students.
+S           V         O            前置詞句
+= 第3文型
+
+修飾語を無視して骨格を見抜く！
+\`\`\`
+
+**Writing：正確な文を書く**
+
+\`\`\`
+間違い：
+❌ The teacher explained us the grammar.
+（explain は第4文型で使えない）
+
+正解：
+✅ The teacher explained the grammar to us.
+（explain は第3文型のみ）
+\`\`\`
+
+**Grammar問題：文型を理解して正解**
+
+\`\`\`
+問題：次の文を受動態にせよ
+He gave me a present.
+
+第4文型だと分かれば：
+✅ I was given a present (by him).
+✅ A present was given to me (by him).
+
+2通りの受動態が作れる！
+\`\`\`
+
+---
+
+### 5文型の重要な注意点
+
+**1. 修飾語に惑わされない**
+\`\`\`
+He speaks English fluently in class every day.
+         O       副詞    場所   時
+
+骨格：He speaks English. = 第3文型
+修飾語：fluently, in class, every day
+\`\`\`
+
+**2. 自動詞と他動詞を区別**
+\`\`\`
+自動詞：目的語を取らない（第1・2文型）
+他動詞：目的語を取る（第3・4・5文型）
+
+arrive（自動詞）→ arrive at the station
+reach（他動詞）→ reach the station
+\`\`\`
+
+**3. 動詞によって使える文型が決まっている**
+\`\`\`
+explain：第3文型のみ
+❌ explain me the answer
+✅ explain the answer to me
+
+give：第3・4文型両方OK
+✅ give a book to me（第3文型）
+✅ give me a book（第4文型）
+\`\`\`
+
+**4. 第5文型の補語の形に注意**
+\`\`\`
+使役動詞・知覚動詞：原形不定詞
+I saw him enter. ✅
+I saw him to enter. ❌
+
+want/ask/tell など：to不定詞
+I want you to come. ✅
+I want you come. ❌
+\`\`\`
+
+---
+
+### 5文型マスターへの道
+
+**学習ステップ1：基本例文を暗記**
+各文型の基本例文を完璧に覚える
+- 第1文型：Birds fly.
+- 第2文型：He is a teacher.
+- 第3文型：I like music.
+- 第4文型：He gave me a book.
+- 第5文型：We call him Bob.
+
+**学習ステップ2：動詞のリストを作る**
+各文型で使える動詞をリスト化して覚える
+
+**学習ステップ3：実際の文で練習**
+TOEFL問題や英文記事で文型を判別する練習
+
+**学習ステップ4：自分で文を作る**
+各文型を使って自分で文を作る練習
+
+**よくある間違いを覚える**
+- ❌ explain me（第4文型不可）
+- ❌ say me（第4文型不可）
+- ❌ discuss about（discussは他動詞）
+- ❌ marry with（marryは他動詞）
+
+---
+
+### 5文型の完全理解チェックリスト
+
+- [ ] 各文型の基本構造を説明できる
+- [ ] S, V, O, C の意味が分かる
+- [ ] 第1文型と第3文型を見分けられる
+- [ ] 第2文型と第5文型を見分けられる
+- [ ] 自動詞と他動詞の違いが分かる
+- [ ] 第4文型から第3文型への書き換えができる
+- [ ] 第4文型の受動態（2通り）が作れる
+- [ ] 使役動詞・知覚動詞の使い方が分かる
+- [ ] 第4文型で使えない動詞を知っている
+- [ ] 長文の中で文の骨格を見抜ける
+
+**全てチェックできたら、5文型マスター！**
+
+---
+
+### 知らない単語がある時の5文型活用法
+
+実は**5文型思考は知らない単語があっても使える**最強のツールです。文型が分かれば、知らない単語でも**おおよその意味や役割**が分かります。
+
+#### 基本原則：文型で意味を推測する
+
+**重要な考え方：**
+\`\`\`
+完璧な語彙力 < 文型思考 + 推測力
+
+TOEFL 80点突破には：
+10,000語全て覚える必要はない
+↓
+5文型思考 + 4,000-5,000語で十分！
+\`\`\`
+
+---
+
+#### 【重要】知らない単語があっても文型を特定する方法
+
+文型の特定は、知っている単語だけで判断できます。
+
+**基本戦略：分かる部分から攻める**
+
+**Step 1：文の中で知っている単語を探す**
+\`\`\`
+The archaeologists UNEARTHED ancient ARTIFACTS.
+
+知っている単語：
+- The = 冠詞
+- archaeologists = 考古学者
+- ancient = 古代の
+
+知らない単語：
+- UNEARTHED
+- ARTIFACTS
+\`\`\`
+
+**Step 2：品詞を推測する**
+\`\`\`
+文の位置から品詞を判断：
+
+The archaeologists (名詞) + UNEARTHED + ancient ARTIFACTS
+
+位置分析：
+- 名詞の後 → 動詞の可能性
+- UNEARTHED = 過去形っぽい（-ed）
+- ancient (形容詞) + ARTIFACTS (名詞)
+
+推測：
+主語 + 動詞 + 目的語
+= 第3文型の可能性
+\`\`\`
+
+**Step 3：文型を判定する判断基準**
+
+**判断基準1：動詞の後に何があるか**
+\`\`\`
+動詞 + 名詞1つ → 第3文型 or 第1文型（前置詞句）
+動詞 + 名詞2つ → 第4文型の可能性
+動詞 + 名詞 + 形容詞 → 第5文型の可能性
+動詞 + 形容詞 → 第2文型の可能性
+動詞だけ → 第1文型の可能性
+\`\`\`
+
+**判断基準2：前置詞の有無**
+\`\`\`
+前置詞がある場合：
+He went to school. 
+→ "to school" は修飾語
+→ 第1文型
+
+前置詞がない場合：
+He attended school.
+→ "school" は目的語
+→ 第3文型
+\`\`\`
+
+**判断基準3：等号が成り立つか**
+\`\`\`
+S = 後ろの語？
+YES → 第2文型
+NO → 他の文型
+
+動詞 + O + 何か
+O = その「何か」？
+YES → 第5文型
+NO → 第4文型
+\`\`\`
+
+**具体例で練習：**
+
+**例1：動詞が分からない場合**
+\`\`\`
+She OBLITERATED the evidence.
+
+Step 1：知っている単語
+- She = 彼女（主語）
+- the evidence = 証拠（名詞）
+
+Step 2：OBLITERATED の位置
+- 主語の後 → 動詞
+- -ed で終わる → 過去形
+
+Step 3：文型判定
+She (S) + OBLITERATED (V) + the evidence (O)
+前置詞なし → 目的語
+= 第3文型確定！
+
+意味推測：
+彼女が証拠に何かをした
+→ 文脈から悪いこと？消した？破壊した？
+実際：obliterate = 消し去る、破壊する
+\`\`\`
+
+**例2：名詞が分からない場合**
+\`\`\`
+The committee held a REFERENDUM.
+
+Step 1：知っている単語
+- committee = 委員会
+- held = 開催した
+
+Step 2：REFERENDUM の位置
+- held の後
+- a がある → 可算名詞
+
+Step 3：文型判定
+The committee (S) + held (V) + a REFERENDUM (O)
+= 第3文型確定！
+
+意味推測：
+委員会が「何か」を開催した
+→ 会議？投票？イベント？
+実際：referendum = 国民投票
+\`\`\`
+
+**例3：形容詞が分からない場合**
+\`\`\`
+The situation became PRECARIOUS.
+
+Step 1：知っている単語
+- situation = 状況
+- became = なった
+
+Step 2：PRECARIOUS の位置
+- became の後
+- 名詞ではない（冠詞なし）→ 形容詞
+
+Step 3：文型判定
+The situation (S) + became (V) + PRECARIOUS (C)
+became = 第2文型の動詞
+S = C の関係
+= 第2文型確定！
+
+意味推測：
+状況が「PRECARIOUS」になった
+→ 状態を表す形容詞
+→ 文脈から悪い？不安定？
+実際：precarious = 不安定な、危険な
+\`\`\`
+
+**例4：複数の単語が分からない場合**
+\`\`\`
+The PHILANTHROPIST BEQUEATHED his fortune to charity.
+
+Step 1：知っている単語
+- his fortune = 彼の財産
+- to charity = 慈善団体に
+
+Step 2：品詞推測
+- The PHILANTHROPIST = 主語（名詞）
+- BEQUEATHED = 動詞（位置と-ed）
+- his fortune = 目的語
+- to charity = 前置詞句
+
+Step 3：文型判定
+S + V + O + to 前置詞句
+= 第3文型確定！
+
+意味推測：
+「誰か」が財産を慈善団体に「何かした」
+→ 与えた？寄付した？
+実際：
+philanthropist = 慈善家
+bequeath = 遺贈する
+\`\`\`
+
+**例5：主語が分からない場合**
+\`\`\`
+SERENDIPITY led to the discovery.
+
+Step 1：知っている単語
+- led = 導いた
+- to the discovery = 発見に
+
+Step 2：品詞推測
+- SERENDIPITY = 文頭、大文字 → 主語（名詞）
+- led = 動詞
+
+Step 3：文型判定
+SERENDIPITY (S) + led (V) + to the discovery
+"to the discovery" = 前置詞句（修飾語）
+= 第1文型確定！
+
+意味推測：
+「何か」が発見に導いた
+→ 運？偶然？幸運？
+実際：serendipity = 偶然の幸運
+\`\`\`
+
+**重要テクニック：文型判定に必要な最小限の情報**
+
+**第1文型の判定：**
+\`\`\`
+必要な情報：動詞だけ、または動詞+前置詞句
+Birds fly (in the sky).
+      V   修飾語
+→ 目的語なし = 第1文型
+\`\`\`
+
+**第2文型の判定：**
+\`\`\`
+必要な情報：動詞 + その後の語が形容詞か
+He is happy.
+   V  形容詞
+→ S = C = 第2文型
+
+見分けるコツ：
+- be動詞がある
+- become, look, seem などがある
+- 動詞の後が形容詞
+\`\`\`
+
+**第3文型の判定：**
+\`\`\`
+必要な情報：動詞 + 名詞（前置詞なし）
+She bought a car.
+    V      O
+→ 目的語1つ = 第3文型
+
+見分けるコツ：
+- 動詞の直後に名詞
+- 前置詞なし
+- 名詞は1つだけ
+\`\`\`
+
+**第4文型の判定：**
+\`\`\`
+必要な情報：動詞 + 名詞 + 名詞
+He gave me a book.
+   V    O1  O2
+→ 目的語2つ = 第4文型
+
+見分けるコツ：
+- 動詞の後に名詞が2つ
+- 最初の名詞＝人、2つ目＝物
+- 前置詞なし
+\`\`\`
+
+**第5文型の判定：**
+\`\`\`
+必要な情報：O = C の関係
+We call him Bob.
+   V    O   C
+→ him = Bob = 第5文型
+
+見分けるコツ：
+- 動詞 + 名詞 + 名詞/形容詞
+- 2つ目の名詞/形容詞が1つ目の名詞を説明
+- O = C の関係
+\`\`\`
+
+---
+
+#### 知らない単語が動詞の場合
+
+**例文1：**
+\`\`\`
+He GLORIFIED the hero in his speech.
+\`\`\`
+
+**知らない単語：GLORIFIED**
+
+**文型思考で推測：**
+\`\`\`
+Step 1：文の構造を見る
+He (S) + GLORIFIED (V) + the hero (O)
+= 第3文型確定
+
+判定根拠：
+- He = 主語（知っている）
+- GLORIFIED = 主語の後 → 動詞
+- the hero = 名詞、前置詞なし → 目的語
+- in his speech = 前置詞句（修飾語）
+
+Step 2：第3文型の意味
+S が O に何かをする
+
+Step 3：文脈から推測
+彼がヒーローに対して、スピーチで何かをした
+→ 褒めた？称賛した？
+
+推測：GLORIFIED = 称賛する、賛美する
+実際の意味：glorify = 賛美する、称賛する ✅
+\`\`\`
+
+**例文2：**
+\`\`\`
+The teacher ADMONISHED the students for being late.
+\`\`\`
+
+**知らない単語：ADMONISHED**
+
+\`\`\`
+構造分析：
+The teacher (S) + ADMONISHED (V) + the students (O)
+= 第3文型確定
+
+判定根拠：
+- 全て知っている単語の位置から判断
+- teacher = 主語
+- ADMONISHED = 動詞の位置、-ed = 過去形
+- students = 目的語
+
+文脈：
+先生が生徒に対して、遅刻したことで何かをした
++ "for being late"（遅刻したことで）
+
+推測：叱った？注意した？
+実際：admonish = 戒める、注意する ✅
+
+文型思考：
+第3文型だから「先生が生徒に何かをした」
+→ 文の大意は理解できる
+→ TOEFLの問題は解ける！
+\`\`\`
+
+---
+
+#### 知らない単語が目的語の場合
+
+**例文1：**
+\`\`\`
+She discussed the RAMIFICATIONS of the decision.
+\`\`\`
+
+**知らない単語：RAMIFICATIONS**
+
+\`\`\`
+構造分析：
+She (S) + discussed (V) + the RAMIFICATIONS (O)
+= 第3文型確定
+
+判定根拠：
+- discussed = 他動詞（知っている）
+- the RAMIFICATIONS = discussed の直後 → 目的語
+- of the decision = 前置詞句（修飾語）
+
+分かること：
+- discussed = 議論した
+- RAMIFICATIONS = 何か議論できるもの（名詞）
+- of the decision = 決定の〜
+
+推測：
+決定の「何か」を議論した
+→ 影響？結果？consequences的な何か？
+
+実際：ramification = 影響、結果 ✅
+
+TOEFL Reading で必要な理解：
+「彼女は決定の『何か』について議論した」
+これだけ分かれば問題は解ける！
+\`\`\`
+
+**例文2：**
+\`\`\`
+The scientist conducted an EXPERIMENT.
+
+知らない単語：EXPERIMENT
+
+構造分析：
+The scientist (S) + conducted (V) + an EXPERIMENT (O)
+= 第3文型確定
+
+判定根拠：
+- conducted = 動詞（知っている）
+- an EXPERIMENT = 冠詞 + 名詞 → 目的語
+
+推測：
+科学者が「何か」を実施した
+→ 実験？研究？テスト？
+実際：experiment = 実験 ✅
+\`\`\`
+
+---
+
+#### 知らない単語が補語の場合
+
+**例文1（第2文型）：**
+\`\`\`
+The situation became DIRE.
+\`\`\`
+
+**知らない単語：DIRE**
+
+\`\`\`
+構造分析：
+The situation (S) + became (V) + DIRE (C)
+= 第2文型確定
+
+判定根拠：
+- became = 第2文型の動詞（知っている）
+- DIRE = became の後、冠詞なし → 形容詞（補語）
+- S = C の関係
+
+分かること：
+- became = 〜になった（変化）
+- DIRE = 状況を表す形容詞
+- situation = DIRE
+
+推測：
+状況が「DIRE」になった
+→ 悪い意味の形容詞っぽい
+→ 悪化した？深刻になった？
+
+実際：dire = 悲惨な、深刻な ✅
+
+理解：
+「状況が悪い状態になった」
+→ これで十分！
+\`\`\`
+
+**例文2（第5文型）：**
+\`\`\`
+The news made everyone ECSTATIC.
+\`\`\`
+
+**知らない単語：ECSTATIC**
+
+\`\`\`
+構造分析：
+The news (S) + made (V) + everyone (O) + ECSTATIC (C)
+= 第5文型確定
+
+判定根拠：
+- made = 第5文型で使える（知っている）
+- everyone = 目的語
+- ECSTATIC = 冠詞なし、everyone の後 → 形容詞（補語）
+- O = C の関係
+
+分かること：
+- made = 〜にした
+- everyone = ECSTATIC になった
+- everyone = ECSTATIC
+
+推測：
+ニュースがみんなを「ECSTATIC」にした
+→ 良いニュースなら、happy的な何か？
+→ すごく喜んでる？興奮してる？
+
+実際：ecstatic = 有頂天の、大喜びの ✅
+
+理解：
+「ニュースがみんなを喜ばせた」
+→ 文脈は理解できる！
+\`\`\`
+
+---
+
+#### 複数の単語が分からない場合
+
+**例文：**
+\`\`\`
+The committee CONVENED to DELIBERATE the proposal.
+\`\`\`
+
+**知らない単語：CONVENED, DELIBERATE**
+
+\`\`\`
+構造分析：
+
+文の前半：
+The committee (S) + CONVENED (V)
+= 第1文型確定
+
+判定根拠：
+- committee = 主語（知っている）
+- CONVENED = 動詞の位置
+- その後に to 不定詞 → 目的を表す修飾語
+- 目的語なし
+
+文の後半：
+to DELIBERATE (V) + the proposal (O)
+= 不定詞内の第3文型
+
+判定根拠：
+- to の後 → 動詞の原形
+- the proposal = 名詞 → 目的語
+
+分かること：
+- 委員会が「CONVENED」した
+- 目的は「提案をDELIBERATEするため」
+- DELIBERATE + 目的語 = 第3文型
+
+推測：
+委員会が何かをした（会合？集まった？）
+→ 提案を何かするために
+→ 議論？検討？
+
+実際：
+convene = 召集する、集まる
+deliberate = 熟考する、審議する
+
+理解：
+「委員会が集まって、提案について何かした」
+→ TOEFLの問題：
+Q: What did the committee do?
+A: They met to discuss the proposal.
+→ 正解できる！
+\`\`\`
+
+---
+
+#### 主語が分からない場合
+
+**例文：**
+\`\`\`
+SERENDIPITY led him to the discovery.
+\`\`\`
+
+**知らない単語：SERENDIPITY**
+
+\`\`\`
+構造分析：
+SERENDIPITY (S) + led (V) + him (O) + to the discovery
+= 第3文型（+ 前置詞句）
+
+判定根拠：
+- SERENDIPITY = 文頭 → 主語
+- led = 動詞（知っている）
+- him = 目的語
+- to the discovery = 前置詞句（修飾語）
+
+分かること：
+- 「何か」が彼を発見に導いた
+- led = 導いた
+- SERENDIPITY = 主語になれる名詞
+
+推測：
+何が人を発見に導く？
+→ 運？偶然？幸運？
+
+実際：serendipity = 偶然の幸運 ✅
+
+理解：
+「『何か』が彼を発見に導いた」
+→ 文脈から「良いこと」だと分かる
+→ 問題は解ける！
+\`\`\`
+
+---
+
+#### 実践：TOEFL Reading 問題
+
+**問題文：**
+\`\`\`
+The archaeologists UNEARTHED ancient ARTIFACTS 
+that CORROBORATED the theory.
+\`\`\`
+
+**知らない単語：UNEARTHED, ARTIFACTS, CORROBORATED**
+
+**でも大丈夫！文型で解決**
+
+\`\`\`
+文型分析：
+
+文1：The archaeologists UNEARTHED ancient ARTIFACTS
+
+Step 1：知っている単語から判定
+- archaeologists = 考古学者（主語）
+- ancient = 古代の（形容詞）
+
+Step 2：品詞推測
+- UNEARTHED = 主語の後、-ed → 動詞
+- ARTIFACTS = ancient の後 → 名詞
+
+Step 3：文型判定
+S + V + O（第3文型）確定
+
+理解：「考古学者が何か古いものを何かした」
+
+文2：that CORROBORATED the theory
+
+Step 1：知っている単語
+- that = 関係代名詞（= ARTIFACTS）
+- the theory = 理論
+
+Step 2：文型判定
+that(S) + CORROBORATED(V) + the theory(O)
+= 第3文型確定
+
+理解：「その何かが理論を何かした」
+
+推測：
+考古学者 → 何かを見つけた？発掘した？
+古い何か → 遺物？物？
+理論を何かした → 証明した？支持した？
+
+問題：What did the archaeologists find?
+選択肢：
+(A) Evidence supporting the theory ← これだ！
+(B) A new theory
+(C) Ancient buildings
+(D) Modern tools
+
+正解：(A)
+
+文型思考で構造が分かれば、
+完璧に単語を知らなくても解ける！
+\`\`\`
+
+---
+
+#### TOEFLで知らない単語が出た時の対処ステップ
+
+**ステップ1：慌てない！（1秒）**
+\`\`\`
+知らない単語 = チャンス
+文型思考を使う絶好の機会
+\`\`\`
+
+**ステップ2：文型を判定（3秒）**
+\`\`\`
+知っている単語だけで：
+- 主語はどれ？
+- 動詞はどれ？
+- 目的語・補語は？
+\`\`\`
+
+**ステップ3：文型から意味を推測（2秒）**
+\`\`\`
+第3文型 → S が O を〜する
+第2文型 → S = C
+第5文型 → O = C
+\`\`\`
+
+**ステップ4：選択肢を見る（5秒）**
+\`\`\`
+推測した意味と選択肢を照合
+消去法で答える
+\`\`\`
+
+**合計：約10秒で対応可能**
+
+---
+
+#### 重要な考え方の転換
+
+**❌ 間違った学習法：**
+\`\`\`
+知らない単語が出た
+↓
+パニック！辞書引かなきゃ！
+↓
+時間切れ...
+\`\`\`
+
+**✅ 正しい学習法：**
+\`\`\`
+知らない単語が出た
+↓
+文型で構造を理解（知っている単語で判定）
+↓
+おおよその意味を推測
+↓
+問題を解く
+↓
+後で辞書で確認（余裕があれば）
+\`\`\`
+
+---
+
+#### 語彙学習との組み合わせ
+
+**知らない単語に出会ったら：**
+
+**試験中（その場では）：**
+1. 文型で推測（知っている単語から判定）
+2. 問題を解く
+3. メモしておく
+
+**試験後（後で）：**
+1. 辞書で確認
+2. 文型と一緒に記録
+
+**記録例：**
+\`\`\`
+glorify【第3文型】
+= 賛美する、称賛する
+例：He glorified the hero.
+   S    V      O（全て判定可能）
+初出：TOEFL Reading Practice 3
+判定：主語と目的語が分かったから第3文型と判定
+推測：褒める → 正解に近かった！
+\`\`\`
+
+---
+
+#### 優先順位
+
+**試験中の優先順位：**
+\`\`\`
+1位：文型で構造理解（知っている単語で判定） ★★★★★
+2位：文脈から推測 ★★★★☆
+3位：語根から推測 ★★★☆☆
+4位：完璧な語彙知識 ★☆☆☆☆
+\`\`\`
+
+**重要：80点レベルなら、全単語を知る必要はない！**
+
+---
+
+#### 実践トレーニング
+
+**練習1：意図的に単語を隠す**
+\`\`\`
+The teacher [BLANK] the students for their effort.
+
+文型で判定：
+知っている単語：teacher, students, effort
+位置：teacher の後 → 動詞
+構造：S + V + O（第3文型）
+
+推測：
+先生が生徒に何かした
+→ for their effort（努力に対して）
+→ 褒めた？
+
+答え：praised（褒めた）
+\`\`\`
+
+**練習2：知らない単語をそのまま読む**
+\`\`\`
+手順：
+1. 難しい記事を読む
+2. 知らない単語は飛ばす
+3. 知っている単語で文型を判定
+4. 文型と文脈で理解
+5. 後で辞書確認
+\`\`\`
+
+**練習3：文型判定タイムトライアル**
+\`\`\`
+目標：3秒以内に文型判定
+
+The PROTAGONIST VANQUISHED the enemy.
+↓（3秒）
+知っている：the, the, enemy
+位置から判定：S + V + O
+→ 第3文型！
+\`\`\`
+
+---
+
+#### まとめ：知らない単語でも文型を特定する極意
+
+**文型特定の3原則：**
+
+1. **知っている単語だけで判断する**
+   - 主語、動詞、目的語の位置
+   - 前置詞の有無
+   - 冠詞や形容詞の有無
+
+2. **品詞を位置から推測する**
+   - 主語の後 → 動詞
+   - 動詞の後＋前置詞なし → 目的語
+   - 動詞の後＋形容詞っぽい → 補語
+
+3. **最小限の情報で判定する**
+   - 目的語1つ？2つ？→ 第3 or 第4文型
+   - O = C？→ 第5文型
+   - S = C？→ 第2文型
+   - 目的語なし？→ 第1文型
+
+**これで知らない単語があっても文型は特定できる！**
+
+**実践での成功パターン：**
+\`\`\`
+知らない単語 30%の文章
+↓
+知っている単語 70%で文型判定
+↓
+文型から意味推測
+↓
+TOEFL 80点突破！
+\`\`\`
+
+---
+
+### 文型判定の完全思考プロセス
+
+文型を正確に判定するための具体的な思考プロセスを解説します。
+
+#### 基本：文型判定の3ステップ
+
+\`\`\`
+Step 1: 動詞を見つける（最重要！）
+Step 2: 動詞の後ろを確認
+Step 3: 文型を判定
+\`\`\`
+
+**なぜ動詞から始めるのか？**
+動詞が文の設計図だからです。動詞が分かれば：
+- 何個の目的語が必要か分かる
+- 補語が必要か分かる
+- 文型が自動的に決まる
+
+---
+
+#### Step 1: 動詞を見つける方法
+
+**パターン1：動詞1つ**
+\`\`\`
+He speaks English.
+   ↑
+   動詞発見！
+\`\`\`
+
+**パターン2：助動詞+動詞**
+\`\`\`
+She can swim fast.
+      ↑
+      動詞発見！（助動詞canは無視）
+\`\`\`
+
+**パターン3：完了形**
+\`\`\`
+They have studied English.
+        ↑
+        動詞発見！（haveは助動詞）
+\`\`\`
+
+**パターン4：be動詞**
+\`\`\`
+He is a teacher.
+   ↑
+   動詞発見！（be動詞も立派な動詞）
+\`\`\`
+
+**パターン5：受動態**
+\`\`\`
+The book was written by him.
+         ↑
+         動詞発見！（was writtenで受動態）
+\`\`\`
+
+---
+
+#### Step 2: 動詞の後ろを確認
+
+動詞を見つけたら、**後ろに何があるか**を確認します。
+
+**チェックリスト**
+\`\`\`
+動詞の後ろに...
+
+□ 何もない（または修飾語のみ）→ 第1文型の可能性
+□ 名詞・形容詞（S=?）→ 第2文型の可能性
+□ 名詞1つ（S≠?）→ 第3文型の可能性
+□ 名詞2つ → 第4文型 or 第5文型
+\`\`\`
+
+---
+
+#### Step 3: 文型判定のテクニック
+
+**判定ルート1：動詞の後ろに何もない**
+
+\`\`\`
+Birds fly.
+     ↑
+     動詞
+
+動詞の後ろ：何もない
+
+判定：第1文型（SV）
+\`\`\`
+
+**よくある間違い：前置詞句に騙される**
+\`\`\`
+He went to school.
+    ↑      ↑
+  動詞   前置詞句（修飾語）
+
+思考プロセス：
+"to school"は前置詞句 = 修飾語
+目的語ではない
+→ 第1文型
+\`\`\`
+
+**見分け方：**
+- 前置詞（to, at, in, on など）があれば修飾語
+- 動詞の後ろが「前置詞+名詞」なら第1文型
+
+---
+
+**判定ルート2：動詞の後ろに1つの要素**
+
+ここが一番重要！第2文型か第3文型の判断
+
+**テクニック：「=（イコール）」テスト**
+
+\`\`\`
+動詞の後ろの要素が主語とイコールか？
+
+YES → 第2文型
+NO  → 第3文型
+\`\`\`
+
+**例1：第2文型**
+\`\`\`
+He is a teacher.
+↓（=テスト）
+He = a teacher? 
+YES! → 第2文型
+\`\`\`
+
+**例2：第3文型**
+\`\`\`
+He likes a teacher.
+↓（=テスト）
+He = a teacher?
+NO! → 第3文型
+\`\`\`
+
+**例3：第2文型**
+\`\`\`
+She looks happy.
+↓（=テスト）
+She = happy?
+YES! → 第2文型
+\`\`\`
+
+**例4：第1文型**
+\`\`\`
+She looks at the picture.
+↓（=テスト）
+She = at the picture?
+NO!
+しかも"at"がある = 前置詞句 = 修飾語
+→ 第1文型
+\`\`\`
+
+**判定フローチャート：**
+\`\`\`
+動詞の後ろに1つの要素
+↓
+前置詞がある？
+YES → 第1文型
+NO → 次へ
+↓
+S = ? のテスト
+YES → 第2文型
+NO → 第3文型
+\`\`\`
+
+---
+
+**判定ルート3：動詞の後ろに2つの要素**
+
+第4文型と第5文型を判断
+
+**テクニック：「2つの要素の関係」テスト**
+
+\`\`\`
+2つの要素が「=（イコール）」の関係？
+
+YES → 第5文型（O = C）
+NO  → 第4文型（人 + 物）
+\`\`\`
+
+**例1：第4文型**
+\`\`\`
+He gave me a book.
+       ↑   ↑
+      1つ目 2つ目
+
+関係テスト：
+me = a book?
+NO! → 第4文型
+
+さらに確認：
+1つ目 = 人（me）
+2つ目 = 物（a book）
+→ 典型的な第4文型パターン
+\`\`\`
+
+**例2：第5文型**
+\`\`\`
+We call him Bob.
+       ↑    ↑
+      1つ目 2つ目
+
+関係テスト：
+him = Bob?
+YES! → 第5文型
+\`\`\`
+
+**例3：第5文型**
+\`\`\`
+The news made me happy.
+            ↑   ↑
+           1つ目 2つ目
+
+関係テスト：
+me = happy?
+YES!（私は幸せ）→ 第5文型
+\`\`\`
+
+**例4：第4文型**
+\`\`\`
+She taught us English.
+          ↑    ↑
+         1つ目  2つ目
+
+関係テスト：
+us = English?
+NO! → 第4文型
+
+確認：
+1つ目 = 人（us）
+2つ目 = 物（English）
+→ 第4文型
+\`\`\`
+
+**判定フローチャート：**
+\`\`\`
+動詞の後ろに2つの要素
+↓
+1つ目 = 2つ目？
+YES → 第5文型
+NO → 次へ
+↓
+1つ目が人、2つ目が物？
+YES → 第4文型
+NO → もう一度確認
+\`\`\`
+
+---
+
+#### 実践例：文型判定の完全思考
+
+**例題1：**
+\`\`\`
+The students study hard every day.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"study" ← これだ！
+
+Step 2: 動詞の後ろを確認
+"hard" "every day"
+↓
+どちらも副詞（修飾語）
+↓
+動詞の後ろに名詞がない
+
+Step 3: 判定
+何もない（修飾語のみ）
+→ 第1文型
+
+答え：SV（第1文型）
+\`\`\`
+
+---
+
+**例題2：**
+\`\`\`
+She became a doctor.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"became" ← これだ！
+
+Step 2: 動詞の後ろを確認
+"a doctor"（名詞）← 1つだけ
+
+Step 3: イコールテスト
+She = a doctor?
+YES!
+
+判定：第2文型
+
+答え：SVC（第2文型）
+\`\`\`
+
+---
+
+**例題3：**
+\`\`\`
+I enjoy reading books.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"enjoy" ← これだ！
+
+Step 2: 動詞の後ろを確認
+"reading books"
+↓
+動名詞句（名詞相当）← 1つだけ
+
+Step 3: イコールテスト
+I = reading books?
+NO!（私≠読書）
+
+判定：第3文型
+
+答え：SVO（第3文型）
+\`\`\`
+
+---
+
+**例題4：**
+\`\`\`
+He gave me advice.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"gave" ← これだ！
+
+Step 2: 動詞の後ろを確認
+"me" "advice"
+↓
+名詞が2つ
+
+Step 3: 2つの関係テスト
+me = advice?
+NO!
+
+さらに確認：
+me = 人
+advice = 物
+→ 典型的な「人に物を与える」パターン
+
+判定：第4文型
+
+答え：SVOO（第4文型）
+\`\`\`
+
+---
+
+**例題5：**
+\`\`\`
+The teacher made the students happy.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"made" ← これだ！
+
+Step 2: 動詞の後ろを確認
+"the students" "happy"
+↓
+名詞 + 形容詞
+
+Step 3: 2つの関係テスト
+the students = happy?
+YES!（学生たち＝幸せ）
+
+判定：第5文型
+
+答え：SVOC（第5文型）
+\`\`\`
+
+---
+
+#### 難しい例題での思考プロセス
+
+**複雑な文：**
+\`\`\`
+The professor who teaches biology explained 
+the theory to the students in the classroom.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 0: 修飾語を無視する準備
+関係代名詞節"who teaches biology"は修飾語
+
+Step 1: 動詞を探す（主節の動詞）
+"explained" ← これが主節の動詞！
+
+Step 2: 動詞の後ろを確認
+"the theory" ← 名詞
+"to the students" ← 前置詞句（修飾語）
+"in the classroom" ← 前置詞句（修飾語）
+
+前置詞句は無視すると：
+explained + the theory（名詞1つ）
+
+Step 3: イコールテスト
+The professor = the theory?
+NO!
+
+判定：第3文型
+
+骨格：
+The professor explained the theory.
+S            V         O
+
+答え：SVO（第3文型）
+\`\`\`
+
+---
+
+**受動態：**
+\`\`\`
+The book was written by Shakespeare.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"was written" ← 受動態の動詞
+
+Step 2: 受動態の処理
+受動態 = もともと目的語だったものが主語に
+
+能動態に戻すと：
+Shakespeare wrote the book.
+S          V     O
+= 第3文型
+
+受動態でも：
+The book was written (by Shakespeare).
+S        V
+↓
+実質的には第3文型の受動態
+
+答え：第3文型の受動態
+\`\`\`
+
+---
+
+**使役動詞：**
+\`\`\`
+I made him clean the room.
+\`\`\`
+
+**思考プロセス：**
+\`\`\`
+Step 1: 動詞を探す
+"made" ← これだ！
+
+Step 2: 動詞の後ろを確認
+"him" "clean the room"
+↓
+名詞 + 動詞原形
+
+これは特殊パターン！
+madeは使役動詞
+→ 第5文型確定
+
+Step 3: 確認
+him = clean the room?
+YES!（himがcleanする）
+
+判定：第5文型
+
+答え：SVOC（第5文型）
+補語が動詞原形の特殊パターン
+\`\`\`
+
+---
+
+#### よくある間違いと対策
+
+**間違い1：前置詞句を目的語と勘違い**
+
+\`\`\`
+❌ 間違った思考：
+He went to school.
+    ↑   ↑
+   V   O？
+→ 第3文型？
+
+✅ 正しい思考：
+He went to school.
+    ↑   ↑
+   V  前置詞句（修飾語）
+
+"to"がある = 前置詞句 = 修飾語
+→ 第1文型
+\`\`\`
+
+**対策：前置詞チェック**
+\`\`\`
+動詞の後ろに前置詞（to, at, in, on, for など）がある
+→ それは修飾語
+→ 目的語ではない
+\`\`\`
+
+---
+
+**間違い2：第2文型と第3文型の混同**
+
+\`\`\`
+❌ 間違った思考：
+He is a teacher.
+→ "a teacher"は目的語
+→ 第3文型？
+
+✅ 正しい思考：
+He is a teacher.
+↓
+He = a teacher?
+YES!
+→ 第2文型
+\`\`\`
+
+**対策：必ず「=テスト」**
+\`\`\`
+S = 動詞の後ろ？
+YES → 第2文型
+NO → 第3文型
+\`\`\`
+
+---
+
+**間違い3：第4文型と第5文型の混同**
+
+\`\`\`
+❌ 間違った思考：
+We call him Bob.
+→ 2つの目的語だから第4文型？
+
+✅ 正しい思考：
+We call him Bob.
+↓
+him = Bob?
+YES!
+→ 第5文型
+\`\`\`
+
+**対策：2つの要素の関係チェック**
+\`\`\`
+1つ目 = 2つ目？
+YES → 第5文型
+NO → 第4文型
+\`\`\`
+
+---
+
+#### 文型判定の最速テクニック
+
+**動詞で80%決まる！**
+
+特定の動詞は特定の文型でしか使われません：
+
+**第1文型のみ：**
+- go, come, arrive, happen, occur, exist, live
+
+\`\`\`
+He arrived.
+   ↓
+arrive を知ってる
+→ 第1文型確定！
+\`\`\`
+
+**第2文型のみ：**
+- be, become, get, grow, remain, stay, look, seem, appear, sound, smell, taste, feel
+
+\`\`\`
+She looks tired.
+    ↓
+look を知ってる
+→ 第2文型確定！
+\`\`\`
+
+**第3文型のみ：**
+- like, want, have, need, enjoy, finish, discuss, explain, say, suggest, propose, announce, introduce, reach, enter, marry, resemble, attend, approach
+
+\`\`\`
+I discussed the problem.
+  ↓
+discuss を知ってる
+→ 第3文型確定！
+→ 後ろに about は不要！
+\`\`\`
+
+**第3・4文型両方OK：**
+- give, tell, show, teach, buy, send, lend, hand, pass, bring, offer, pay, write, make, cook, get, find
+
+\`\`\`
+He gave me a book.
+   ↓
+gave を知ってる
+→ 第4文型の可能性高い
+→ 2つの名詞があるか確認
+\`\`\`
+
+**第5文型：**
+- make, call, name, elect, appoint, consider, think, believe, find, keep, leave, drive, turn, want, ask, tell, allow, enable
+
+\`\`\`
+We call him Bob.
+   ↓
+call を知ってる
+→ 第5文型の可能性高い
+→ 2つの要素が=か確認
+\`\`\`
+
+---
+
+#### 知らない単語がある場合の対処法
+
+5文型思考は知らない単語があっても有効です。
+
+**パターン1：動詞が分からない場合**
+
+\`\`\`
+He GLORIFIED the hero in his speech.
+\`\`\`
+
+**知らない単語：GLORIFIED**
+
+**思考プロセス：**
+\`\`\`
+Step 1：文の構造を見る
+He (S) + GLORIFIED (V) + the hero (O)
+= 第3文型
+
+Step 2：第3文型の意味
+S が O に何かをする
+
+Step 3：文脈から推測
+彼がヒーローに対して、スピーチで何かをした
+→ 褒めた？称賛した？
+
+推測：GLORIFIED = 称賛する、賛美する
+実際の意味：glorify = 賛美する、称賛する ✅
+\`\`\`
+
+**ポイント：**
+- 第3文型 = 「SがOを〜する」
+- 動詞の意味が完全に分からなくても、文は理解できる！
+
+---
+
+**パターン2：目的語が分からない場合**
+
+\`\`\`
+She discussed the RAMIFICATIONS of the decision.
+\`\`\`
+
+**知らない単語：RAMIFICATIONS**
+
+**思考プロセス：**
+\`\`\`
+構造：
+She (S) + discussed (V) + the RAMIFICATIONS (O)
+= 第3文型
+
+分かること：
+- discussed = 議論した
+- RAMIFICATIONS = 何か議論できるもの（名詞）
+- of the decision = 決定の〜
+
+推測：
+決定の「何か」を議論した
+→ 影響？結果？consequences的な何か？
+
+実際：ramification = 影響、結果 ✅
+
+TOEFL Reading で必要な理解：
+「彼女は決定の『何か』について議論した」
+これだけ分かれば問題は解ける！
+\`\`\`
+
+---
+
+**パターン3：補語が分からない場合（第2文型）**
+
+\`\`\`
+The situation became DIRE.
+\`\`\`
+
+**知らない単語：DIRE**
+
+**思考プロセス：**
+\`\`\`
+構造：
+The situation (S) + became (V) + DIRE (C)
+= 第2文型（S = C）
+
+分かること：
+- became = 〜になった（変化）
+- DIRE = 状況を表す形容詞
+- S = C だから、situation = DIRE
+
+推測：
+状況が「DIRE」になった
+→ 悪い意味の形容詞っぽい
+→ 悪化した？深刻になった？
+
+実際：dire = 悲惨な、深刻な ✅
+
+理解：
+「状況が悪い状態になった」
+→ これで十分！
+\`\`\`
+
+---
+
+**パターン4：複数の単語が分からない場合**
+
+\`\`\`
+The committee CONVENED to DELIBERATE the proposal.
+\`\`\`
+
+**知らない単語：CONVENED, DELIBERATE**
+
+**思考プロセス：**
+\`\`\`
+構造分析：
+The committee (S) + CONVENED (V)
+= 第1文型
+
+to DELIBERATE the proposal
+= 目的を表す不定詞（修飾語）
+
+分かること：
+- 委員会が「CONVENED」した
+- 目的は「提案をDELIBERATEするため」
+- DELIBERATE + 目的語 = 第3文型
+
+推測：
+委員会が何かをした（会合？集まった？）
+→ 提案を何かするために
+→ 議論？検討？
+
+実際：
+convene = 召集する、集まる
+deliberate = 熟考する、審議する
+
+理解：
+「委員会が集まって、提案について何かした」
+→ TOEFLの問題：
+Q: What did the committee do?
+A: They met to discuss the proposal.
+→ 正解できる！
+\`\`\`
+
+---
+
+**TOEFL Reading 実践例：**
+
+\`\`\`
+The archaeologists UNEARTHED ancient ARTIFACTS 
+that CORROBORATED the theory.
+\`\`\`
+
+**知らない単語：UNEARTHED, ARTIFACTS, CORROBORATED**
+
+**思考プロセス：**
+\`\`\`
+文1：The archaeologists UNEARTHED ancient ARTIFACTS
+構造：S + V + O（第3文型）
+理解：「考古学者が何か古いものを何かした」
+
+文2：that CORROBORATED the theory
+構造：S(that=ARTIFACTS) + V + O（第3文型）
+理解：「その何かが理論を何かした」
+
+推測：
+考古学者 → 何かを見つけた？発掘した？
+古い何か → 遺物？物？
+理論を何かした → 証明した？支持した？
+
+問題：What did the archaeologists find?
+選択肢：
+(A) Evidence supporting the theory ← これだ！
+(B) A new theory
+(C) Ancient buildings
+(D) Modern tools
+
+正解：(A)
+\`\`\`
+
+**完璧に単語を知らなくても解ける！**
+
+---
+
+#### 実践トレーニング方法
+
+**毎日の練習メニュー**
+
+**朝（10分）**
+\`\`\`
+□ 5つの基本例文を音読（5分）
+□ 昨日の間違いノートを確認（2分）
+□ 動詞5個の文型チェック（3分）
+\`\`\`
+
+**通勤・通学中（15分）**
+\`\`\`
+□ 簡単な文10個を文型判定（10分）
+□ 音声で5文型例文リピート（5分）
+\`\`\`
+
+**昼休み（10分）**
+\`\`\`
+□ ニュース記事1つを骨格抜き出し（7分）
+□ 文型判定トレーニング10問（3分）
+\`\`\`
+
+**夜（20分）**
+\`\`\`
+□ TOEFL問題を文型で分析（10分）
+□ ライティング練習（各文型1文ずつ）（5分）
+□ 今日の間違いを記録（5分）
+\`\`\`
+
+**寝る前（5分）**
+\`\`\`
+□ 5つの基本例文を音読（3分）
+□ 明日の目標確認（2分）
+\`\`\`
+
+**合計：1日60分**
+
+---
+
+#### 上達の目安
+
+**2週間後：**
+- ✅ 簡単な文なら瞬時に文型判定できる
+- ✅ 第4文型で使えない動詞を覚えた
+
+**1ヶ月後：**
+- ✅ 複雑な文でも骨格が見える
+- ✅ Writing で文型を意識できる
+- ✅ 頻出動詞の文型を覚えた
+
+**2ヶ月後：**
+- ✅ Reading が速くなった（実感）
+- ✅ 文法ミスが激減
+- ✅ 無意識に文型が見える
+
+**3ヶ月後：**
+- ✅ 完全に自動化
+- ✅ ネイティブのように文構造を理解
+- ✅ TOEFL 80点突破！
+
+---
+
+#### 文型判定の黄金ルール（まとめ）
+
+**3ステップ**
+\`\`\`
+1. 動詞を見つける（必須）
+2. 動詞の後ろを確認（必須）
+3. テストで判定（必須）
+\`\`\`
+
+**2つのテスト**
+\`\`\`
+テスト1：「=（イコール）」テスト
+→ 第2文型 vs 第3文型
+→ 第4文型 vs 第5文型
+
+テスト2：前置詞チェック
+→ 前置詞があれば修飾語
+→ 目的語ではない
+\`\`\`
+
+**1つの最速テク**
+\`\`\`
+動詞を覚えれば80%決まる！
+→ 動詞ノートを作る
+→ 文型とセットで暗記
+\`\`\`
+
+この思考プロセスが自動化されれば、**0.5秒で文型判定**できるようになります！
+
+---
+
+## 1. 時制
+
+### 1.1 現在形
+**用法**
+- 習慣的な行動
+- 一般的事実・真理
+- 確定した未来（時刻表など）
+
+**例文**
+- Water boils at 100 degrees Celsius.（一般的事実）
+- The train leaves at 9:00 AM.（確定した未来）
+- She studies English every day.（習慣）
+
+### 1.2 現在進行形
+**用法**
+- 今まさに行っている動作
+- 一時的な状況
+- 近い未来の予定（already plannedな事柄）
+
+**例文**
+- I am studying for the TOEFL right now.（今の動作）
+- He is living in Tokyo temporarily.（一時的状況）
+- We are meeting tomorrow at 3 PM.（近い未来の予定）
+
+**進行形にできない動詞（状態動詞）**
+- know, understand, believe, think（考えている）
+- like, love, hate, want, need
+- have（所有）, own, belong
+- see, hear, smell（無意識の知覚）
+
+### 1.3 過去形
+**用法**
+- 過去に完了した動作・状態
+- 過去の習慣
+
+**例文**
+- She graduated from university in 2020.
+- I visited Paris last year.
+- He used to play tennis every weekend.（過去の習慣）
+
+**時を表す副詞（句）**
+- yesterday, last week/month/year, ago, in 2020
+
+### 1.4 過去進行形
+**用法**
+- 過去のある時点で進行中だった動作
+- 過去の2つの動作（一方が進行中、もう一方が割り込む）
+
+**例文**
+- I was reading a book at 8 PM yesterday.
+- While I was cooking, the phone rang.
+- They were discussing the project when the boss arrived.
+
+### 1.5 現在完了形
+**用法**
+- 完了：ちょうど終わった動作（just, already, yet）
+- 経験：今までの経験（ever, never, once, twice）
+- 継続：過去から現在まで続いている状態（for, since）
+- 結果：過去の動作が現在に影響
+
+**例文**
+- I have just finished my homework.（完了）
+- Have you ever been to Japan?（経験）
+- She has lived here for 5 years.（継続）
+- He has lost his key.（結果：今も見つかっていない）
+
+**現在完了 vs 過去形**
+| 現在完了 | 過去形 |
+|---------|--------|
+| 現在との関連あり | 完全に過去の出来事 |
+| 時を特定しない | 時を特定する |
+| I have seen that movie. | I saw that movie yesterday. |
+
+**使えない副詞**
+- ❌ I have seen him yesterday.
+- ✅ I saw him yesterday.
+- ❌ I have visited Paris in 2020.
+- ✅ I visited Paris in 2020.
+
+### 1.6 現在完了進行形
+**用法**
+- 過去から現在まで継続している動作の強調
+- 動作の継続性を強調
+
+**例文**
+- I have been studying English for 3 hours.
+- She has been working here since 2020.
+- It has been raining all day.
+
+**現在完了 vs 現在完了進行形**
+- I have read 5 books.（完了：5冊読み終えた）
+- I have been reading for 2 hours.（継続：2時間読み続けている）
+
+### 1.7 過去完了形（重要！）
+**用法**
+- 過去のある時点よりも前に完了した動作
+- 大過去：過去の2つの出来事の前後関係を明確化
+
+**例文**
+- When I arrived at the station, the train had already left.
+  （駅に着いた時、電車はすでに出発していた）
+- She had finished her homework before dinner.
+- By the time he got home, his wife had cooked dinner.
+
+**時系列の理解**
+\`\`\`
+had finished → arrived
+(過去完了)    (過去)
+    ↓           ↓
+   先          後
+\`\`\`
+
+**接続詞・前置詞**
+- before, after, by the time, when, until
+
+### 1.8 過去完了進行形
+**用法**
+- 過去のある時点まで継続していた動作
+
+**例文**
+- I had been waiting for 30 minutes when she finally arrived.
+- They had been living in Tokyo for 5 years before they moved to Osaka.
+
+### 1.9 未来形
+**will**
+- その場で決めた未来の動作
+- 予測・推測
+
+**be going to**
+- 計画済みの未来
+- 根拠のある予測
+
+**例文**
+- I will help you.（今決めた）
+- I am going to visit my parents next week.（計画済み）
+- Look at those clouds! It's going to rain.（根拠のある予測）
+
+### 1.10 未来完了形
+**用法**
+- 未来のある時点までに完了する動作
+
+**例文**
+- I will have finished this report by tomorrow.
+- By the time you arrive, I will have left.
+- She will have graduated by next June.
+
+---
+
+## 2. 仮定法
+
+### 2.1 仮定法過去（現在の事実に反する仮定）
+**形式**
+- If + 主語 + 過去形, 主語 + would/could/might + 動詞原形
+
+**例文**
+- If I were rich, I would buy a big house.
+  （実際：私は金持ちではない）
+- If she studied harder, she could pass the exam.
+  （実際：彼女は一生懸命勉強していない）
+- If I had more time, I would travel around the world.
+
+**注意点**
+- be動詞は主語に関わらず "were" を使う（口語では was も可）
+- If I were you, I would accept the offer.（あなたの立場なら）
+
+### 2.2 仮定法過去完了（過去の事実に反する仮定）
+**形式**
+- If + 主語 + had + 過去分詞, 主語 + would/could/might + have + 過去分詞
+
+**例文**
+- If I had studied harder, I would have passed the exam.
+  （実際：勉強しなかったので試験に落ちた）
+- If he had taken the train, he would have arrived on time.
+  （実際：電車に乗らなかったので遅刻した）
+- If she had known the truth, she might have acted differently.
+
+### 2.3 混合型仮定法
+**形式**
+- 過去の条件 + 現在の結果
+- If + 主語 + had + 過去分詞, 主語 + would/could + 動詞原形
+
+**例文**
+- If I had saved money, I would be rich now.
+  （過去に貯金していれば、今金持ちだろう）
+- If he had studied medicine, he would be a doctor now.
+
+### 2.4 I wish / If only（願望）
+**現在の願望（仮定法過去）**
+- I wish + 主語 + 過去形
+- I wish I were taller.（もっと背が高ければいいのに）
+- I wish I had more time.
+
+**過去の願望（仮定法過去完了）**
+- I wish + 主語 + had + 過去分詞
+- I wish I had studied harder.（もっと勉強していればよかった）
+- If only I had known the truth.
+
+**未来の願望**
+- I wish + 主語 + would + 動詞原形
+- I wish it would stop raining.（雨が止めばいいのに）
+
+### 2.5 as if / as though（まるで〜のように）
+**現在の事実に反する**
+- He talks as if he were an expert.
+  （実際：彼は専門家ではない）
+
+**過去の事実に反する**
+- She looked as if she had seen a ghost.
+  （実際：幽霊を見ていない）
+
+### 2.6 without / but for（〜がなければ）
+**現在**
+- Without your help, I would fail.
+- But for your advice, I wouldn't succeed.
+
+**過去**
+- Without your help, I would have failed.
+- But for the rain, we would have gone hiking.
+
+---
+
+## 3. 受動態
+
+### 3.1 基本形
+**形式**
+- be動詞 + 過去分詞 + (by 行為者)
+
+**例文**
+- This book was written by Shakespeare.
+- English is spoken in many countries.
+- The experiment will be conducted next week.
+
+### 3.2 能動態 vs 受動態の選択基準
+**受動態を使う場合**
+1. 行為者が不明・不要
+   - My wallet was stolen.（犯人不明）
+2. 行為者より動作の受け手が重要
+   - The theory was proved by Einstein.
+3. 一般的な人々（we, they, people）を避けたい
+   - English is spoken here.（We speak English here.）
+
+### 3.3 各時制の受動態
+
+| 時制 | 受動態の形 | 例文 |
+|-----|-----------|------|
+| 現在 | am/is/are + 過去分詞 | The room is cleaned every day. |
+| 過去 | was/were + 過去分詞 | The letter was sent yesterday. |
+| 未来 | will be + 過去分詞 | The report will be finished tomorrow. |
+| 現在完了 | has/have been + 過去分詞 | The work has been completed. |
+| 過去完了 | had been + 過去分詞 | The book had been published before 2000. |
+| 現在進行 | am/is/are being + 過去分詞 | The house is being built now. |
+| 過去進行 | was/were being + 過去分詞 | The car was being repaired. |
+
+### 3.4 助動詞の受動態
+**形式**
+- 助動詞 + be + 過去分詞
+
+**例文**
+- The problem can be solved.
+- The rule must be followed.
+- The meeting should be postponed.
+- The data may be incorrect.
+
+### 3.5 第4文型の受動態（授与動詞）
+**能動態**
+- Someone gave me a present.
+
+**受動態（2通り）**
+1. I was given a present.（人を主語）← より一般的
+2. A present was given to me.（物を主語）
+
+**授与動詞の例**
+- give, send, show, teach, tell, lend, offer, promise
+
+### 3.6 第5文型の受動態
+**能動態**
+- They call him Bob.
+
+**受動態**
+- He is called Bob.
+
+**その他の例**
+- She was elected president.
+- The plan was considered impossible.
+- He was made to apologize.（使役動詞の受動態：to不定詞に注意）
+
+### 3.7 群動詞の受動態
+**形式**
+- 群動詞を1つの動詞として扱う
+
+**例文**
+- The problem was dealt with carefully.（deal with）
+- The plan was carried out successfully.（carry out）
+- The children are being taken care of.（take care of）
+- The meeting was put off until next week.（put off）
+
+**よく使われる群動詞**
+- look after, look into, bring up, turn down, give up
+
+### 3.8 by以外の前置詞を使う受動態
+**with（道具・手段）**
+- The room was filled with smoke.
+- The letter was written with a pen.
+
+**in（材料・言語）**
+- The book is written in English.
+- The house is built in wood.
+
+**at（感情の原因）**
+- I was surprised at the news.
+- She was disappointed at the result.
+
+**of（from）（材料）**
+- The table is made of wood.（原材料が残っている）
+- Paper is made from wood.（原材料が変化している）
+
+### 3.9 受動態を使わない場合
+**自動詞（受動態にできない）**
+- ❌ The accident was happened yesterday.
+- ✅ The accident happened yesterday.
+
+**よく間違える自動詞**
+- happen, occur, take place, arise, consist of, belong to
+
+---
+
+## 4. 関係詞
+
+### 4.1 関係代名詞の基本
+
+| 先行詞 | 主格 | 所有格 | 目的格 |
+|-------|------|--------|--------|
+| 人 | who / that | whose | whom / who / that |
+| 物・動物 | which / that | whose / of which | which / that |
+
+### 4.2 主格の関係代名詞
+**形式**
+- 先行詞 + 関係代名詞 + 動詞...
+
+**例文**
+- The man who lives next door is a teacher.
+- The book which is on the table is mine.
+- I know a girl who can speak five languages.
+
+**注意点**
+- 関係代名詞の後の動詞は先行詞に一致
+- The students who study hard will succeed.（studentsに合わせて複数形）
+
+### 4.3 所有格の関係代名詞
+**形式**
+- 先行詞 + whose + 名詞...
+
+**例文**
+- I met a woman whose son is a famous actor.
+- The company whose products are popular is expanding.
+- This is the house whose roof was damaged in the storm.
+
+**of which（物の場合）**
+- The book, the cover of which is red, is interesting.
+- = The book whose cover is red is interesting.
+
+### 4.4 目的格の関係代名詞
+**形式**
+- 先行詞 + 関係代名詞（省略可）+ 主語 + 動詞...
+
+**例文**
+- The book (which/that) I bought yesterday is interesting.
+- The man (whom/who/that) I met at the party is my boss.
+- This is the movie (which/that) everyone is talking about.
+
+**省略のルール**
+- 目的格の関係代名詞は省略可能
+- ❌ 主格は省略不可
+
+### 4.5 前置詞 + 関係代名詞
+**形式**
+- 前置詞 + which/whom（フォーマル）
+- 関係代名詞 + 主語 + 動詞 + 前置詞（カジュアル）
+
+**例文**
+- The house in which I live is old.（フォーマル）
+- = The house which I live in is old.（カジュアル）
+- The person to whom I spoke was helpful.（フォーマル）
+- = The person who I spoke to was helpful.（カジュアル）
+
+**TOEFL重要ポイント**
+- フォーマルな文章では「前置詞 + which/whom」を好む
+- 前置詞 + that は不可
+- ❌ The house in that I live...
+
+### 4.6 関係代名詞 that の特別な用法
+**that を使うべき場合**
+1. 先行詞が最上級・序数詞で修飾されている
+   - This is the best book that I have ever read.
+   - She is the first person that arrived.
+
+2. 先行詞が all, everything, nothing, anything など
+   - I'll do everything that I can.
+   - There is nothing that I can do.
+
+3. 先行詞が the only, the very, the same など
+   - This is the only book that I need.
+   - You are the very person that I wanted to meet.
+
+4. 先行詞が人+物
+   - Look at the girl and the dog that are running.
+
+**that を使えない場合**
+1. 非制限用法（カンマの後）
+   - ❌ My brother, that lives in Tokyo, is a doctor.
+   - ✅ My brother, who lives in Tokyo, is a doctor.
+
+2. 前置詞の直後
+   - ❌ The house in that I live...
+   - ✅ The house in which I live...
+
+### 4.7 制限用法 vs 非制限用法
+**制限用法（カンマなし）**
+- 先行詞を限定・特定する
+- 関係代名詞の省略可（目的格の場合）
+- My sister who lives in Tokyo is a doctor.
+  （東京に住んでいる姉：他にも姉妹がいる可能性）
+
+**非制限用法（カンマあり）**
+- 先行詞に補足情報を追加
+- 関係代名詞の省略不可
+- that は使えない
+- My sister, who lives in Tokyo, is a doctor.
+  （姉は1人で、補足情報として東京在住と述べている）
+
+**例文**
+- The students who studied hard passed the exam.（制限：一生懸命勉強した学生だけ）
+- The students, who studied hard, passed the exam.（非制限：学生全員が一生懸命勉強して合格した）
+
+### 4.8 関係副詞
+**関係副詞の種類**
+| 関係副詞 | 先行詞 | = 前置詞 + which |
+|---------|--------|-----------------|
+| where | 場所 | in/at/on which |
+| when | 時 | in/on/at which |
+| why | 理由（the reason） | for which |
+| how | 方法（the way） | in which |
+
+**where（場所）**
+- This is the house where I was born.
+- = This is the house in which I was born.
+- I visited the city where my father grew up.
+
+**when（時）**
+- I remember the day when we first met.
+- = I remember the day on which we first met.
+- 2020 was the year when the pandemic started.
+
+**why（理由）**
+- That's the reason why I was late.
+- = That's the reason for which I was late.
+- Tell me the reason why you quit your job.
+
+**注意点**
+- the reason why または why のみ（両方は不要）
+- ✅ That's why I was late.
+- ✅ That's the reason I was late.
+- ❌ That's the reason why I was late.（厳密には冗長だが、実際にはよく使われる）
+
+**how（方法）**
+- ❌ This is the way how I solved the problem.
+- ✅ This is how I solved the problem.
+- ✅ This is the way I solved the problem.
+- ✅ This is the way in which I solved the problem.
+
+**注意：the way と how は同時に使えない**
+
+### 4.9 複合関係代名詞
+**whoever（〜する人は誰でも）**
+- Whoever wants to join can come.
+- = Anyone who wants to join can come.
+
+**whatever（〜するものは何でも）**
+- You can choose whatever you like.
+- = You can choose anything that you like.
+
+**whichever（どちらを〜しても）**
+- You can take whichever you prefer.
+
+**例文**
+- Whoever comes first will get the prize.
+- Whatever happens, don't give up.
+- Whichever route you take, it will take two hours.
+
+### 4.10 複合関係副詞
+**wherever（どこへ〜しても）**
+- I'll follow you wherever you go.
+- = I'll follow you no matter where you go.
+
+**whenever（いつ〜しても）**
+- You can come whenever you like.
+- = You can come no matter when you like.
+
+**however（どんなに〜しても）**
+- However hard I try, I can't solve it.
+- = No matter how hard I try, I can't solve it.
+
+---
+
+## 5. 分詞・分詞構文
+
+### 5.1 現在分詞と過去分詞の違い
+**現在分詞（-ing）**
+- 能動・進行の意味
+- 「〜している」「〜させる」
+
+**過去分詞（-ed/-en）**
+- 受動・完了の意味
+- 「〜される」「〜された」
+
+**例文**
+- an interesting book（興味深い本：本が人を興味深くさせる）
+- an interested person（興味を持っている人：人が興味を持たされている）
+- a sleeping baby（眠っている赤ちゃん）
+- a broken window（壊れた窓）
+
+### 5.2 感情を表す分詞
+**-ing形（原因）**
+- 〜させるような、〜な性質の
+
+**-ed形（結果）**
+- 〜している、〜した状態の
+
+| -ing形 | -ed形 |
+|--------|-------|
+| interesting | interested |
+| exciting | excited |
+| boring | bored |
+| tiring | tired |
+| surprising | surprised |
+| confusing | confused |
+| disappointing | disappointed |
+| frightening | frightened |
+
+**例文**
+- The movie was boring.（映画が退屈だった）
+- I was bored with the movie.（私は映画に退屈した）
+- It was an exciting game.（わくわくさせる試合）
+- We were excited about the game.（私たちは試合にわくわくした）
+
+### 5.3 分詞の形容詞的用法
+**前置修飾（分詞が単独）**
+- a sleeping baby（眠っている赤ちゃん）
+- a broken window（壊れた窓）
+- boiling water（沸騰している水）
+- fallen leaves（落ち葉）
+
+**後置修飾（分詞+修飾語句）**
+- The girl standing over there is my sister.
+  （向こうに立っている少女は私の妹です）
+- The book written by Hemingway is famous.
+  （ヘミングウェイによって書かれた本は有名です）
+
+### 5.4 分詞構文の基本
+**作り方**
+1. 接続詞を省略
+2. 主語が同じなら省略
+3. 動詞を分詞形に変える
+
+**例**
+- 原文：As I was tired, I went to bed early.
+- 分詞構文：Being tired, I went to bed early.
+- さらに簡略化：Tired, I went to bed early.
+
+### 5.5 分詞構文の意味
+**時（〜する時）**
+- Walking down the street, I met an old friend.
+- = When I was walking down the street, I met an old friend.
+
+**理由（〜なので）**
+- Being sick, she stayed home.
+- = Because she was sick, she stayed home.
+
+**条件（もし〜なら）**
+- Turning left at the corner, you'll find the bank.
+- = If you turn left at the corner, you'll find the bank.
+
+**譲歩（〜だけれども）**
+- Admitting his mistake, he refused to apologize.
+- = Although he admitted his mistake, he refused to apologize.
+
+**付帯状況（〜しながら）**
+- He sat on the sofa, watching TV.
+- = He sat on the sofa and watched TV.
+
+### 5.6 完了形の分詞構文
+**形式**
+- Having + 過去分詞
+
+**用法**
+- 主節より前の時を表す
+
+**例文**
+- Having finished my homework, I went out.
+- = After I had finished my homework, I went out.
+- Having lived in Japan for 10 years, she speaks Japanese fluently.
+- = Because she has lived in Japan for 10 years, she speaks Japanese fluently.
+
+### 5.7 受動態の分詞構文
+**形式**
+- Being + 過去分詞
+- Having been + 過去分詞（完了形）
+
+**例文**
+- Written in simple English, the book is easy to read.
+- = Because it is written in simple English, the book is easy to read.
+- Having been built in 1850, the house is now a museum.
+- = Because it was built in 1850, the house is now a museum.
+
+**Being の省略**
+- (Being) Written in simple English, the book is easy to read.
+- (Being) Tired, I went to bed early.
+
+### 5.8 否定の分詞構文
+**形式**
+- Not + 分詞構文
+
+**例文**
+- Not knowing what to say, I remained silent.
+- = Because I didn't know what to say, I remained silent.
+- Not having enough money, I couldn't buy the car.
+- = Because I didn't have enough money, I couldn't buy the car.
+
+### 5.9 独立分詞構文
+**主語が異なる場合**
+- 分詞構文の主語を省略せず残す
+
+**例文**
+- The weather being fine, we went on a picnic.
+- = Because the weather was fine, we went on a picnic.
+- All things considered, the plan was successful.
+- = When all things are considered, the plan was successful.
+
+**慣用表現**
+- generally speaking（一般的に言えば）
+- frankly speaking（率直に言って）
+- strictly speaking（厳密に言えば）
+- judging from〜（〜から判断すると）
+- considering〜（〜を考慮すると）
+
+### 5.10 with + 名詞 + 分詞
+**形式**
+- with + 名詞 + 現在分詞/過去分詞
+
+**例文**
+- He stood there with his arms folded.
+  （彼は腕を組んで立っていた）
+- She sat with her eyes closed.
+  （彼女は目を閉じて座っていた）
+- With the sun shining, we enjoyed the picnic.
+  （太陽が輝いて、私たちはピクニックを楽しんだ）
+
+---
+
+## 6. 比較
+
+### 6.1 原級比較
+**as + 原級 + as（〜と同じくらい...）**
+- She is as tall as her brother.
+- This book is as interesting as that one.
+
+**not as/so + 原級 + as（〜ほど...ではない）**
+- I'm not as tall as my father.
+- This problem is not so difficult as that one.
+
+**as + 原級 + as possible / as + 主語 + can（できるだけ...）**
+- Come as soon as possible.
+- Please write as clearly as you can.
+
+### 6.2 比較級
+**作り方**
+| 音節数 | 作り方 | 例 |
+|--------|--------|-----|
+| 1音節 | -er | tall → taller, fast → faster |
+| 1音節（短母音+子音） | 子音を重ねて-er | big → bigger, hot → hotter |
+| 2音節（-y で終わる） | y → ier | easy → easier, happy → happier |
+| 2音節以上 | more + 原級 | difficult → more difficult |
+
+**不規則変化**
+- good/well → better → best
+- bad → worse → worst
+- many/much → more → most
+- little → less → least
+- far → farther/further → farthest/furthest
+
+**比較級の用法**
+- 比較級 + than
+- Tokyo is bigger than Osaka.
+- She runs faster than I do.
+
+**much/far/even/still + 比較級（はるかに）**
+- This book is much more interesting than that one.
+- Today is far colder than yesterday.
+
+### 6.3 最上級
+**作り方**
+- 比較級に準じる（-est または most）
+
+**最上級の用法**
+- the + 最上級 + in/of
+- She is the tallest girl in her class.
+- This is the most beautiful place that I have ever visited.
+
+**one of the + 最上級 + 複数名詞（最も...なものの1つ）**
+- Tokyo is one of the largest cities in the world.
+
+### 6.4 比較の重要表現
+
+**the + 比較級, the + 比較級（...すればするほど、ますます...）**
+- The more you study, the more you learn.
+- The sooner, the better.
+
+**比較級 + and + 比較級（ますます...）**
+- It's getting colder and colder.
+- The situation is becoming more and more serious.
+
+**no more than（たった、わずか）**
+- I have no more than 100 yen.（100円しか持っていない）
+
+**no less than（...も）**
+- No less than 500 people attended the meeting.（500人も出席した）
+
+**not more than（多くても、せいぜい）**
+- There were not more than 20 people.（多くても20人だった）
+
+**not less than（少なくとも）**
+- There were not less than 100 people.（少なくとも100人いた）
+
+**no more ... than（...でないのと同様に...でない）**
+- He is no more a teacher than I am.
+  （私が教師でないのと同様に、彼も教師ではない）
+
+**no less ... than（...と同様に...）**
+- He is no less smart than his brother.
+  （彼は兄と同様に賢い）
+
+### 6.5 倍数表現
+**倍数 + as + 原級 + as**
+- This room is twice as large as that one.
+- This box is three times as heavy as that one.
+
+**倍数 + 比較級 + than**
+- This room is twice larger than that one.
+
+**倍数 + the + 名詞 + of**
+- This room is twice the size of that one.
+- This river is three times the length of that river.
+
+### 6.6 最上級の書き換え
+**最上級 = 比較級 + than any other + 単数名詞**
+- Mt. Fuji is the highest mountain in Japan.
+- = Mt. Fuji is higher than any other mountain in Japan.
+
+**最上級 = 比較級 + than all the other + 複数名詞**
+- = Mt. Fuji is higher than all the other mountains in Japan.
+
+**最上級 = No (other) + 単数名詞 + 比較級 + than**
+- = No other mountain in Japan is higher than Mt. Fuji.
+
+### 6.7 原級を使った書き換え
+**not as/so + 原級 + as = 比較級 + than**
+- He is not as tall as his brother.
+- = His brother is taller than he is.
+- = He is shorter than his brother.
+
+### 6.8 ラテン比較級
+**ラテン語由来の形容詞（to を使う）**
+- superior to（〜より優れている）
+- inferior to（〜より劣っている）
+- senior to（〜より年上の）
+- junior to（〜より年下の）
+- prior to（〜より前の）
+
+**例文**
+- This product is superior to that one.
+- He is senior to me by three years.
+
+**注意：than ではなく to を使う**
+
+---
+
+## 7. 接続詞・接続副詞
+
+### 7.1 等位接続詞（対等な関係）
+**and（そして）**
+- I like tea and coffee.
+- She is smart and beautiful.
+
+**but（しかし）**
+- He is rich but unhappy.
+- I want to go, but I'm busy.
+
+**or（または、さもないと）**
+- Would you like tea or coffee?
+- Hurry up, or you'll be late.
+
+**so（だから）**
+- I was tired, so I went to bed early.
+
+**for（というのは）**
+- He must be tired, for he has been working all day.
+
+### 7.2 従属接続詞（従属節を導く）
+
+**時を表す接続詞**
+- when（〜する時）
+  - When I arrived, everyone had left.
+- while（〜する間）
+  - While I was cooking, the phone rang.
+- before（〜する前に）
+  - Finish your homework before you go out.
+- after（〜した後で）
+  - After I finished work, I went home.
+- until/till（〜するまで）
+  - Wait here until I come back.
+- since（〜して以来）
+  - I haven't seen him since he moved to Tokyo.
+- as soon as（〜するとすぐに）
+  - Call me as soon as you arrive.
+- by the time（〜する時までには）
+  - By the time you get there, I will have left.
+
+**理由を表す接続詞**
+- because（〜なので）
+  - I stayed home because I was sick.
+- since（〜なので）
+  - Since it was raining, we stayed inside.
+- as（〜なので）
+  - As I was tired, I went to bed early.
+
+**譲歩を表す接続詞**
+- though/although（〜だけれども）
+  - Although it was raining, we went out.
+- even though（たとえ〜でも）
+  - Even though he is rich, he is not happy.
+- even if（たとえ〜でも）
+  - Even if it rains, I will go.
+
+**条件を表す接続詞**
+- if（もし〜なら）
+  - If it rains tomorrow, I will stay home.
+- unless（〜でない限り）
+  - Unless you study hard, you won't pass. (= If you don't study hard...)
+- as long as / so long as（〜する限り）
+  - As long as you try your best, I'll support you.
+- provided (that) / providing (that)（〜という条件で）
+  - I'll help you provided that you promise to try harder.
+
+**目的を表す接続詞**
+- so that（〜するために）
+  - I study hard so that I can pass the exam.
+- in order that（〜するために）
+  - He saved money in order that he could buy a car.
+
+**結果を表す接続詞**
+- so ... that（とても〜なので...）
+  - He was so tired that he fell asleep immediately.
+- such ... that（とても〜なので...）
+  - It was such a good movie that I watched it twice.
+
+### 7.3 接続副詞
+**接続副詞の使い方**
+- 文と文をつなぐ
+- セミコロン(;) または ピリオド(.) + カンマ(,)
+
+**順接**
+- therefore（したがって）
+  - He studied hard; therefore, he passed the exam.
+- thus（それゆえ）
+- hence（それゆえ）
+- consequently（その結果）
+  - It rained heavily. Consequently, the game was cancelled.
+- accordingly（それに応じて）
+
+**逆接**
+- however（しかしながら）
+  - I wanted to go; however, I was too busy.
+- nevertheless（それにもかかわらず）
+- nonetheless（それにもかかわらず）
+- still（それでも）
+
+**追加**
+- moreover（さらに）
+  - The hotel is comfortable. Moreover, it is inexpensive.
+- furthermore（さらに）
+- besides（その上）
+- in addition（加えて）
+- additionally（加えて）
+
+**対比**
+- on the other hand（一方で）
+  - He is smart. On the other hand, he is lazy.
+- in contrast（対照的に）
+- conversely（逆に）
+
+**例示**
+- for example（例えば）
+- for instance（例えば）
+- namely（すなわち）
+- that is (to say)（つまり）
+
+**結果**
+- as a result（その結果）
+- consequently（その結果）
+
+### 7.4 相関接続詞
+**both A and B（AもBも両方）**
+- She is both smart and beautiful.
+
+**either A or B（AかBかどちらか）**
+- You can have either tea or coffee.
+
+**neither A nor B（AもBもどちらも〜ない）**
+- He is neither rich nor famous.
+
+**not only A but also B（AだけでなくBも）**
+- She speaks not only English but also French.
+
+**B as well as A（Aだけでなく Bも）**
+- She speaks French as well as English.
+
+**not A but B（AではなくB）**
+- What I need is not money but time.
+
+### 7.5 名詞節を導く接続詞
+**that（〜ということ）**
+- I think that he is right.
+- The fact that she lied surprised me.
+
+**whether（〜かどうか）**
+- I don't know whether he will come.
+- Whether you like it or not, you have to do it.
+
+**if（〜かどうか）**
+- I wonder if he is coming.
+
+**注意：whether vs if**
+- 文頭では whether のみ
+  - ✅ Whether he comes or not doesn't matter.
+  - ❌ If he comes or not doesn't matter.
+- 前置詞の後では whether のみ
+  - ✅ I'm thinking about whether I should go.
+  - ❌ I'm thinking about if I should go.
+
+---
+
+## 8. 不定詞・動名詞
+
+### 8.1 不定詞の3用法
+**名詞的用法（〜すること）**
+- To study English is important.
+- = It is important to study English.（形式主語構文）
+- I want to go abroad.
+- My dream is to become a doctor.
+
+**形容詞的用法（〜するための、〜すべき）**
+- I have a lot of work to do.
+- There is no time to lose.
+- He is the first person to arrive.
+
+**副詞的用法**
+1. 目的（〜するために）
+   - I went to the library to study.
+   - I'm studying hard to pass the exam.
+
+2. 原因・理由（〜して）
+   - I'm glad to see you.
+   - He was surprised to hear the news.
+
+3. 結果（〜して、その結果...）
+   - He grew up to be a famous scientist.
+   - I woke up to find myself in the hospital.
+
+4. 判断の根拠（〜するとは）
+   - He must be smart to solve this problem.
+   - You are kind to help me.
+
+### 8.2 不定詞の意味上の主語
+**for + 人 + to do（人が〜すること）**
+- It is important for you to study English.
+- It is easy for him to solve this problem.
+
+**of + 人 + to do（人が〜するとは）**
+- 人の性質を表す形容詞の場合
+- It is kind of you to help me.
+- It was careless of him to make such a mistake.
+
+**性質を表す形容詞**
+- kind, nice, good, wise, clever, foolish, stupid, careless, rude, polite
+
+### 8.3 不定詞を使った重要構文
+
+**seem to do（〜するようだ）**
+- He seems to be tired.
+- She seemed to know the answer.
+
+**appear to do（〜するように見える）**
+- He appears to be honest.
+
+**happen to do（たまたま〜する）**
+- I happened to meet him at the station.
+
+**prove to be（〜であることがわかる）**
+- The information proved to be false.
+
+**too ... to do（あまりに〜すぎて...できない）**
+- He is too young to drive.
+- The question is too difficult for me to answer.
+
+**... enough to do（...するのに十分〜だ）**
+- He is old enough to drive.
+- The box is light enough for me to carry.
+
+**so ... as to do（〜するほど...）**
+- He was so kind as to help me.
+
+### 8.4 完了不定詞
+**形式**
+- to have + 過去分詞
+
+**用法**
+- 主節の動詞より前の時を表す
+
+**例文**
+- He seems to have been rich.（彼は金持ちだったようだ）
+- She appears to have finished her work.（彼女は仕事を終えたようだ）
+- I'm glad to have met you.（お会いできてうれしかったです）
+
+### 8.5 疑問詞 + to do
+**形式**
+- what/which/where/when/how + to do
+- 「何を/どれを/どこで/いつ/どのように〜すべきか」
+
+**例文**
+- I don't know what to do.
+- Please tell me how to use this machine.
+- She is thinking about where to go for vacation.
+- They haven't decided when to leave.
+
+**注意：why to do は通常使わない**
+- ✅ I don't know why I should do it.
+- ❌ I don't know why to do it.
+
+### 8.6 動名詞の用法
+**主語**
+- Smoking is bad for your health.
+- Learning English is fun.
+
+**目的語**
+- I enjoy reading books.
+- She finished writing the report.
+
+**補語**
+- My hobby is playing the guitar.
+- His job is teaching English.
+
+**前置詞の目的語**
+- Thank you for helping me.
+- I'm good at speaking English.
+- She is interested in learning Japanese.
+
+### 8.7 動名詞の意味上の主語
+**所有格 / 目的格 + 動名詞**
+- I'm sure of his/him passing the exam.
+- Do you mind my/me opening the window?
+
+**フォーマルな文章では所有格を使う**
+
+### 8.8 動名詞の否定・受動態・完了形
+**否定形**
+- not + 動名詞
+- I'm sorry for not coming earlier.
+
+**受動態**
+- being + 過去分詞
+- I don't like being criticized.
+- He is proud of being chosen.
+
+**完了形**
+- having + 過去分詞
+- He denied having stolen the money.
+- She regrets having said such a thing.
+
+### 8.9 不定詞のみを目的語にとる動詞
+**hope, want, wish, expect, decide, plan, promise, agree, refuse, offer, choose, manage, fail, afford, learn, pretend**
+
+**例文**
+- I hope to see you again.
+- She decided to study abroad.
+- We plan to leave tomorrow.
+- He refused to help me.
+
+### 8.10 動名詞のみを目的語にとる動詞
+**enjoy, finish, stop, avoid, mind, give up, keep (on), practice, consider, suggest, deny, admit, imagine, miss, postpone, delay**
+
+**覚え方：MEGAFEPS（メガフェプス）**
+- Mind, Enjoy, Give up, Avoid, Finish, Escape, Practice, Stop
+
+**例文**
+- I enjoyed talking with you.
+- Have you finished reading the book?
+- Would you mind opening the window?
+- He avoided meeting her.
+
+### 8.11 不定詞と動名詞で意味が変わる動詞
+**remember**
+- remember to do（これから〜することを覚えている）
+  - Remember to lock the door.（ドアに鍵をかけるのを忘れないで）
+- remember doing（〜したことを覚えている）
+  - I remember meeting him before.（以前彼に会ったことを覚えている）
+
+**forget**
+- forget to do（〜することを忘れる）
+  - Don't forget to call me.
+- forget doing（〜したことを忘れる）
+  - I'll never forget visiting Paris.
+
+**try**
+- try to do（〜しようとする）
+  - I tried to open the door, but it was locked.
+- try doing（試しに〜してみる）
+  - Try opening the window.（窓を開けてみたら？）
+
+**stop**
+- stop to do（〜するために立ち止まる）
+  - He stopped to smoke.（彼はタバコを吸うために立ち止まった）
+- stop doing（〜することをやめる）
+  - He stopped smoking.（彼は喫煙をやめた）
+
+**regret**
+- regret to do（残念ながら〜する）
+  - I regret to inform you that...（残念ながらお知らせします）
+- regret doing（〜したことを後悔する）
+  - I regret saying that.（そう言ったことを後悔している）
+
+### 8.12 知覚動詞・使役動詞
+**知覚動詞 + O + 原形不定詞/現在分詞**
+- see, watch, hear, feel, notice + O + 動詞原形/doing
+- I saw him cross the street.（彼が通りを渡るのを見た：完了した動作）
+- I saw him crossing the street.（彼が通りを渡っているのを見た：進行中）
+
+**使役動詞**
+- make + O + 動詞原形（〜に...させる：強制）
+  - My mother made me clean my room.
+- let + O + 動詞原形（〜に...させる：許可）
+  - My father let me use his car.
+- have + O + 動詞原形（〜に...してもらう）
+  - I had him repair my car.
+- get + O + to do（〜に...してもらう）
+  - I got him to help me.
+
+**受動態での注意**
+- 知覚動詞・使役動詞の受動態では to 不定詞を使う
+- He was made to apologize.
+- She was seen to enter the building.
+
+---
+
+## 9. 名詞・冠詞
+
+### 9.1 可算名詞と不可算名詞
+**可算名詞（数えられる）**
+- 単数形：a/an + 名詞
+- 複数形：名詞 + s/es
+- a book → books
+- an apple → apples
+
+**不可算名詞（数えられない）**
+- 複数形にできない
+- a/an をつけない
+- 量を表すには：some, much, a lot of, a piece of など
+
+**主な不可算名詞**
+- 物質名詞：water, milk, bread, paper, wood, glass, gold
+- 抽象名詞：information, advice, news, knowledge, homework, work
+- 固有名詞：Tokyo, Mary, Christmas
+- その他：furniture, baggage, luggage, equipment, machinery
+
+### 9.2 不可算名詞の数え方
+**a piece of**
+- a piece of information/advice/news/paper/furniture
+
+**a cup/glass/bottle of**
+- a cup of coffee
+- a glass of water
+- a bottle of wine
+
+**a slice/loaf of**
+- a slice of bread/pizza/cake
+- a loaf of bread
+
+**a sheet of**
+- a sheet of paper
+
+### 9.3 可算・不可算両方になる名詞
+**抽象→具体で可算に**
+- experience（経験：不可算）→ an experience（1つの経験：可算）
+- beauty（美しさ：不可算）→ a beauty（美人：可算）
+- success（成功：不可算）→ a success（成功した人・物：可算）
+
+**材料→製品で可算に**
+- glass（ガラス：不可算）→ a glass（グラス1個：可算）
+- paper（紙：不可算）→ a paper（新聞・論文：可算）
+- iron（鉄：不可算）→ an iron（アイロン：可算）
+
+**全体→種類で可算に**
+- coffee（コーヒー：不可算）→ two coffees（コーヒー2杯：可算）
+- wine（ワイン：不可算）→ three wines（ワイン3種類：可算）
+
+### 9.4 複数形の作り方
+**規則変化**
+- 語尾に-s：book → books
+- s/x/ch/sh で終わる語：-es（box → boxes, watch → watches）
+- 子音字+y：y→ies（city → cities, baby → babies）
+- 母音字+y：-s（boy → boys, day → days）
+- f/fe で終わる語：f→ves（knife → knives, leaf → leaves）
+  - 例外：roof → roofs, belief → beliefs, chief → chiefs
+
+**不規則変化**
+- man → men, woman → women
+- child → children, person → people
+- tooth → teeth, foot → feet
+- mouse → mice, goose → geese
+- ox → oxen
+
+**単複同形**
+- fish, sheep, deer, species, series, means
+
+**常に複数形**
+- glasses（眼鏡）, scissors（はさみ）, pants（ズボン）, trousers（ズボン）
+- clothes（衣服）, goods（商品）, thanks, regards
+
+### 9.5 不定冠詞 a/an
+**使い方**
+- 子音で始まる語：a
+- 母音で始まる語：an
+
+**注意：発音で判断**
+- a university（ユニバーシティ：/j/ で始まる）
+- an hour（アワー：/au/ で始まる、h は発音しない）
+- a European（ユーロピアン：/j/ で始まる）
+- an honest person（オネスト：h は発音しない）
+
+**用法**
+1. 初めて言及する名詞
+   - I saw a dog in the park.
+
+2. 職業・身分
+   - He is a teacher.
+   - She wants to be a doctor.
+
+3. 「1つの」の意味
+   - I'll be back in an hour.
+
+4. 「〜につき」
+   - twice a week（週2回）
+   - $10 a kilogram（1キロ10ドル）
+
+### 9.6 定冠詞 the
+**用法**
+1. すでに言及した名詞
+   - I saw a dog. The dog was cute.
+
+2. 文脈から特定できる名詞
+   - Please close the door.（その場にあるドア）
+   - The sun rises in the east.
+
+3. 世界に1つしかないもの
+   - the sun, the moon, the earth, the sky
+
+4. 最上級・序数詞
+   - the best, the first, the only
+
+5. 楽器
+   - play the piano, play the guitar
+
+6. 形容詞を名詞化
+   - the rich（金持ちの人々）
+   - the young（若者）
+   - the dead（死者）
+
+7. 固有名詞
+   - 川：the Nile, the Amazon
+   - 海・海洋：the Pacific, the Atlantic
+   - 山脈：the Himalayas, the Alps
+   - 諸島：the Philippines
+   - 国名（複数形・共和国など）：the United States, the Netherlands
+   - 建物：the White House
+
+### 9.7 無冠詞
+**使わない場合**
+1. 複数名詞の一般論
+   - Dogs are faithful animals.
+   - Books are important.
+
+2. 不可算名詞の一般論
+   - Water is essential for life.
+   - Knowledge is power.
+
+3. 固有名詞
+   - 人名：Mary, John
+   - 国名（多くの場合）：Japan, France
+   - 都市名：Tokyo, Paris
+   - 山：Mt. Fuji, Mt. Everest
+   - 湖：Lake Biwa
+   - 駅・空港：Narita Airport
+
+4. 食事
+   - have breakfast/lunch/dinner
+
+5. スポーツ・科目
+   - play soccer/tennis
+   - study math/science
+
+6. 交通手段（by の後）
+   - by car/bus/train/plane
+
+7. 施設（本来の目的で使う場合）
+   - go to school（勉強しに）
+   - go to church（礼拝に）
+   - go to bed（寝るために）
+   - in hospital（入院中）
+
+### 9.8 所有格
+**'s の使い方**
+- 人・動物：Tom's car, the cat's tail
+- 時間・距離：today's news, a week's vacation
+- 国・都市：Japan's economy, New York's population
+
+**of の使い方**
+- 無生物：the door of the house
+- 長い修飾語句：the opinion of the people in this room
+
+**二重所有格**
+- a friend of mine（私の友達の1人）
+- a book of my father's（父の本の1冊）
+
+---
+
+## 10. 副詞
+
+### 10.1 副詞の基本
+**副詞の役割**
+- 動詞を修飾
+- 形容詞を修飾
+- 他の副詞を修飾
+- 文全体を修飾
+
+**副詞の作り方**
+- 形容詞 + -ly
+  - quick → quickly
+  - careful → carefully
+  - happy → happily（y → ily）
+  - simple → simply（le → ly）
+
+**形容詞と同じ形の副詞**
+- fast, hard, late, early, high, low, far, near, straight, right, wrong
+
+**例文**
+- He runs fast.（速く走る）
+- She works hard.（一生懸命働く）
+- I arrived late.（遅く着いた）
+
+**注意：hard vs hardly**
+- hard（一生懸命に）
+  - He studies hard.（彼は一生懸命勉強する）
+- hardly（ほとんど〜ない）
+  - He hardly studies.（彼はほとんど勉強しない）
+
+**その他の注意ペア**
+- late（遅く）vs lately（最近）
+- near（近くに）vs nearly（ほとんど）
+- high（高く）vs highly（非常に）
+
+### 10.2 副詞の種類と位置
+
+**様態の副詞（どのように）**
+- 位置：通常は動詞の後、目的語がある場合は目的語の後
+- quickly, slowly, carefully, well, badly
+- He speaks English fluently.
+- She answered the question correctly.
+
+**頻度の副詞（どれくらいの頻度で）**
+- 位置：一般動詞の前、be動詞・助動詞の後
+- always（いつも）, usually（たいてい）, often（しばしば）, sometimes（時々）, rarely（めったに〜ない）, seldom（めったに〜ない）, never（決して〜ない）
+
+**頻度の順序（高→低）**
+1. always（100%）
+2. usually（80-90%）
+3. often（60-70%）
+4. sometimes（40-50%）
+5. occasionally（20-30%）
+6. seldom（10%）
+7. rarely（5%）
+8. hardly ever（2%）
+9. never（0%）
+
+**例文**
+- I always get up at 7.（いつも7時に起きる）
+- She is usually late.（彼女はたいてい遅刻する）
+- They have never been to Japan.（彼らは日本に行ったことがない）
+
+**程度の副詞（どの程度）**
+- 位置：修飾する語の前
+- very, quite, rather, pretty, fairly, extremely, incredibly, absolutely, completely, totally, almost, nearly, hardly, scarcely
+
+**強調の順序（強→弱）**
+- extremely/incredibly（極めて）
+- very（とても）
+- quite/pretty（かなり）
+- fairly/rather（まあまあ）
+- slightly/somewhat（やや）
+
+**例文**
+- The test was extremely difficult.
+- She is very beautiful.
+- It's quite cold today.
+- I'm rather tired.
+
+**場所の副詞（どこで）**
+- 位置：通常は文末、強調する場合は文頭
+- here, there, everywhere, nowhere, upstairs, downstairs, inside, outside, abroad, home
+
+**例文**
+- He lives here.
+- There is a book on the table.
+- I want to go abroad.
+
+**時の副詞（いつ）**
+- 位置：通常は文末、強調する場合は文頭
+- now, then, today, yesterday, tomorrow, recently, lately, soon, already, yet, still, just
+
+**例文**
+- I saw him yesterday.
+- She has just left.
+- We haven't finished yet.
+
+**文修飾副詞（文全体を修飾）**
+- 位置：通常は文頭（カンマの後）
+- fortunately（幸いにも）, unfortunately（残念ながら）, surprisingly（驚いたことに）, obviously（明らかに）, clearly（明らかに）, apparently（どうやら）, actually（実は）, basically（基本的に）, generally（一般的に）
+
+**例文**
+- Fortunately, no one was injured.
+- Unfortunately, I can't come to the party.
+- Surprisingly, she passed the exam.
+
+### 10.3 already, yet, still の使い分け
+**already（すでに、もう）**
+- 肯定文・疑問文で使用
+- 予想より早く完了したことを表す
+- I have already finished my homework.
+- Have you already eaten?
+
+**yet（まだ、もう）**
+- 否定文・疑問文で使用
+- 「まだ〜していない」「もう〜しましたか」
+- I haven't finished yet.
+- Have you finished yet?
+
+**still（まだ、いまだに）**
+- 肯定文・否定文で使用
+- 状態が継続していることを表す
+- He is still sleeping.
+- I still don't understand.
+
+**位置の違い**
+- already：通常は文末、強調する場合は助動詞の後
+  - I have finished already.
+  - I have already finished.
+- yet：文末のみ
+  - I haven't finished yet.
+- still：be動詞・助動詞の後、一般動詞の前
+  - He is still here.
+  - I still love you.
+
+### 10.4 too と enough
+**too（〜すぎる）**
+- 否定的な意味
+- too + 形容詞/副詞
+- This coffee is too hot.（このコーヒーは熱すぎる）
+- You're driving too fast.（速すぎる運転をしている）
+
+**too ... to do（あまりに〜すぎて...できない）**
+- He is too young to drive.（彼は若すぎて運転できない）
+- The box is too heavy to carry.（箱が重すぎて運べない）
+
+**enough（十分に）**
+- 肯定的な意味
+- 形容詞/副詞 + enough
+- He is old enough to drive.（彼は運転するのに十分な年齢だ）
+- She speaks English well enough.
+
+**... enough to do（...するのに十分〜だ）**
+- This box is light enough to carry.
+- He is tall enough to reach the shelf.
+
+**語順に注意**
+- ✅ too + 形容詞/副詞
+- ✅ 形容詞/副詞 + enough
+- ❌ enough + 形容詞/副詞（名詞の場合は可）
+
+### 10.5 so と such
+**so（とても）**
+- so + 形容詞/副詞
+- She is so beautiful.
+- He runs so fast.
+
+**so ... that（とても〜なので...）**
+- He was so tired that he fell asleep immediately.
+- The test was so difficult that no one passed.
+
+**such（そのような）**
+- such + (a/an) + (形容詞) + 名詞
+- She is such a beautiful girl.
+- It was such a good movie.
+- They are such nice people.
+
+**such ... that（とても〜なので...）**
+- It was such a good movie that I watched it twice.
+- He is such a good teacher that everyone likes him.
+
+**so vs such の使い分け**
+| so | such |
+|-----|------|
+| so + 形容詞/副詞 | such + (a/an) + 名詞 |
+| so beautiful | such a beautiful girl |
+| so quickly | such good news |
+| so many/much/few/little + 名詞 | such a lot of + 名詞 |
+
+**特殊な用法**
+- so many/much/few/little + 名詞
+  - There were so many people.
+  - I have so much work to do.
+
+### 10.6 疑問副詞
+**when（いつ）**
+- When did you arrive?
+- I don't know when he will come.
+
+**where（どこ）**
+- Where do you live?
+- Tell me where you went.
+
+**why（なぜ）**
+- Why are you late?
+- I don't understand why he left.
+
+**how（どのように、どう）**
+- How did you solve the problem?
+- Show me how to do it.
+
+**how + 形容詞/副詞**
+- How old are you?（何歳）
+- How tall is he?（身長）
+- How long does it take?（どのくらいの時間）
+- How far is it?（どのくらいの距離）
+- How often do you exercise?（どのくらいの頻度）
+- How much does it cost?（いくら）
+- How many books do you have?（いくつ）
+
+### 10.7 否定の副詞
+**not（〜ない）**
+- I don't know.
+- She isn't here.
+
+**never（決して〜ない）**
+- I have never been to Paris.
+- Never give up!
+
+**hardly（ほとんど〜ない）**
+- I can hardly hear you.
+- There is hardly any milk left.
+
+**scarcely（ほとんど〜ない）**
+- He scarcely spoke during the meeting.
+
+**barely（かろうじて、ほとんど〜ない）**
+- I barely passed the exam.
+- We barely had enough time.
+
+**seldom（めったに〜ない）**
+- He seldom goes out.
+
+**rarely（めったに〜ない）**
+- She rarely eats breakfast.
+
+**準否定語（ほぼ否定の意味）**
+- hardly, scarcely, barely, seldom, rarely
+- これらの語が文頭に来ると倒置が起こる
+  - Hardly had I arrived when the phone rang.
+  - Seldom do we see such beautiful weather.
+
+### 10.8 関係副詞（再掲・詳細）
+**where（場所）**
+- This is the house where I was born.
+- I know a restaurant where we can eat good sushi.
+
+**when（時）**
+- I remember the day when we first met.
+- Tell me the time when you are free.
+
+**why（理由）**
+- That's the reason why I was late.
+- I don't know why she quit her job.
+
+**how（方法）**
+- This is how I solved the problem.
+- Show me how you did it.
+
+**注意点**
+- the way と how は一緒に使えない
+  - ✅ This is the way I did it.
+  - ✅ This is how I did it.
+  - ❌ This is the way how I did it.
+
+### 10.9 副詞の比較級・最上級
+**規則変化**
+- 1音節：-er, -est
+  - fast → faster → fastest
+  - hard → harder → hardest
+- 2音節以上：more, most
+  - quickly → more quickly → most quickly
+  - carefully → more carefully → most carefully
+
+**不規則変化**
+- well → better → best
+- badly → worse → worst
+- much → more → most
+- little → less → least
+- far → farther/further → farthest/furthest
+
+**例文**
+- He runs faster than I do.
+- She speaks English the most fluently in our class.
+- I work harder than before.
+
+### 10.10 副詞の位置（まとめ）
+**基本的な語順**
+\`\`\`
+主語 + 頻度副詞 + 動詞 + 様態副詞 + 場所副詞 + 時副詞
+\`\`\`
+
+**例文**
+- She usually speaks English fluently at school every day.
+- I often go to the gym in the morning.
+
+**強調する要素を文頭に**
+- Yesterday, I met an old friend.
+- In Tokyo, there are many restaurants.
+
+**文修飾副詞は文頭**
+- Fortunately, we arrived on time.
+- Interestingly, he didn't mention that.
+
+**複数の副詞の順序**
+1. 様態（how）
+2. 場所（where）
+3. 時（when）
+
+**例文**
+- He drove carefully to the station yesterday.
+  （様態）→（場所）→（時）
+
+### 10.11 副詞と前置詞の見分け方
+
+多くの単語が副詞としても前置詞としても使えるため、見分けが必要です。
+
+#### なぜ見分けることが重要なのか
+
+**1. TOEFL文法問題で正解できる**
+
+よく出る問題パターン：
+\`\`\`
+間違い：He looked up it in the dictionary. ❌
+正解：He looked it up in the dictionary. ✅
+\`\`\`
+upが副詞だと分かれば、代名詞は必ず間に入ることが分かる！
+
+**2. 正しい語順で話せる・書ける**
+
+副詞の場合（入れ替え可能）：
+- Turn on the light. ✅
+- Turn the light on. ✅
+- Turn it on. ✅
+- Turn on it. ❌
+
+前置詞の場合（入れ替え不可）：
+- Look at the picture. ✅
+- Look the picture at. ❌
+- Look at it. ✅
+- Look it at. ❌
+
+見分けられないと、間違った語順で話してしまう。
+
+**3. 意味を正確に理解できる**
+
+同じ単語でも意味が変わる：
+\`\`\`
+He ran up the hill.（丘を上って走った）
+↑ up = 前置詞「〜を上って」
+
+He ran up a huge bill.（莫大な請求書を作ってしまった）
+↑ run up = 句動詞「（借金などを）ためる」
+\`\`\`
+
+**4. リーディングで正確に構造を把握できる**
+
+\`\`\`
+The government will look into the matter.
+\`\`\`
+- look into = 句動詞「調査する」（into は副詞）
+- the matter = 目的語
+
+これを "look / into the matter"（前置詞）と誤解すると意味が変わる。
+
+**5. 辞書を効率的に使える**
+
+句動詞（動詞+副詞）は、辞書で別項目になっている：
+- look at...（〜を見る）
+- look for...（〜を探す）
+- look up（調べる）← 句動詞として独立した意味
+
+**6. リスニングで聞き取れる**
+
+TOEFLリスニングでよく出る句動詞：
+- figure out（理解する）
+- turn down（断る）
+- put off（延期する）
+- give up（諦める）
+
+これらが「句動詞（1つの動詞）」だと分かれば、意味をすぐに理解できる。
+
+**まとめ：見分けられることのメリット**
+1. ✅ TOEFL文法問題で高得点
+2. ✅ 正しい英語を話せる・書ける
+3. ✅ 意味を正確に理解できる
+4. ✅ リーディングの精度が上がる
+5. ✅ 辞書を効率的に使える
+6. ✅ リスニングの理解度が上がる
+
+**つまり、TOEFL全セクション（Reading, Listening, Speaking, Writing）のスコアアップに直結！**
+
+---
+
+**基本ルール：後ろに名詞（代名詞）があるかチェック**
+
+#### 前置詞の特徴
+- **必ず後ろに名詞（代名詞）が来る**
+- 前置詞 + 名詞 = 前置詞句
+- 名詞と他の語をつなぐ役割
+
+#### 副詞の特徴
+- **後ろに名詞が来ない**
+- 単独で使える
+- 動詞・形容詞・他の副詞を修飾
+
+#### 同じ単語の比較例
+
+**before（前に / 以前に）**
+- 前置詞：I arrived **before noon**.（正午の前に）
+  - before + 名詞（noon）
+- 副詞：I have seen this movie **before**.（以前に）
+  - 後ろに名詞なし
+
+**after（〜の後で / その後）**
+- 前置詞：Let's meet **after lunch**.（昼食の後で）
+  - after + 名詞（lunch）
+- 副詞：He came soon **after**.（その後すぐに）
+  - 後ろに名詞なし
+
+**up（〜を上って / 上へ）**
+- 前置詞：He walked **up the stairs**.（階段を上って）
+  - up + 名詞（the stairs）
+- 副詞：Please stand **up**.（立ち上がって）
+  - 後ろに名詞なし
+
+**down（〜を下って / 下へ）**
+- 前置詞：She ran **down the hill**.（丘を下って）
+  - down + 名詞（the hill）
+- 副詞：Please sit **down**.（座って）
+  - 後ろに名詞なし
+
+**in（〜の中に / 中へ）**
+- 前置詞：He is **in the room**.（部屋の中に）
+  - in + 名詞（the room）
+- 副詞：Please come **in**.（中へ入って）
+  - 後ろに名詞なし
+
+**on（〜の上に / 着けて）**
+- 前置詞：The book is **on the table**.（テーブルの上に）
+  - on + 名詞（the table）
+- 副詞：Put your coat **on**.（コートを着て）
+  - 後ろに名詞なし
+
+**around（〜の周りに / あちこちに）**
+- 前置詞：We walked **around the park**.（公園の周りを）
+  - around + 名詞（the park）
+- 副詞：Don't just stand **around**.（ただ立っているな）
+  - 後ろに名詞なし
+
+**near（〜の近くに / 近くに）**
+- 前置詞：She lives **near the station**.（駅の近くに）
+  - near + 名詞（the station）
+- 副詞：Come **near** and listen.（近くに来て聞きなさい）
+  - 後ろに名詞なし
+
+**above（〜の上に / 上記に）**
+- 前置詞：The plane flew **above the clouds**.（雲の上を）
+  - above + 名詞（the clouds）
+- 副詞：See the explanation **above**.（上記の説明を見よ）
+  - 後ろに名詞なし
+
+**below（〜の下に / 下記に）**
+- 前置詞：The temperature is **below zero**.（気温が零度以下）
+  - below + 名詞（zero）
+- 副詞：See the chart **below**.（下記の表を見よ）
+  - 後ろに名詞なし
+
+**across（〜を横切って / 向こう側へ）**
+- 前置詞：He walked **across the street**.（通りを横切って）
+  - across + 名詞（the street）
+- 副詞：Come **across** to our side.（こちら側へ来い）
+  - 後ろに名詞なし
+
+**along（〜に沿って / 一緒に）**
+- 前置詞：Walk **along the river**.（川に沿って歩く）
+  - along + 名詞（the river）
+- 副詞：Come **along** with us.（一緒に来て）
+  - 後ろに名詞なし
+
+**behind（〜の後ろに / 遅れて）**
+- 前置詞：The garden is **behind the house**.（家の後ろに）
+  - behind + 名詞（the house）
+- 副詞：The others stayed **behind**.（他の人たちは残った）
+  - 後ろに名詞なし
+
+**past（〜を過ぎて / 通り過ぎて）**
+- 前置詞：He walked **past the school**.（学校を通り過ぎて）
+  - past + 名詞（the school）
+- 副詞：A car drove **past**.（車が通り過ぎた）
+  - 後ろに名詞なし
+
+**through（〜を通って / 通り抜けて）**
+- 前置詞：Go **through the door**.（ドアを通って）
+  - through + 名詞（the door）
+- 副詞：Read it **through** carefully.（注意深く最後まで読め）
+  - 後ろに名詞なし
+
+**over（〜の上を / 越えて）**
+- 前置詞：Jump **over the fence**.（フェンスを飛び越える）
+  - over + 名詞（the fence）
+- 副詞：Come **over** to my house.（私の家に来て）
+  - 後ろに名詞なし
+
+**off（〜から離れて / 離れて）**
+- 前置詞：He fell **off the ladder**.（梯子から落ちた）
+  - off + 名詞（the ladder）
+- 副詞：Take your shoes **off**.（靴を脱いで）
+  - 後ろに名詞なし
+
+**out（〜の外へ / 外へ）**
+- 前置詞：He went **out of the room**.（部屋から出た）
+  - out of + 名詞（the room）
+  - 注：out 単独では前置詞として使えない
+- 副詞：Please go **out**.（外へ行ってください）
+  - 後ろに名詞なし
+
+#### 句動詞での副詞の判別方法（重要！）
+
+**「look up the word」の up はなぜ副詞なのか？**
+
+句動詞（動詞 + 副詞）では、副詞と目的語の位置が入れ替え可能です。これが副詞を見分ける最大のポイントです。
+
+**Step 1: 位置の入れ替えテスト**
+
+\`\`\`
+Look up the word. 
+    ↓ 入れ替えてみる
+Look the word up.
+\`\`\`
+
+✅ 入れ替え可能 → **up は副詞**
+
+もし前置詞なら：
+\`\`\`
+Look at the picture.
+    ↓ 入れ替えてみる
+Look the picture at. ❌ 不可能
+\`\`\`
+
+❌ 入れ替え不可 → **at は前置詞**
+
+**Step 2: 代名詞テスト**
+
+副詞の場合、代名詞は**必ず**動詞と副詞の間に入る：
+\`\`\`
+✅ Look it up.（正しい）
+❌ Look up it.（間違い）
+\`\`\`
+
+前置詞の場合、代名詞は前置詞の後：
+\`\`\`
+✅ Look at it.（正しい）
+❌ Look it at.（間違い）
+\`\`\`
+
+**Step 3: 意味の確認**
+
+- look up = 「調べる」という1つの意味（句動詞）
+- look + at = 「見る」+「〜を」（動詞+前置詞）
+
+句動詞は、動詞と副詞が合わさって新しい意味を作ります。
+
+**なぜ up が副詞だと分かるのか - 完全ガイド**
+
+以下の3つのテストをすれば確実に判別できます：
+
+**テスト1：位置入れ替えテスト**
+\`\`\`
+Look up the word. → Look the word up. ✅
+Turn on the light. → Turn the light on. ✅
+Pick up the phone. → Pick the phone up. ✅
+\`\`\`
+入れ替え可能 = 副詞
+
+\`\`\`
+Look at the picture. → Look the picture at. ❌
+Listen to music. → Listen music to. ❌
+Wait for the bus. → Wait the bus for. ❌
+\`\`\`
+入れ替え不可 = 前置詞
+
+**テスト2：代名詞位置テスト**
+\`\`\`
+副詞の場合：
+✅ Look it up.
+❌ Look up it.
+✅ Turn it on.
+❌ Turn on it.
+
+前置詞の場合：
+✅ Look at it.
+❌ Look it at.
+✅ Listen to it.
+❌ Listen it to.
+\`\`\`
+
+**テスト3：意味の独立性テスト**
+
+句動詞（動詞+副詞）は、元の動詞とは異なる独立した意味を持つ：
+- look（見る）+ up（上に）→ look up（調べる）← 全く違う意味
+- turn（回す）+ on（上に）→ turn on（つける）← 全く違う意味
+- give（与える）+ up（上に）→ give up（諦める）← 全く違う意味
+
+前置詞の場合は、動詞+前置詞で素直な意味：
+- look（見る）+ at（〜を）→ look at（〜を見る）← 素直な意味
+- listen（聴く）+ to（〜を）→ listen to（〜を聴く）← 素直な意味
+
+**実践例：「Look up the word」を完全分析**
+
+1. **位置入れ替え可能？**
+   - Look up the word. → Look the word up. ✅
+   - 入れ替えOK → 副詞の可能性高い
+
+2. **代名詞はどこに入る？**
+   - Look it up. ✅
+   - Look up it. ❌
+   - 間に入る → 副詞確定
+
+3. **意味は独立している？**
+   - look = 見る
+   - up = 上に
+   - look up = 調べる ← 全く違う意味
+   - 独立した意味 → 句動詞（副詞）
+
+**結論：up は副詞である**
+
+**句動詞（動詞 + 副詞）の特徴まとめ**
+1. 動詞 + 副詞 + 名詞 ⇄ 動詞 + 名詞 + 副詞（入れ替え可能）
+2. 動詞 + 代名詞 + 副詞（代名詞は必ず間に）
+3. 元の動詞とは異なる独立した意味を持つ
+
+**前置詞の特徴まとめ**
+1. 動詞 + 前置詞 + 名詞（入れ替え不可）
+2. 動詞 + 前置詞 + 代名詞（代名詞も後ろ）
+3. 動詞と前置詞の意味が素直につながる
+
+**よく使われる句動詞（すべて副詞）**
+
+| 句動詞 | 意味 | 入れ替え例 |
+|--------|------|-----------|
+| look up | 調べる | look it up / look the word up |
+| turn on | つける | turn it on / turn the light on |
+| turn off | 消す | turn it off / turn the TV off |
+| pick up | 拾う、迎えに行く | pick it up / pick her up |
+| put on | 着る | put it on / put your coat on |
+| take off | 脱ぐ | take it off / take your shoes off |
+| give up | 諦める | give it up / give smoking up |
+| figure out | 理解する | figure it out / figure the answer out |
+| fill out | 記入する | fill it out / fill the form out |
+| hand in | 提出する | hand it in / hand your paper in |
+| put off | 延期する | put it off / put the meeting off |
+| bring up | 育てる、話題にする | bring it up / bring the topic up |
+| call off | 中止する | call it off / call the game off |
+| make up | 作り上げる | make it up / make the story up |
+| throw away | 捨てる | throw it away / throw the trash away |
+
+**前置詞の例（入れ替え不可）**
+
+| 動詞+前置詞 | 意味 | 代名詞の位置 |
+|------------|------|------------|
+| look at | 見る | look at it ✅ / look it at ❌ |
+| look for | 探す | look for it ✅ / look it for ❌ |
+| listen to | 聴く | listen to it ✅ / listen it to ❌ |
+| wait for | 待つ | wait for it ✅ / wait it for ❌ |
+| depend on | 依存する | depend on it ✅ / depend it on ❌ |
+| belong to | 属する | belong to it ✅ / belong it to ❌ |
+| agree with | 同意する | agree with him ✅ / agree him with ❌ |
+| talk about | 話す | talk about it ✅ / talk it about ❌ |
+
+**TOEFL頻出問題パターン**
+
+**問題1：正しい文を選べ**
+\`\`\`
+(A) He looked up it in the dictionary.
+(B) He looked it up in the dictionary.
+(C) He looked at it in the dictionary.
+(D) He looked it at in the dictionary.
+\`\`\`
+
+**答え：(B)**
+- look up = 句動詞（調べる）
+- up = 副詞
+- 代名詞 it は必ず間に入る
+
+**問題2：正しい文を選べ**
+\`\`\`
+(A) Please turn the light on.
+(B) Please turn on the light.
+(C) Please turn it on.
+(D) All of the above are correct.
+\`\`\`
+
+**答え：(D)**
+- turn on = 句動詞
+- on = 副詞
+- 名詞の場合は前後どちらでもOK
+- 代名詞の場合は必ず間に入る
+
+**問題3：正しい文を選べ**
+\`\`\`
+(A) She listens music to every day.
+(B) She listens to music every day.
+(C) She listens to it every day.
+(D) Both B and C are correct.
+\`\`\`
+
+**答え：(D)**
+- listen to = 動詞+前置詞
+- to = 前置詞
+- 名詞も代名詞も to の後ろ
+
+#### まとめ：見分け方チェックリスト
+
+**副詞かどうか判定する3ステップ**
+
+1. **後ろに名詞があるか？**
+   - YES → 前置詞の可能性高い
+   - NO → 副詞の可能性高い
+
+2. **目的語との位置を入れ替えられるか？**
+   - YES → 副詞（句動詞）
+   - NO → 前置詞
+
+3. **代名詞が間に入るか？**
+   - YES → 副詞（句動詞）
+   - NO → 前置詞
+
+**練習問題**
+次の文で太字部分が前置詞か副詞か判断してください：
+
+1. He went **up** to his room.
+2. Look **up** the word in the dictionary.
+3. She lives **near** the station.
+4. Come **near** and listen.
+5. We'll leave **before** 5 PM.
+6. I've never been there **before**.
+7. Turn **on** the light.
+8. The book is **on** the table.
+9. He walked **across** the street.
+10. Come **across** and help me.
+11. Please hand **in** your homework.
+12. He came **in** the room.
+13. She picked **up** the phone.
+14. He ran **up** the stairs.
+15. I'll look **into** this matter.
+
+**答え**
+1. 前置詞（up to = 〜まで、後ろに名詞 "his room"）
+2. 副詞（look up = 調べる、句動詞、"Look the word up" と言える）
+3. 前置詞（後ろに名詞 "the station"）
+4. 副詞（後ろに名詞なし）
+5. 前置詞（後ろに名詞 "5 PM"）
+6. 副詞（後ろに名詞なし）
+7. 副詞（句動詞、"Turn the light on" と言える、"Turn it on"）
+8. 前置詞（後ろに名詞 "the table"）
+9. 前置詞（後ろに名詞 "the street"）
+10. 副詞（後ろに名詞なし）
+11. 副詞（hand in = 提出する、句動詞、"Hand your homework in" と言える）
+12. 前置詞（in the room = 部屋の中に）
+13. 副詞（pick up = 拾う、句動詞、"Pick the phone up" / "Pick it up"）
+14. 前置詞（up the stairs = 階段を上って）
+15. 副詞（look into = 調査する、句動詞、"Look this matter into" は不自然だが、"I'll look into it" は正しい）
+
+#### 前置詞と副詞の両方になれる主な単語
+
+| 単語 | 前置詞の意味 | 副詞の意味 |
+|------|------------|-----------|
+| above | 〜の上に | 上記に |
+| across | 〜を横切って | 向こう側へ |
+| after | 〜の後で | その後 |
+| along | 〜に沿って | 一緒に |
+| around | 〜の周りに | あちこちに |
+| before | 〜の前に | 以前に |
+| behind | 〜の後ろに | 遅れて |
+| below | 〜の下に | 下記に |
+| down | 〜を下って | 下へ |
+| in | 〜の中に | 中へ |
+| near | 〜の近くに | 近くに |
+| off | 〜から離れて | 離れて |
+| on | 〜の上に | 着けて |
+| over | 〜の上を | 越えて |
+| past | 〜を過ぎて | 通り過ぎて |
+| through | 〜を通って | 通り抜けて |
+| up | 〜を上って | 上へ |
+
+---
+
+## 11. 前置詞
+
+### 11.1 時を表す前置詞
+**at（時刻・時点）**
+- at 7 o'clock, at noon, at midnight, at night, at the moment, at the same time, at Christmas, at the weekend（英）
+
+**on（日付・曜日）**
+- on Monday, on June 1st, on Christmas Day, on my birthday, on the weekend（米）, on time（時間通りに）
+
+**in（月・年・季節・期間）**
+- in June, in 2024, in summer, in the morning/afternoon/evening
+- in a week（1週間後）, in time（間に合って）
+
+**時を表す前置詞の使い分け**
+| 前置詞 | 用法 | 例 |
+|-------|------|-----|
+| at | 時刻・時点 | at 3 o'clock, at noon |
+| on | 日付・曜日 | on Monday, on May 5th |
+| in | 月・年・季節 | in May, in 2024, in spring |
+
+**for（期間）**
+- for 3 hours, for a week, for a long time, for ages
+- 継続期間を表す
+- I have lived here for 5 years.
+
+**during（〜の間）**
+- during the summer, during the meeting, during my stay
+- 特定の期間中
+- It rained during the night.
+
+**for vs during**
+- for + 期間の長さ（3 hours, 2 weeks）
+- during + 特定の期間（the meeting, my vacation）
+
+**by（〜までに）**
+- by tomorrow, by 5 o'clock, by the end of this month
+- 期限を表す
+- Please finish it by Friday.
+
+**until/till（〜まで継続）**
+- until midnight, until now, till tomorrow
+- 継続を表す
+- I waited until 10 o'clock.
+
+**by vs until**
+- by：〜までに（完了の期限）
+  - Finish by 5 PM.（5時までに終える）
+- until：〜まで（継続）
+  - Wait until 5 PM.（5時まで待つ）
+
+**since（〜以来）**
+- since yesterday, since 2020, since then, since I was a child
+- 起点を表す（現在完了と共に使う）
+- I have lived here since 2020.
+
+**from ... to/until（〜から...まで）**
+- from 9 to 5, from Monday to Friday
+- The shop is open from 9 AM to 6 PM.
+
+**within（〜以内に）**
+- within a week, within an hour, within 10 minutes
+- I'll reply within 24 hours.
+
+**before/after（〜の前/後）**
+- before lunch, after dinner, before 5 PM, after the meeting
+- Call me before noon.
+- Let's meet after work.
+
+**between（〜の間）**
+- between 2 and 5 PM, between Monday and Friday
+- The meeting is between 2 and 3 PM.
+
+**around/about（〜頃）**
+- around 5 PM, about noon
+- I'll arrive around 7 o'clock.
+
+### 11.2 場所を表す前置詞
+**at（地点・場所）**
+- at the station, at home, at school, at work, at the corner, at the door, at the top, at the bottom
+- 特定の地点・場所
+- I'll meet you at the station.
+
+**in（範囲・空間の中）**
+- in Tokyo, in Japan, in the room, in the box, in bed, in the sky, in the world, in the street（英）
+- 広い範囲・空間
+- She lives in Tokyo.
+
+**on（表面・接触）**
+- on the table, on the wall, on the floor, on the second floor, on the left, on page 10, on the street（米）
+- 表面に接触
+- The book is on the table.
+
+**at vs in**
+- at：特定の地点として見る
+  - at the airport（空港という地点）
+- in：範囲・空間として見る
+  - in the airport（空港の中）
+
+**by/beside（〜のそばに）**
+- by the river, by the window, beside me, beside the house
+- すぐ近く
+- Sit beside me.
+
+**near（〜の近くに）**
+- near the station, near here
+- 比較的近い距離
+- I live near the station.
+
+**next to（〜の隣に）**
+- next to the bank, next to me
+- すぐ隣
+- The post office is next to the bank.
+
+**between（2つの間に）**
+- between Tokyo and Osaka, between you and me, between the two buildings
+- 2つのものの間
+- The shop is between the bank and the post office.
+
+**among（3つ以上の間に）**
+- among the students, among friends, among the trees
+- 3つ以上のものの間
+- She was sitting among her friends.
+
+**in front of（〜の前に）**
+- in front of the station, in front of me
+- 正面
+- There's a car in front of the house.
+
+**behind（〜の後ろに）**
+- behind the house, behind me, behind the door
+- 後方
+- The garden is behind the house.
+
+**opposite（〜の向かいに）**
+- opposite the station, opposite me
+- 向かい側
+- The bank is opposite the post office.
+
+**above（〜の上に）**
+- above the clouds, above sea level, above zero
+- より上（接触なし）
+- The plane flew above the clouds.
+
+**over（〜の上に）**
+- over the bridge, over the river, over my head
+- 真上・覆うように
+- The bridge goes over the river.
+
+**below（〜の下に）**
+- below sea level, below zero, below average
+- より下
+- The temperature is below zero.
+
+**under（〜の下に）**
+- under the table, under the bridge, under 20 years old
+- 真下
+- The cat is under the table.
+
+**above/over vs below/under**
+- above/below：単に上下の位置関係
+- over/under：真上・真下、覆う関係
+
+**across（〜を横切って）**
+- across the street, across the river, across the country
+- 横断
+- Walk across the street.
+
+**through（〜を通って）**
+- through the tunnel, through the forest, through the door
+- 内部を通過
+- We drove through the tunnel.
+
+**along（〜に沿って）**
+- along the river, along the street, along the coast
+- 沿って
+- Walk along this street.
+
+**around（〜の周りに）**
+- around the world, around the table, around the corner
+- 周囲
+- They sat around the table.
+
+**into（〜の中へ）**
+- go into the room, fall into the water
+- 外から中へ
+- He went into the house.
+
+**out of（〜から外へ）**
+- come out of the house, get out of the car
+- 中から外へ
+- She came out of the building.
+
+**to（〜へ）**
+- go to school, come to the party, travel to Japan
+- 方向・目的地
+- I'm going to Tokyo.
+
+**toward(s)（〜の方へ）**
+- walk toward the station, move towards the door
+- 方向（到達は示さない）
+- He walked toward the station.
+
+**from（〜から）**
+- from Tokyo to Osaka, come from Japan
+- 起点
+- I come from Japan.
+
+### 11.3 その他の重要な前置詞
+
+**手段・方法**
+**by（手段・方法）**
+- by car, by train, by bus, by plane, by ship, by email, by phone, by credit card
+- 交通手段・通信手段
+- I go to work by train.
+- Contact me by email.
+
+**注意：on foot（徒歩で）**
+- I go to school on foot.
+
+**with（道具・材料）**
+- write with a pen, cut with a knife, eat with chopsticks
+- 道具
+- She cut the paper with scissors.
+
+**in（言語・材料・方法）**
+- in English, in Japanese, in ink, in pencil, in cash
+- 言語・材料
+- Please write in ink.
+- Say it in English.
+
+**理由・原因**
+**because of（〜のために）**
+- because of the rain, because of illness
+- 〜が原因で
+- We stayed home because of the bad weather.
+
+**due to（〜が原因で）**
+- due to bad weather, due to illness
+- フォーマルな表現
+- The flight was cancelled due to fog.
+
+**owing to（〜のために）**
+- owing to circumstances, owing to illness
+- フォーマルな表現
+- Owing to technical problems, the service was suspended.
+
+**thanks to（〜のおかげで）**
+- thanks to your help, thanks to modern technology
+- 肯定的な結果
+- Thanks to you, I passed the exam.
+
+**from（原因）**
+- die from hunger, suffer from illness
+- 苦しみの原因
+- He is suffering from a cold.
+
+**of（原因）**
+- die of cancer, die of hunger
+- 死因
+- He died of cancer.
+
+**目的**
+**for（〜のために）**
+- study for the exam, work for money, leave for Tokyo
+- 目的
+- I'm studying for the TOEFL.
+- This is a gift for you.
+
+**to（〜するために）**
+- I went to the library to study.
+- 不定詞で目的を表す
+
+**関連・について**
+**about（〜について）**
+- talk about, think about, worry about, care about, learn about
+- I'm thinking about my future.
+
+**of（〜について）**
+- think of, dream of, hear of, approve of, consist of
+- I often think of you.
+
+**on（〜について）**
+- a book on history, lecture on science, information on
+- フォーマル・専門的な内容
+- This is a book on Japanese culture.
+
+**concerning/regarding（〜に関して）**
+- フォーマルな表現
+- I have a question concerning the contract.
+
+**所属・関係**
+**of（〜の）**
+- a member of, the capital of, the top of, the end of, a friend of mine
+- 所属・部分
+- Tokyo is the capital of Japan.
+
+**with（〜と一緒に）**
+- come with me, agree with, disagree with, argue with, fight with
+- 同伴・関係
+- I went to the movies with my friends.
+
+**to（〜に対して）**
+- belong to, listen to, talk to, speak to, write to, kind to, rude to
+- 対象
+- This book belongs to me.
+- Be kind to animals.
+
+**from（〜から）**
+- different from, separate from, far from, protect from
+- 分離・区別
+- This is different from that.
+
+**除外・例外**
+**except（〜を除いて）**
+- Everyone came except John.
+- 除外（全体から特定のものを除く）
+
+**except for（〜を除いては）**
+- The essay was good except for a few spelling mistakes.
+- 部分的な除外
+
+**besides（〜に加えて）**
+- Besides English, she speaks French.
+- 追加
+
+**比較・対照**
+**like（〜のような）**
+- look like, sound like, smell like, taste like
+- 類似
+- He looks like his father.
+
+**as（〜として）**
+- work as a teacher, use as, regard as, treat as
+- 役割・資格
+- He works as a doctor.
+
+**than（〜より）**
+- 比較級と共に
+- She is taller than me.
+
+**unlike（〜と違って）**
+- Unlike his brother, he is quiet.
+
+**交換・価格**
+**for（〜と交換に）**
+- buy for $10, sell for $20, exchange A for B
+- I bought this book for $15.
+
+**at（価格）**
+- at a high price, at a low cost, at $5 each
+- These apples are at $2 each.
+
+**材料・構成**
+**of（材料）**
+- be made of（原材料が見える）
+- The table is made of wood.
+
+**from（材料）**
+- be made from（原材料が見えない）
+- Paper is made from wood.
+
+**in（材料・方法）**
+- dressed in, written in
+- She was dressed in white.
+
+### 11.4 形容詞 + 前置詞（重要表現）
+
+**be afraid of（〜を恐れる）**
+- I'm afraid of dogs.
+- She's afraid of flying.
+
+**be angry with/at（人に怒る / 〜に腹を立てる）**
+- I'm angry with him.
+- She was angry at the news.
+
+**be good at（〜が得意）**
+- She is good at math.
+- He's good at playing the piano.
+
+**be bad at（〜が苦手）**
+- I'm bad at sports.
+
+**be interested in（〜に興味がある）**
+- I'm interested in music.
+- Are you interested in learning Japanese?
+
+**be proud of（〜を誇りに思う）**
+- He is proud of his son.
+- We're proud of our achievement.
+
+**be satisfied with（〜に満足している）**
+- I'm satisfied with the result.
+- Are you satisfied with your job?
+
+**be pleased with（〜に満足している）**
+- The teacher was pleased with my work.
+
+**be disappointed with/in/at（〜に失望している）**
+- I was disappointed with the movie.
+- He was disappointed in himself.
+
+**be famous for（〜で有名）**
+- Kyoto is famous for its temples.
+- She's famous for her paintings.
+
+**be known for/as（〜で知られている / 〜として知られている）**
+- He is known for his kindness.
+- She is known as a great scientist.
+
+**be different from（〜と異なる）**
+- This is different from that.
+- My opinion is different from yours.
+
+**be similar to（〜に似ている）**
+- This is similar to that.
+- Your handwriting is similar to mine.
+
+**be familiar with（〜に精通している）**
+- I'm familiar with this area.
+- Are you familiar with this software?
+
+**be responsible for（〜に責任がある）**
+- He is responsible for the project.
+- Who is responsible for this mistake?
+
+**be worried about（〜を心配している）**
+- I'm worried about the exam.
+- She's worried about her health.
+
+**be concerned about（〜を心配している）**
+- We're concerned about the environment.
+
+**be excited about（〜にわくわくしている）**
+- I'm excited about the trip.
+- The children are excited about Christmas.
+
+**be surprised at/by（〜に驚いている）**
+- I was surprised at the news.
+- She was surprised by his reaction.
+
+**be shocked at/by（〜にショックを受けている）**
+- We were shocked at the accident.
+
+**be tired of（〜にうんざりしている）**
+- I'm tired of waiting.
+- She's tired of his complaints.
+
+**be bored with（〜に退屈している）**
+- I'm bored with this TV program.
+
+**be full of（〜で満ちている）**
+- The room was full of people.
+- Her eyes were full of tears.
+
+**be short of（〜が不足している）**
+- We're short of time.
+- The country is short of water.
+
+**be fond of（〜が好き）**
+- She's fond of animals.
+- He's fond of classical music.
+
+**be capable of（〜ができる）**
+- She is capable of doing it.
+- He's capable of great things.
+
+**be aware of（〜に気づいている）**
+- I'm aware of the problem.
+- Are you aware of the risks?
+
+**be conscious of（〜を意識している）**
+- He's very conscious of his appearance.
+
+**be jealous of（〜を嫉妬している）**
+- She's jealous of her sister.
+
+**be envious of（〜をうらやんでいる）**
+- I'm envious of your success.
+
+**be guilty of（〜の罪を犯している）**
+- He was found guilty of theft.
+
+**be innocent of（〜について無実である）**
+- He was innocent of the crime.
+
+**be sure/certain of（〜を確信している）**
+- I'm sure of his honesty.
+- Are you certain of that?
+
+**be confident of/in（〜に自信がある）**
+- She's confident of success.
+- I'm confident in my abilities.
+
+**be dependent on（〜に依存している）**
+- Children are dependent on their parents.
+
+**be independent of（〜から独立している）**
+- She wants to be independent of her parents.
+
+### 11.5 動詞 + 前置詞（句動詞）
+
+**look 系**
+**look for（探す）**
+- I'm looking for my keys.
+- What are you looking for?
+
+**look after（世話をする）**
+- She looks after her grandmother.
+- Can you look after my dog?
+
+**look forward to（楽しみにする）**
+- I'm looking forward to seeing you.
+- We're looking forward to the vacation.
+
+**look into（調査する）**
+- The police are looking into the case.
+
+**look up（調べる）**
+- Look up the word in the dictionary.
+
+**look up to（尊敬する）**
+- I look up to my teacher.
+
+**look down on（見下す）**
+- Don't look down on others.
+
+**take 系**
+**take care of（世話をする）**
+- Can you take care of my cat?
+- Take care of yourself.
+
+**take part in（参加する）**
+- I took part in the competition.
+
+**take place（起こる、開催される）**
+- The meeting will take place tomorrow.
+
+**take off（離陸する、脱ぐ）**
+- The plane took off at 9 AM.
+- Take off your shoes.
+
+**take on（引き受ける）**
+- He took on a new project.
+
+**take over（引き継ぐ）**
+- She took over the business.
+
+**get 系**
+**get rid of（取り除く）**
+- I want to get rid of this old furniture.
+
+**get along with（仲良くする）**
+- Do you get along with your coworkers?
+
+**get over（乗り越える、回復する）**
+- It took me a long time to get over the flu.
+
+**get through（通り抜ける、終える）**
+- I finally got through the exam.
+
+**get up（起きる）**
+- I get up at 7 every morning.
+
+**get on/off（乗る/降りる）**
+- Get on the bus here.
+- Get off at the next stop.
+
+**put 系**
+**put off（延期する）**
+- The meeting was put off until next week.
+
+**put on（着る）**
+- Put on your coat.
+
+**put up with（我慢する）**
+- I can't put up with this noise.
+
+**put away（片付ける）**
+- Put away your toys.
+
+**run 系**
+**run out of（〜を使い果たす）**
+- We've run out of milk.
+
+**run into（偶然会う）**
+- I ran into an old friend yesterday.
+
+**come 系**
+**come across（偶然見つける）**
+- I came across an interesting article.
+
+**come up with（思いつく）**
+- He came up with a great idea.
+
+**come from（〜出身である）**
+- Where do you come from?
+
+**turn 系**
+**turn on/off（つける/消す）**
+- Turn on the light.
+- Turn off the TV.
+
+**turn down（断る、音量を下げる）**
+- He turned down the offer.
+- Turn down the volume.
+
+**turn up（現れる、音量を上げる）**
+- He didn't turn up at the meeting.
+
+**give 系**
+**give up（あきらめる）**
+- Don't give up!
+- He gave up smoking.
+
+**give in（屈する、降参する）**
+- Finally, he gave in.
+
+**give away（あげる、漏らす）**
+- She gave away her old clothes.
+
+**keep 系**
+**keep up with（〜についていく）**
+- It's hard to keep up with the news.
+
+**keep on（続ける）**
+- Keep on trying!
+
+**break 系**
+**break down（故障する）**
+- My car broke down.
+
+**break up（別れる、解散する）**
+- They broke up last year.
+
+**break out（勃発する）**
+- War broke out in 1939.
+
+**その他の重要句動詞**
+**carry out（実行する）**
+- We carried out the plan successfully.
+
+**deal with（対処する）**
+- How do you deal with stress?
+
+**depend on（〜次第である）**
+- It depends on the weather.
+
+**believe in（〜を信じる）**
+- I believe in you.
+
+**belong to（〜に属する）**
+- This book belongs to me.
+
+**consist of（〜から成る）**
+- Water consists of hydrogen and oxygen.
+
+**result in（〜という結果になる）**
+- The accident resulted in three deaths.
+
+**result from（〜に起因する）**
+- The problem resulted from poor planning.
+
+**account for（説明する）**
+- How do you account for this?
+
+**apply for（〜に応募する）**
+- I applied for the job.
+
+**approve of（〜を承認する）**
+- My parents don't approve of my decision.
+
+**concentrate on（〜に集中する）**
+- I need to concentrate on my work.
+
+**insist on（〜を主張する）**
+- He insisted on paying.
+
+**object to（〜に反対する）**
+- I object to the proposal.
+
+**succeed in（〜に成功する）**
+- She succeeded in passing the exam.
+
+### 11.6 前置詞の重要表現・慣用句
+
+**時間関係**
+- at first（最初は）
+- at last（ついに）
+- at once（すぐに、同時に）
+- at the same time（同時に）
+- for the time being（当分の間）
+- in advance（前もって）
+- in the future（将来）
+- in the past（過去に）
+- on time（時間通りに）
+- in time（間に合って）
+
+**程度・範囲**
+- at least（少なくとも）
+- at most（多くても）
+- by far（はるかに）
+- to some extent（ある程度）
+- to a certain degree（ある程度）
+
+**方法・手段**
+- by accident（偶然に）
+- by chance（偶然に）
+- by mistake（間違って）
+- on purpose（わざと）
+- in person（直接）
+- by hand（手で）
+- by nature（生まれつき）
+
+**状態・様子**
+- in common（共通して）
+- in particular（特に）
+- in general（一般に）
+- in detail（詳しく）
+- in short（要するに）
+- in fact（実際は）
+- in other words（言い換えれば）
+- on the whole（全体として）
+- on average（平均して）
+- at random（無作為に）
+
+**位置・方向**
+- on the left/right（左/右に）
+- in the middle（真ん中に）
+- at the top/bottom（上/下に）
+- in front of（〜の前に）
+- in back of（〜の後ろに）
+- out of order（故障中）
+- under construction（工事中）
+
+**その他重要表現**
+- by all means（ぜひとも）
+- by no means（決して〜ない）
+- by the way（ところで）
+- in addition（加えて）
+- in conclusion（結論として）
+- in spite of（〜にもかかわらず）
+- instead of（〜の代わりに）
+- on behalf of（〜を代表して）
+- with respect to（〜に関して）
+- with regard to（〜に関して）
+
+### 11.7 二重前置詞
+**from ... to**
+- from morning to night（朝から晩まで）
+- from head to foot（頭から足まで）
+
+**from ... until**
+- from Monday until Friday
+
+**between ... and**
+- between 2 and 3 PM
+
+**out of**
+- come out of the house
+- 9 out of 10（10人中9人）
+
+**from behind**
+- appear from behind the tree
+
+**from under**
+- pull from under the bed
+
+---
+
+## 12. 話法
+
+### 11.1 直接話法と間接話法
+**直接話法**
+- そのまま引用符で囲む
+- He said, "I am busy."
+
+**間接話法**
+- 引用符を使わず、that節で伝える
+- He said that he was busy.
+
+### 11.2 平叙文の書き換え
+**時制の一致**
+1. 現在→過去
+   - He said, "I am busy." → He said that he was busy.
+
+2. 現在完了→過去完了
+   - She said, "I have finished." → She said that she had finished.
+
+3. 過去→過去完了
+   - He said, "I went there." → He said that he had gone there.
+
+4. will→would
+   - She said, "I will come." → She said that she would come.
+
+**代名詞・時制副詞の変化**
+| 直接話法 | 間接話法 |
+|---------|---------|
+| I/we | he/she/they |
+| you | I/we/he/she |
+| this | that |
+| these | those |
+| now | then |
+| today | that day |
+| yesterday | the day before |
+| tomorrow | the next day |
+| here | there |
+| ago | before |
+
+**例文**
+- He said, "I will see you tomorrow."
+- → He said that he would see me the next day.
+
+### 11.3 疑問文の書き換え
+**疑問詞のある疑問文**
+- 語順：疑問詞 + 主語 + 動詞
+- He asked, "Where do you live?"
+- → He asked me where I lived.
+
+**Yes/No疑問文**
+- if/whether を使う
+- She asked, "Are you busy?"
+- → She asked me if/whether I was busy.
+
+### 11.4 命令文の書き換え
+**形式**
+- tell/ask + O + to do
+
+**肯定命令文**
+- He said to me, "Study hard."
+- → He told me to study hard.
+
+**否定命令文**
+- She said to me, "Don't be late."
+- → She told me not to be late.
+
+**依頼**
+- He said to me, "Please help me."
+- → He asked me to help him.
+
+### 11.5 時制の一致の例外
+**普遍的真理・習慣**
+- He said, "The earth moves around the sun."
+- → He said that the earth moves around the sun.
+
+**歴史的事実**
+- She said, "Columbus discovered America in 1492."
+- → She said that Columbus discovered America in 1492.
+
+**現在も続いている状態**
+- He said, "I live in Tokyo."
+- → He said that he lives in Tokyo.（今も東京在住の場合）
+
+---
+
+## 13. 倒置・強調構文
+
+### 13.1 倒置
+**否定語句が文頭に来る場合**
+- Never have I seen such a beautiful sunset.
+- Seldom does he go out.
+- Not only did he win, but he also broke the record.
+
+**場所・方向を表す副詞が文頭**
+- Here comes the bus.
+- There goes the train.
+- Away flew the bird.
+
+**so/neither/nor を使った同意**
+- "I like music." "So do I."（私もです）
+- "I can't swim." "Neither can I."（私もできません）
+
+### 13.2 強調構文
+**It is ... that 構文**
+- 形式：It is/was + 強調する語句 + that + 残りの文
+- I met John in Tokyo yesterday.
+- → It was John that I met in Tokyo yesterday.（ジョンを強調）
+- → It was in Tokyo that I met John yesterday.（東京を強調）
+- → It was yesterday that I met John in Tokyo.（昨日を強調）
+
+**人を強調する場合は who も可**
+- It was John who/that met me.
+
+**do を使った強調**
+- I do love you.（本当に愛している）
+- She does work hard.（彼女は本当に一生懸命働く）
+- He did come to the party.（彼は確かにパーティーに来た）
+
+---
+
+## 14. その他重要文法事項
+
+### 14.1 代名詞
+**人称代名詞**
+| 主格 | 所有格 | 目的格 | 所有代名詞 | 再帰代名詞 |
+|------|--------|--------|-----------|----------|
+| I | my | me | mine | myself |
+| you | your | you | yours | yourself |
+| he | his | him | his | himself |
+| she | her | her | hers | herself |
+| it | its | it | - | itself |
+| we | our | us | ours | ourselves |
+| you | your | you | yours | yourselves |
+| they | their | them | theirs | themselves |
+
+**再帰代名詞の用法**
+1. 再帰用法（自分自身を）
+   - I hurt myself.（私は自分自身を傷つけた）
+   - He taught himself English.（彼は独学で英語を学んだ）
+
+2. 強調用法（自分で、自ら）
+   - I made this cake myself.（私自身がこのケーキを作った）
+   - The president himself attended the meeting.
+
+**慣用表現**
+- by oneself（一人で、独力で）
+- for oneself（自分のために、自分で）
+- help oneself to（自由に取る）
+- make oneself at home（くつろぐ）
+- enjoy oneself（楽しむ）
+- behave oneself（行儀よくする）
+
+**指示代名詞**
+- this/these（これ/これら）
+- that/those（あれ/あれら）
+- such（そのような）
+
+**不定代名詞**
+- one（1つ、人）
+  - I need a pen. Do you have one?
+- another（もう1つの、別の）
+  - Would you like another cup of coffee?
+- other（他の）
+  - Some people like tea, others prefer coffee.
+- each（それぞれ）
+  - Each student has a book.
+- every（すべての）
+  - Every student passed the exam.
+- both（両方）
+  - Both students passed the exam.
+- either（どちらか一方）
+  - Either answer is correct.
+- neither（どちらも〜ない）
+  - Neither answer is correct.
+- all（すべて）
+  - All students passed.
+- some（いくつかの）
+  - Some students passed.
+- any（いくつかの、どれでも）
+  - Do you have any questions?
+- none（1つも〜ない）
+  - None of the students failed.
+
+**each vs every**
+- each：個々を強調（2つ以上）
+  - Each student has a desk.
+- every：全体を強調（3つ以上）
+  - Every student has a desk.
+
+**both, either, neither**
+- both：両方（肯定）
+  - Both students are smart.
+- either：どちらか（肯定・疑問）
+  - Either student can help you.
+- neither：どちらも〜ない（否定）
+  - Neither student is here.
+
+**all, some, any, none**
+- all：すべて（肯定）
+- some：いくつか（肯定・依頼）
+- any：いくつか（疑問・否定）
+- none：1つも〜ない
+
+**another, other, the other**
+- another：不特定のもう1つ
+  - I want another apple.
+- other：他の（複数）
+  - Other students are waiting.
+- the other：特定の残りのもの
+  - One is mine, the other is yours.（2つの場合）
+  - Some are red, the others are blue.（複数の場合）
+
+### 14.2 形容詞の語順
+**複数の形容詞が並ぶ場合の順序**
+1. 冠詞・指示詞・所有格（a, the, this, my）
+2. 数量（two, several, many）
+3. 評価・意見（beautiful, nice, expensive）
+4. 大きさ（big, small, large）
+5. 新旧（new, old, young）
+6. 形（round, square）
+7. 色（red, blue）
+8. 出身・起源（Japanese, American）
+9. 材質（wooden, metal）
+10. 目的・用途（sleeping（bag））
+
+**例文**
+- a beautiful old Japanese wooden house
+  （美しい古い日本の木造家屋）
+- my two expensive new Italian leather shoes
+  （私の2足の高価な新しいイタリア製革靴）
+
+### 14.3 数量表現
+**many vs much**
+- many：可算名詞
+  - many books, many students
+- much：不可算名詞
+  - much water, much time
+
+**few vs little**
+- few：可算名詞（否定的）
+  - few students（ほとんど学生がいない）
+- a few：可算名詞（肯定的）
+  - a few students（数人の学生）
+- little：不可算名詞（否定的）
+  - little time（ほとんど時間がない）
+- a little：不可算名詞（肯定的）
+  - a little time（少しの時間）
+
+**several（いくつかの）**
+- 可算名詞のみ
+- several books, several times
+
+**a lot of / lots of（たくさんの）**
+- 可算・不可算両方
+- a lot of books, a lot of water
+
+**plenty of（十分な量の）**
+- 可算・不可算両方
+- plenty of time, plenty of chairs
+
+**a number of（多数の）**
+- 可算名詞のみ、複数扱い
+- A number of students are absent.
+
+**the number of（〜の数）**
+- 単数扱い
+- The number of students is increasing.
+
+**a great deal of（大量の）**
+- 不可算名詞のみ
+- a great deal of money
+
+**a large amount of（大量の）**
+- 不可算名詞のみ
+- a large amount of information
+
+**a large number of（多数の）**
+- 可算名詞のみ
+- a large number of people
+
+### 14.4 使役動詞・知覚動詞（詳細）
+**使役動詞**
+**make + O + 動詞原形（強制的に〜させる）**
+- My mother made me clean my room.
+- The movie made me cry.
+- He was made to apologize.（受動態：to不定詞）
+
+**let + O + 動詞原形（許可して〜させる）**
+- My father let me use his car.
+- Let me help you.
+- She won't let me go.
+
+**have + O + 動詞原形（〜してもらう）**
+- I had him repair my car.
+- I'll have my secretary call you.
+
+**have + O + 過去分詞（〜してもらう、〜される）**
+- I had my car repaired.
+- She had her hair cut.
+- I had my wallet stolen.（被害）
+
+**get + O + to do（説得して〜させる）**
+- I got him to help me.
+- She got her son to clean his room.
+
+**get + O + 過去分詞（〜してもらう、〜される）**
+- I got my car repaired.
+- He got his leg broken.（被害）
+
+**知覚動詞**
+**see/watch/hear/feel/notice + O + 動詞原形（完了した動作）**
+- I saw him cross the street.
+- Did you hear her sing?
+
+**see/watch/hear/feel/notice + O + 現在分詞（進行中の動作）**
+- I saw him crossing the street.
+- I heard someone calling my name.
+
+**see/watch/hear/feel/notice + O + 過去分詞（受動）**
+- I saw the window broken.
+- He heard his name called.
+
+**受動態では to不定詞**
+- He was seen to enter the building.
+- She was heard to cry.
+
+### 14.5 同格
+**名詞 + 同格の名詞**
+- my friend Tom（私の友人のトム）
+- the city of Paris（パリという都市）
+- Mr. Smith, the manager（マネージャーのスミス氏）
+
+**同格の that節**
+- the fact that he lied（彼が嘘をついたという事実）
+- the news that she won（彼女が勝ったというニュース）
+- the idea that we should leave（私たちが去るべきだという考え）
+- the possibility that it might rain（雨が降るかもしれないという可能性）
+
+**よく使われる名詞**
+- fact, news, idea, belief, hope, possibility, chance, evidence, proof, rumor
+
+### 14.6 省略
+**主語の省略（命令文）**
+- (You) Open the door.
+- (You) Be quiet.
+
+**関係代名詞の省略（目的格）**
+- The book (which/that) I bought is interesting.
+
+**接続詞 that の省略**
+- I think (that) he is right.
+- She said (that) she would come.
+
+**be動詞の省略（分詞構文）**
+- (Being) Tired, I went to bed.
+- (Being) Written in English, the book is difficult.
+
+**不定詞の省略（to のみ残す）**
+- Would you like to go? - Yes, I'd love to (go).
+- You don't have to come if you don't want to (come).
+
+**比較での省略**
+- She is taller than I (am tall).
+- He runs faster than I (run fast).
+
+**so/not の代用**
+- Will it rain? - I think so. / I don't think so.
+- Is she coming? - I hope so. / I'm afraid not.
+
+### 14.7 挿入
+**文中への挿入**
+- He is, I think, the best player.
+- This book, as you know, is very famous.
+- The weather, fortunately, was good.
+
+**よく使われる挿入表現**
+- I think, I believe, I suppose
+- as you know, as you can see
+- of course, naturally
+- to be honest, frankly speaking
+- by the way
+
+### 14.8 付加疑問文
+**形式**
+- 肯定文 + 否定の付加疑問
+- 否定文 + 肯定の付加疑問
+
+**例文**
+- You are a student, aren't you?
+- He can swim, can't he?
+- She doesn't like coffee, does she?
+- They went to Tokyo, didn't they?
+
+**特殊な形**
+- I am right, aren't I?（am I not?）
+- Let's go, shall we?
+- Open the door, will you/won't you?
+- Don't be late, will you?
+- There is a book, isn't there?
+
+**否定語を含む文**
+- Nobody came, did they?
+- Nothing happened, did it?
+- He never smokes, does he?
+
+### 14.9 感嘆文
+**What + (a/an) + 形容詞 + 名詞 + S + V!**
+- What a beautiful day (it is)!
+- What a nice car (you have)!
+- What beautiful flowers (they are)!
+- What good news (this is)!（不可算名詞：a なし）
+
+**How + 形容詞/副詞 + S + V!**
+- How beautiful (she is)!
+- How fast (he runs)!
+- How quickly (time flies)!
+
+**その他の感嘆表現**
+- Such a beautiful day!
+- So beautiful!
+
+### 14.10 仮主語・仮目的語
+**仮主語 it**
+**It is + 形容詞 + to do**
+- It is important to study English.
+- It is difficult to solve this problem.
+
+**It is + 形容詞 + that節**
+- It is clear that he is wrong.
+- It is obvious that she is lying.
+
+**It is + 名詞 + that節**
+- It is a fact that he left.
+- It is a pity that you can't come.
+
+**It takes + 時間 + to do**
+- It takes 30 minutes to get there.
+- It took me 3 hours to finish the work.
+
+**仮目的語 it**
+**find/make/think/consider + it + 形容詞 + to do**
+- I find it difficult to speak English.
+- He made it clear that he disagreed.
+- I think it important to be honest.
+- We consider it necessary to change the plan.
+
+### 14.11 名詞構文
+**動詞→名詞への変換**
+- arrive → arrival（到着）
+- depart → departure（出発）
+- discover → discovery（発見）
+- fail → failure（失敗）
+- succeed → success（成功）
+
+**例文の変換**
+- He arrived late. → His late arrival surprised us.
+- They discovered a new planet. → Their discovery of a new planet was important.
+
+### 14.12 無生物主語
+**英語では物を主語にすることが多い**
+- This road will take you to the station.
+  （この道を行けば駅に着きます）
+- The news surprised me.
+  （そのニュースを聞いて驚いた）
+- His death made me sad.
+  （彼の死を知って悲しくなった）
+- The typhoon prevented us from going out.
+  （台風のせいで外出できなかった）
+
+### 14.13 部分否定 vs 全体否定
+**部分否定（すべてが〜というわけではない）**
+- not all（すべてが〜というわけではない）
+  - Not all students passed.（全員が合格したわけではない）
+- not every（すべてが〜というわけではない）
+  - Not every student passed.
+- not both（両方とも〜というわけではない）
+  - I don't like both of them.（両方とも好きなわけではない）
+- not always（いつも〜というわけではない）
+  - He is not always right.（いつも正しいわけではない）
+- not necessarily（必ずしも〜というわけではない）
+  - Expensive things are not necessarily good.
+
+**全体否定（まったく〜ない）**
+- no, none, nothing, nobody, never
+  - No students passed.（誰も合格しなかった）
+  - I have nothing to do.（することが何もない）
+  - He never lies.（彼は決して嘘をつかない）
+- neither（どちらも〜ない）
+  - Neither answer is correct.
+
+### 14.14 二重否定
+**否定語 + 否定語 = 肯定**
+- There is no one who doesn't know him.
+  （彼を知らない人はいない = みんな彼を知っている）
+- I cannot help laughing.
+  （笑わずにいられない）
+- He is not without talent.
+  （才能がないわけではない = 才能がある）
+
+**cannot ... too（いくら〜してもしすぎることはない）**
+- You cannot be too careful.
+  （いくら注意してもしすぎることはない）
+- I cannot thank you too much.
+  （いくら感謝してもしきれない）
+
+**cannot help -ing（〜せずにいられない）**
+- I cannot help laughing.
+- She couldn't help crying.
+
+### 14.15 助動詞の慣用表現
+**may well（〜するのももっともだ）**
+- You may well be tired.（疲れるのももっともだ）
+
+**may as well（〜したほうがよい）**
+- We may as well start now.（今始めたほうがよい）
+
+**may as well A as B（BするくらいならAしたほうがまし）**
+- You may as well die as marry him.
+  （彼と結婚するくらいなら死んだほうがまし）
+
+**cannot ... too（いくら〜してもしすぎることはない）**
+- You cannot be too careful when driving.
+
+**would rather（むしろ〜したい）**
+- I would rather stay home.
+- I would rather die than surrender.
+
+**would rather A than B（BするよりむしろAしたい）**
+- I would rather walk than take a taxi.
+
+**had better（〜したほうがよい）**
+- You had better go now.
+- You'd better not be late.
+
+**used to（以前は〜したものだ）**
+- I used to play tennis.（今はしていない）
+- There used to be a park here.
+
+**would（よく〜したものだ）**
+- 過去の習慣（繰り返し行われた動作のみ）
+- When I was young, I would often go fishing.
+
+**used to vs would**
+- used to：状態・動作の両方OK
+- would：動作のみ、頻度を表す語と共に
+
+---
+
+## 学習のコツ
+
+### 1. 優先順位をつける
+**最重要項目（毎日復習）**
+- 時制（特に完了形）
+- 仮定法
+- 関係詞
+
+**重要項目（週2-3回）**
+- 受動態
+- 分詞構文
+- 不定詞・動名詞
+
+### 2. 実践的な学習法
+1. **例文を丸暗記**
+   - 文法ルールだけでなく、例文ごと覚える
+   - 音読して体に染み込ませる
+
+2. **間違いノートを作成**
+   - 間違えた問題を記録
+   - なぜ間違えたかを分析
+   - 定期的に復習
+
+3. **実際の問題で練習**
+   - TOEFL形式の問題を解く
+   - 時間を計って解く練習
+
+### 3. 復習サイクル
+- 学習した日
+- 翌日
+- 1週間後
+- 1ヶ月後
+
+---
+
+## チェックリスト
+各項目を学習したらチェックを入れましょう：
+
+### 基本5文型
+- [ ] 第1文型（SV）
+- [ ] 第2文型（SVC）
+- [ ] 第3文型（SVO）
+- [ ] 第4文型（SVOO）
+- [ ] 第5文型（SVOC）
+- [ ] 文型の見分け方
+- [ ] 自動詞と他動詞の区別
+
+### 時制
+- [ ] 現在形・現在進行形
+- [ ] 過去形・過去進行形
+- [ ] 現在完了形・現在完了進行形
+- [ ] 過去完了形・過去完了進行形
+- [ ] 未来形・未来完了形
+
+### 仮定法
+- [ ] 仮定法過去
+- [ ] 仮定法過去完了
+- [ ] I wish / If only
+- [ ] as if / as though
+
+### 受動態
+- [ ] 基本の受動態
+- [ ] 各時制の受動態
+- [ ] 助動詞の受動態
+- [ ] 群動詞の受動態
+
+### 関係詞
+- [ ] 関係代名詞（主格・所有格・目的格）
+- [ ] 前置詞 + 関係代名詞
+- [ ] 関係副詞
+- [ ] 複合関係詞
+
+### 分詞
+- [ ] 現在分詞・過去分詞
+- [ ] 分詞構文
+- [ ] with + 名詞 + 分詞
+
+### 比較
+- [ ] 原級・比較級・最上級
+- [ ] 重要表現
+- [ ] 倍数表現
+
+### 接続詞
+- [ ] 従属接続詞
+- [ ] 接続副詞
+- [ ] 相関接続詞
+
+### 不定詞・動名詞
+- [ ] 不定詞の3用法
+- [ ] 動名詞の用法
+- [ ] 意味が変わる動詞
+
+### 名詞・冠詞
+- [ ] 可算・不可算名詞
+- [ ] a/an の使い方
+- [ ] the の使い方
+- [ ] 無冠詞
+
+### 副詞
+- [ ] 副詞の種類と位置
+- [ ] 頻度の副詞
+- [ ] 程度の副詞
+- [ ] already, yet, still
+- [ ] too と enough
+- [ ] so と such
+
+### 前置詞
+- [ ] 時を表す前置詞
+- [ ] 場所を表す前置詞
+- [ ] その他の前置詞
+- [ ] 形容詞 + 前置詞
+- [ ] 動詞 + 前置詞（句動詞）
+
+### 話法
+- [ ] 直接話法と間接話法
+- [ ] 時制の一致
+
+### 倒置・強調
+- [ ] 倒置
+- [ ] 強調構文
+
+### その他重要事項
+- [ ] 代名詞
+- [ ] 形容詞の語順
+- [ ] 数量表現
+- [ ] 使役動詞・知覚動詞
+- [ ] 同格
+- [ ] 省略
+- [ ] 付加疑問文
+- [ ] 感嘆文
+- [ ] 仮主語・仮目的語
+- [ ] 部分否定・全体否定
+- [ ] 助動詞の慣用表現
+
+---
+
+このガイドを活用して、TOEFL iBT 80点を目指して頑張ってください！
+`;
+
+        // セクションを解析
+        function parseSections(markdown) {
+            const sections = [];
+            const lines = markdown.split('\n');
+            let currentSection = null;
+            let buffer = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                if (line.startsWith('## ')) {
+                    // 前のセクションを保存
+                    if (currentSection) {
+                        currentSection.content = buffer.join('\n');
+                        sections.push(currentSection);
+                    }
+                    
+                    // 新しいセクション開始
+                    const title = line.replace('## ', '');
+                    currentSection = {
+                        id: sections.length,
+                        title: title,
+                        content: ''
+                    };
+                    buffer = [];
+                } else if (currentSection) {
+                    buffer.push(line);
+                } else {
+                    buffer.push(line);
+                }
+            }
+
+            // 最後のセクションを保存
+            if (currentSection) {
+                currentSection.content = buffer.join('\n');
+                sections.push(currentSection);
+            }
+
+            return sections;
+        }
+
+        const sections = parseSections(markdownContent);
+        let currentSectionIndex = 0;
+        let expandedSections = new Set();
+
+        // ゲーミフィケーション変数
+        let visitedSections = new Set();
+        let completedSections = new Set();
+        let lastVisitDate = null;
+        let streakDays = 0;
+        let userLevel = 1;
+        let totalSectionsRead = 0;
+
+        // バッジ定義
+        const badges = [
+            { id: 'first-step', emoji: '🎓', name: '初めの一歩', condition: () => visitedSections.size >= 1 },
+            { id: 'explorer', emoji: '🗺️', name: '探検家', condition: () => visitedSections.size >= 5 },
+            { id: 'dedicated', emoji: '💪', name: '継続は力なり', condition: () => streakDays >= 3 },
+            { id: 'master', emoji: '🎯', name: '文法マスター', condition: () => visitedSections.size >= 10 },
+            { id: 'champion', emoji: '🏆', name: 'チャンピオン', condition: () => completedSections.size >= 5 },
+            { id: 'genius', emoji: '🧠', name: '天才', condition: () => visitedSections.size === 18 },
+            { id: 'fire', emoji: '🔥', name: '熱血学習者', condition: () => streakDays >= 7 },
+            { id: 'star', emoji: '⭐', name: 'スター', condition: () => userLevel >= 5 }
+        ];
+
+        // ローカルストレージから読み込み
+        function loadProgress() {
+            const saved = localStorage.getItem('toeflProgress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                visitedSections = new Set(data.visitedSections || []);
+                completedSections = new Set(data.completedSections || []);
+                lastVisitDate = data.lastVisitDate;
+                streakDays = data.streakDays || 0;
+                userLevel = data.userLevel || 1;
+                totalSectionsRead = data.totalSectionsRead || 0;
+                
+                // 連続日数チェック
+                updateStreak();
+            }
+        }
+
+        // 進捗を保存
+        function saveProgress() {
+            const data = {
+                visitedSections: Array.from(visitedSections),
+                completedSections: Array.from(completedSections),
+                lastVisitDate: new Date().toDateString(),
+                streakDays: streakDays,
+                userLevel: userLevel,
+                totalSectionsRead: totalSectionsRead
+            };
+            localStorage.setItem('toeflProgress', JSON.stringify(data));
+        }
+
+        // 連続日数更新
+        function updateStreak() {
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            if (lastVisitDate === today) {
+                // 今日既に訪問済み
+                return;
+            } else if (lastVisitDate === yesterday) {
+                // 昨日訪問していた - 連続記録更新
+                streakDays++;
+                showMotivation(`🔥 ${streakDays}日連続学習！素晴らしい！`);
+            } else if (!lastVisitDate) {
+                // 初回訪問
+                streakDays = 1;
+            } else {
+                // 途切れた
+                streakDays = 1;
+            }
+            
+            lastVisitDate = today;
+            saveProgress();
+            updateStats();
+        }
+
+        // 統計更新
+        function updateStats() {
+            document.getElementById('streakDays').textContent = streakDays;
+            document.getElementById('completedSections').textContent = `${completedSections.size}/18`;
+            document.getElementById('userLevel').textContent = userLevel;
+            
+            // レベルアップチェック
+            const newLevel = Math.floor(visitedSections.size / 3) + 1;
+            if (newLevel > userLevel) {
+                userLevel = newLevel;
+                showLevelUp(userLevel);
+            }
+        }
+
+        // バッジ描画
+        function renderBadges() {
+            const container = document.getElementById('badgeContainer');
+            container.innerHTML = badges.map(badge => {
+                const unlocked = badge.condition();
+                return `
+                    <div class="badge ${unlocked ? 'unlocked' : 'locked'}">
+                        ${badge.emoji}
+                        <div class="badge-tooltip">${badge.name}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // バッジチェック
+        function checkBadges() {
+            badges.forEach(badge => {
+                const wasUnlocked = localStorage.getItem(`badge-${badge.id}`);
+                const isUnlocked = badge.condition();
+                
+                if (isUnlocked && !wasUnlocked) {
+                    localStorage.setItem(`badge-${badge.id}`, 'true');
+                    showMotivation(`🎉 バッジ獲得！\n${badge.emoji} ${badge.name}`);
+                    launchConfetti();
+                }
+            });
+            renderBadges();
+        }
+
+        // 紙吹雪エフェクト
+        function launchConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // モチベーションメッセージ
+        function showMotivation(message) {
+            const msgElement = document.getElementById('motivationMessage');
+            msgElement.textContent = message;
+            msgElement.classList.add('show');
+            
+            setTimeout(() => {
+                msgElement.classList.remove('show');
+            }, 3000);
+        }
+
+        // レベルアップ通知
+        function showLevelUp(level) {
+            const notification = document.getElementById('levelUpNotification');
+            notification.textContent = `🎊 レベル ${level} にアップ！`;
+            notification.classList.add('show');
+            launchConfetti();
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ランダムな励ましメッセージ
+        const encouragements = [
+            '素晴らしい！📚',
+            'その調子！💪',
+            '頑張ってる！🌟',
+            '継続は力なり！🔥',
+            'あと少し！✨',
+            '完璧！👏',
+            '着実に前進中！🚀',
+            '知識が増えてる！🧠'
+        ];
+
+        function showRandomEncouragement() {
+            const message = encouragements[Math.floor(Math.random() * encouragements.length)];
+            showMotivation(message);
+        }
+
+        // 各セクションの小目次を事前に抽出
+        sections.forEach(section => {
+            section.subsections = extractSubsections(section.content);
+        });
+
+        // ナビゲーションを生成
+        function renderNavigation() {
+            const navSection = document.getElementById('navSection');
+            navSection.innerHTML = sections.map((section, index) => {
+                const isActive = index === currentSectionIndex;
+                const isExpanded = expandedSections.has(index);
+                const hasSubsections = section.subsections.length > 0;
+                
+                return `
+                    <div>
+                        <div class="nav-item ${isActive ? 'active' : ''} ${isExpanded ? 'expanded' : ''}" 
+                             onclick="handleNavClick(${index}, event)" 
+                             data-section="${index}">
+                            <span class="nav-item-number">${index}.</span>
+                            ${section.title}
+                            ${hasSubsections ? '<span class="expand-icon">▶</span>' : ''}
+                        </div>
+                        ${hasSubsections ? `
+                            <div class="sub-nav ${isExpanded ? 'expanded' : ''}" id="sub-nav-${index}">
+                                ${section.subsections.map(sub => `
+                                    <div class="sub-nav-item" onclick="navigateToSubsection(${index}, '${sub.id}')">
+                                        ${sub.title}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ナビゲーションクリックハンドラ
+        function handleNavClick(index, event) {
+            const hasSubsections = sections[index].subsections.length > 0;
+            
+            // 展開アイコンをクリックした場合
+            if (hasSubsections && event.target.classList.contains('expand-icon')) {
+                toggleExpand(index);
+                event.stopPropagation();
+                return;
+            }
+            
+            // セクション自体をクリックした場合
+            navigateToSection(index);
+            
+            // 小目次がある場合は自動展開
+            if (hasSubsections && !expandedSections.has(index)) {
+                expandedSections.add(index);
+                renderNavigation();
+            }
+        }
+
+        // 展開/折りたたみトグル
+        function toggleExpand(index) {
+            if (expandedSections.has(index)) {
+                expandedSections.delete(index);
+            } else {
+                expandedSections.add(index);
+            }
+            renderNavigation();
+        }
+
+        // サブセクションへ直接ナビゲート
+        function navigateToSubsection(sectionIndex, subsectionId) {
+            // まずセクションに移動
+            if (currentSectionIndex !== sectionIndex) {
+                navigateToSection(sectionIndex);
+            }
+            
+            // 少し待ってからサブセクションにスクロール
+            setTimeout(() => {
+                scrollToSubsection(subsectionId);
+            }, 100);
+        }
+
+        // 小目次を抽出（### の見出し）
+        function extractSubsections(content) {
+            const subsections = [];
+            const lines = content.split('\n');
+            
+            for (let line of lines) {
+                if (line.startsWith('### ')) {
+                    const title = line.replace('### ', '').trim();
+                    const id = 'sub-' + title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                    subsections.push({ title, id });
+                }
+            }
+            
+            return subsections;
+        }
+
+        // 小目次HTML生成
+        function generateSubTOC(subsections) {
+            if (subsections.length === 0) return '';
+            
+            return `
+                <div class="sub-toc">
+                    <h3>📑 このセクションの内容</h3>
+                    <ul>
+                        ${subsections.map(sub => `
+                            <li><a href="#${sub.id}" onclick="scrollToSubsection('${sub.id}'); return false;">${sub.title}</a></li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // コンテンツを表示
+        function renderContent(index) {
+            const contentWrapper = document.getElementById('contentWrapper');
+            const section = sections[index];
+            
+            // 小目次を抽出
+            const subsections = extractSubsections(section.content);
+            
+            // マークダウンをHTMLに変換
+            let markdownHtml = marked.parse(section.content);
+            
+            // ### 見出しにIDを追加
+            subsections.forEach(sub => {
+                const regex = new RegExp(`<h3>(${sub.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})</h3>`, 'g');
+                markdownHtml = markdownHtml.replace(regex, `<h3 id="${sub.id}">$1</h3>`);
+            });
+            
+            // 小目次HTML生成
+            const subTOCHtml = generateSubTOC(subsections);
+            
+            contentWrapper.innerHTML = `
+                <div class="content-section active">
+                    <h1>${section.title}</h1>
+                    ${subTOCHtml}
+                    ${markdownHtml}
+                    <div class="nav-buttons">
+                        <button class="nav-button" onclick="previousSection()" ${index === 0 ? 'disabled' : ''}>
+                            ← 前のセクション
+                        </button>
+                        <button class="nav-button" onclick="nextSection()" ${index === sections.length - 1 ? 'disabled' : ''}>
+                            次のセクション →
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // プログレスバー更新
+            updateProgress(index);
+            
+            // スクロールをトップに
+            document.getElementById('mainContent').scrollTop = 0;
+        }
+
+        // 小目次からサブセクションへスクロール
+        function scrollToSubsection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // セクションに移動
+        function navigateToSection(index) {
+            currentSectionIndex = index;
+            
+            // 訪問記録
+            if (!visitedSections.has(index)) {
+                visitedSections.add(index);
+                totalSectionsRead++;
+                
+                // ランダムで励まし
+                if (Math.random() > 0.5) {
+                    showRandomEncouragement();
+                }
+                
+                saveProgress();
+                updateStats();
+                checkBadges();
+            }
+            
+            // 小目次がある場合は自動展開
+            if (sections[index].subsections.length > 0 && !expandedSections.has(index)) {
+                expandedSections.add(index);
+            }
+            
+            renderNavigation();
+            renderContent(index);
+        }
+
+        // 次のセクション
+        function nextSection() {
+            if (currentSectionIndex < sections.length - 1) {
+                navigateToSection(currentSectionIndex + 1);
+            }
+        }
+
+        // 前のセクション
+        function previousSection() {
+            if (currentSectionIndex > 0) {
+                navigateToSection(currentSectionIndex - 1);
+            }
+        }
+
+        // プログレスバー更新
+        function updateProgress(index) {
+            const progress = ((index + 1) / sections.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // キーボードショートカット
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextSection();
+            } else if (e.key === 'ArrowLeft') {
+                previousSection();
+            }
+        });
+
+        // 初期化
+        loadProgress();
+        renderNavigation();
+        renderContent(0);
+        updateStats();
+        renderBadges();
+        
+        // ウェルカムメッセージ
+        if (visitedSections.size === 0) {
+            setTimeout(() => {
+                showMotivation('🎉 TOEFL学習スタート！\n頑張ろう！');
+            }, 500);
+        } else {
+            setTimeout(() => {
+                showMotivation(`おかえりなさい！🌟\n継続${streakDays}日目`);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
