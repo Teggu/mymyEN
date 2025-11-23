@@ -423,6 +423,14 @@
             background: #18212f;
         }
 
+        body.dark-mode .inline-subheading {
+            border-left-color: #4fa3ff;
+        }
+
+        body.dark-mode .inline-subheading strong {
+            color: #e0ecff;
+        }
+
         body.dark-mode .sub-toc {
             background: #151d29;
             border-left-color: #4fa3ff;
@@ -567,6 +575,17 @@
             margin: 20px 0;
             color: #555;
             font-style: italic;
+        }
+
+        .inline-subheading {
+            border-left: 4px solid #3498db;
+            padding-left: 14px;
+            margin: 28px 0 12px;
+        }
+
+        .inline-subheading strong {
+            color: #2c3e50;
+            font-size: 18px;
         }
 
         .content-section hr {
@@ -7369,8 +7388,21 @@ Wait for the bus. → Wait the bus for. ❌
                 </div>
             `;
 
+            applyInlineSubheadingStyles(contentWrapper);
             updateProgress(pageIndex);
             document.getElementById('mainContent').scrollTop = 0;
+        }
+
+        function applyInlineSubheadingStyles(wrapper) {
+            if (!wrapper) return;
+            const paragraphs = wrapper.querySelectorAll('p > strong:only-child');
+            paragraphs.forEach(strong => {
+                const parent = strong.parentElement;
+                if (!parent) return;
+                if (parent.textContent.trim() === strong.textContent.trim()) {
+                    parent.classList.add('inline-subheading');
+                }
+            });
         }
 
         // 小目次からサブセクションへスクロール
