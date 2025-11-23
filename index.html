@@ -455,6 +455,21 @@
             background: #2a3b53;
         }
 
+        body.dark-mode .translation-sentence {
+            border-bottom-color: #4fa3ff;
+        }
+
+        body.dark-mode .translation-sentence:hover,
+        body.dark-mode .translation-sentence:focus-visible {
+            background: #1f2d3c;
+            border-color: #82c0ff;
+        }
+
+        body.dark-mode .translation-text {
+            background: #101a2d;
+            border-left-color: #4fa3ff;
+        }
+
         /* メインコンテンツ */
         .main-content {
             flex: 1;
@@ -768,6 +783,36 @@
 
         .main-content::-webkit-scrollbar-thumb:hover {
             background: #95a5a6;
+        }
+
+        /* 英文⇔日本語訳トグル */
+        .translation-sentence {
+            display: block;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-bottom: 1px dashed #3498db;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .translation-sentence:hover,
+        .translation-sentence:focus-visible {
+            background: #eef6ff;
+            outline: none;
+            border-color: #1f78c4;
+        }
+
+        .translation-text {
+            margin-top: 6px;
+            padding: 10px 12px;
+            background: #f0f7ff;
+            border-left: 3px solid #3498db;
+            border-radius: 4px;
+            line-height: 1.7;
+        }
+
+        .translation-text[hidden] {
+            display: none !important;
         }
     </style>
 </head>
@@ -7389,6 +7434,7 @@ Wait for the bus. → Wait the bus for. ❌
             `;
 
             applyInlineSubheadingStyles(contentWrapper);
+            setupTranslationToggles(contentWrapper);
             updateProgress(pageIndex);
             document.getElementById('mainContent').scrollTop = 0;
         }
@@ -7403,6 +7449,62 @@ Wait for the bus. → Wait the bus for. ❌
                     parent.classList.add('inline-subheading');
                 }
             });
+        }
+
+        function setupTranslationToggles(wrapper) {
+            if (!wrapper) return;
+            const translationRegex = /（([^（）]*[ぁ-んァ-ン一-龥ー][^（）]*)）\s*$/;
+            const englishRegex = /[A-Za-z]/;
+            const elements = wrapper.querySelectorAll('p, li');
+
+            elements.forEach(element => {
+                if (element.dataset.translationProcessed === 'true') return;
+
+                const text = element.textContent.trim();
+                const match = text.match(translationRegex);
+                if (!match) return;
+
+                const englishText = text.slice(0, text.length - match[0].length).trim();
+                if (!englishText || !englishRegex.test(englishText)) return;
+
+                const rawTranslation = match[1];
+                const translationPattern = new RegExp(`（${escapeRegex(rawTranslation)}）\\s*$`);
+                const englishHtml = element.innerHTML.replace(translationPattern, '').trim();
+
+                if (!englishHtml) return;
+
+                element.dataset.translationProcessed = 'true';
+                element.innerHTML = `
+                    <span class="translation-sentence" tabindex="0" role="button" aria-expanded="false">
+                        ${englishHtml}
+                    </span>
+                    <div class="translation-text" hidden aria-hidden="true">
+                        ${rawTranslation.trim()}
+                    </div>
+                `;
+
+                const sentenceEl = element.querySelector('.translation-sentence');
+                const translationEl = element.querySelector('.translation-text');
+
+                const toggle = () => {
+                    const expanded = sentenceEl.getAttribute('aria-expanded') === 'true';
+                    sentenceEl.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+                    translationEl.hidden = expanded;
+                    translationEl.setAttribute('aria-hidden', expanded ? 'true' : 'false');
+                };
+
+                sentenceEl.addEventListener('click', toggle);
+                sentenceEl.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        toggle();
+                    }
+                });
+            });
+        }
+
+        function escapeRegex(str) {
+            return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
         // 小目次からサブセクションへスクロール
