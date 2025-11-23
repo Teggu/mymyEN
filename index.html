@@ -313,6 +313,47 @@
             color: #7f8c8d;
         }
 
+        /* 目次トグルボタン */
+        .toc-toggle {
+            position: fixed;
+            top: 12px;
+            left: 300px;
+            z-index: 1200;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #2c3e50;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: background 0.2s, left 0.3s;
+        }
+
+        .toc-toggle:hover {
+            background: #1f2d3a;
+        }
+
+        body.toc-hidden .toc-toggle {
+            left: 24px;
+        }
+
+        body.toc-hidden .sidebar {
+            width: 0;
+            opacity: 0;
+            pointer-events: none;
+            padding: 0;
+            border: none;
+        }
+
+        body.toc-hidden .main-content {
+            flex: 1;
+        }
+
+        body.toc-hidden .progress-bar {
+            left: 0;
+        }
+
         /* メインコンテンツ */
         .main-content {
             flex: 1;
@@ -511,6 +552,11 @@
             .progress-bar {
                 left: 0;
             }
+
+            .toc-toggle {
+                left: 20px;
+                top: 10px;
+            }
         }
 
         /* 小目次スタイル */
@@ -615,6 +661,8 @@
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
+
+    <button class="toc-toggle" id="toggleSidebar">目次を隠す</button>
 
     <div class="container">
         <!-- サイドバー -->
@@ -7295,6 +7343,15 @@ Wait for the bus. → Wait the bus for. ❌
                 previousPage();
             }
         });
+
+        const toggleSidebarButton = document.getElementById('toggleSidebar');
+        if (toggleSidebarButton) {
+            toggleSidebarButton.addEventListener('click', () => {
+                document.body.classList.toggle('toc-hidden');
+                const hidden = document.body.classList.contains('toc-hidden');
+                toggleSidebarButton.textContent = hidden ? '目次を表示' : '目次を隠す';
+            });
+        }
 
         // 初期化
         loadProgress();
