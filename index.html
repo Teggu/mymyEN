@@ -8230,9 +8230,21 @@ Wait for the bus. → Wait the bus for. ❌
                 if (headerCells.length !== 3) return;
 
                 const headerTexts = Array.from(headerCells).map(th => th.textContent.trim());
-                const isExampleTable = headerTexts.some(text => text.includes('表現')) &&
-                                       headerTexts.some(text => text.includes('意味')) &&
-                                       headerTexts.some(text => text.includes('例文'));
+
+                // 第1列: 表現/パターン/動詞
+                const hasFirstColumn = headerTexts.some(text =>
+                    text.includes('表現') || text.includes('パターン') || text.includes('動詞')
+                );
+
+                // 第2列: 意味/用法
+                const hasSecondColumn = headerTexts.some(text =>
+                    text.includes('意味') || text.includes('用法')
+                );
+
+                // 第3列: 例文
+                const hasThirdColumn = headerTexts.some(text => text.includes('例文'));
+
+                const isExampleTable = hasFirstColumn && hasSecondColumn && hasThirdColumn;
 
                 if (!isExampleTable) return;
 
