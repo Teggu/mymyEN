@@ -314,11 +314,16 @@
         }
 
         /* 目次トグルボタン */
-        .toc-toggle {
+        .top-controls {
             position: fixed;
             top: 12px;
             left: 300px;
+            display: flex;
+            gap: 10px;
             z-index: 1200;
+        }
+
+        .top-controls button {
             padding: 8px 16px;
             border: none;
             border-radius: 20px;
@@ -330,11 +335,11 @@
             transition: background 0.2s, left 0.3s;
         }
 
-        .toc-toggle:hover {
+        .top-controls button:hover {
             background: #1f2d3a;
         }
 
-        body.toc-hidden .toc-toggle {
+        body.toc-hidden .top-controls {
             left: 24px;
         }
 
@@ -352,6 +357,77 @@
 
         body.toc-hidden .progress-bar {
             left: 0;
+        }
+
+        /* ナイトモード */
+        body.dark-mode {
+            background: #111;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .sidebar {
+            background: #1b2430;
+        }
+
+        body.dark-mode .sidebar-header,
+        body.dark-mode .learning-stats,
+        body.dark-mode .badges {
+            background: #121a24;
+            border-color: #1f2b3a;
+        }
+
+        body.dark-mode .sub-nav,
+        body.dark-mode .nav-item:hover,
+        body.dark-mode .nav-item.active {
+            background: #243041;
+        }
+
+        body.dark-mode .main-content {
+            background: #1a1d23;
+        }
+
+        body.dark-mode .content-section h1,
+        body.dark-mode .content-section h2,
+        body.dark-mode .content-section h3,
+        body.dark-mode .content-section h4 {
+            color: #e0ecff;
+            border-color: #4fa3ff;
+        }
+
+        body.dark-mode .content-section p,
+        body.dark-mode .content-section li {
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .content-section code,
+        body.dark-mode .content-section pre {
+            background: #0f1824;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .content-section table {
+            border-color: #2d3a4d;
+        }
+
+        body.dark-mode .content-section th {
+            background: #344d6b;
+        }
+
+        body.dark-mode .content-section tr:nth-child(even) {
+            background: #18212f;
+        }
+
+        body.dark-mode .sub-toc {
+            background: #151d29;
+            border-left-color: #4fa3ff;
+        }
+
+        body.dark-mode .top-controls button {
+            background: #344d6b;
+        }
+
+        body.dark-mode .top-controls button:hover {
+            background: #2a3b53;
         }
 
         /* メインコンテンツ */
@@ -553,8 +629,10 @@
                 left: 0;
             }
 
-            .toc-toggle {
+            .top-controls {
                 left: 20px;
+                right: 20px;
+                flex-direction: column;
                 top: 10px;
             }
         }
@@ -662,7 +740,10 @@
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <button class="toc-toggle" id="toggleSidebar">目次を隠す</button>
+    <div class="top-controls">
+        <button id="toggleSidebar">目次を隠す</button>
+        <button id="toggleTheme">🌙 ナイトモード</button>
+    </div>
 
     <div class="container">
         <!-- サイドバー -->
@@ -7350,6 +7431,29 @@ Wait for the bus. → Wait the bus for. ❌
                 document.body.classList.toggle('toc-hidden');
                 const hidden = document.body.classList.contains('toc-hidden');
                 toggleSidebarButton.textContent = hidden ? '目次を表示' : '目次を隠す';
+            });
+        }
+
+        const THEME_STORAGE_KEY = 'toeflTheme';
+        const themeToggleButton = document.getElementById('toggleTheme');
+
+        function setTheme(isDark, persist = true) {
+            document.body.classList.toggle('dark-mode', isDark);
+            if (themeToggleButton) {
+                themeToggleButton.textContent = isDark ? '☀️ ライトモード' : '🌙 ナイトモード';
+            }
+            if (persist) {
+                localStorage.setItem(THEME_STORAGE_KEY, isDark ? 'dark' : 'light');
+            }
+        }
+
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        setTheme(savedTheme ? savedTheme === 'dark' : false, false);
+
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                const shouldEnable = !document.body.classList.contains('dark-mode');
+                setTheme(shouldEnable);
             });
         }
 
