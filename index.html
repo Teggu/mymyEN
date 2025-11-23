@@ -294,6 +294,13 @@
             border-left: 3px solid transparent;
         }
 
+        .sub-nav-item.active-sub {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-left-color: #3498db;
+            font-weight: bold;
+        }
+
         .sub-nav-item:hover {
             background: #34495e;
             color: #ecf0f1;
@@ -6836,8 +6843,72 @@ Wait for the bus. → Wait the bus for. ❌
             return sections;
         }
 
+        function buildPages(sections) {
+            const allPages = [];
+            let globalIndex = 0;
+
+            sections.forEach((section, sectionIndex) => {
+                const lines = section.content.split('\n');
+                const sectionPages = [];
+                let introBuffer = [];
+                let currentPageTitle = null;
+                let currentLines = [];
+
+                const createPage = (title, content) => {
+                    const page = {
+                        id: `section-${sectionIndex}-page-${sectionPages.length}`,
+                        title: title.trim(),
+                        parentIndex: sectionIndex,
+                        parentTitle: section.title,
+                        content: content.trim(),
+                        globalIndex: globalIndex++
+                    };
+                    sectionPages.push(page);
+                    allPages.push(page);
+                };
+
+                const finalizeCurrentPage = () => {
+                    if (!currentPageTitle) return;
+                    createPage(currentPageTitle, currentLines.join('\n'));
+                    currentPageTitle = null;
+                    currentLines = [];
+                };
+
+                lines.forEach(line => {
+                    if (line.startsWith('### ')) {
+                        finalizeCurrentPage();
+                        currentPageTitle = line.replace('### ', '').trim();
+                        currentLines = [];
+                        if (introBuffer.length) {
+                            currentLines.push(...introBuffer);
+                            introBuffer = [];
+                        }
+                    } else {
+                        if (currentPageTitle) {
+                            currentLines.push(line);
+                        } else {
+                            introBuffer.push(line);
+                        }
+                    }
+                });
+
+                finalizeCurrentPage();
+
+                if (sectionPages.length === 0) {
+                    const content = introBuffer.join('\n').trim();
+                    createPage(section.title, content);
+                    introBuffer = [];
+                }
+
+                section.pages = sectionPages;
+            });
+
+            return allPages;
+        }
+
         const sections = parseSections(markdownContent);
-        let currentSectionIndex = 0;
+        const pages = buildPages(sections);
+        let currentPageIndex = 0;
         let expandedSections = new Set();
 
         // ゲーミフィケーション変数
@@ -6855,7 +6926,7 @@ Wait for the bus. → Wait the bus for. ❌
             { id: 'dedicated', emoji: '💪', name: '継続は力なり', condition: () => streakDays >= 3 },
             { id: 'master', emoji: '🎯', name: '文法マスター', condition: () => visitedSections.size >= 10 },
             { id: 'champion', emoji: '🏆', name: 'チャンピオン', condition: () => completedSections.size >= 5 },
-            { id: 'genius', emoji: '🧠', name: '天才', condition: () => visitedSections.size === 18 },
+            { id: 'genius', emoji: '🧠', name: '天才', condition: () => visitedSections.size === pages.length },
             { id: 'fire', emoji: '🔥', name: '熱血学習者', condition: () => streakDays >= 7 },
             { id: 'star', emoji: '⭐', name: 'スター', condition: () => userLevel >= 5 }
         ];
@@ -6918,7 +6989,7 @@ Wait for the bus. → Wait the bus for. ❌
         // 統計更新
         function updateStats() {
             document.getElementById('streakDays').textContent = streakDays;
-            document.getElementById('completedSections').textContent = `${completedSections.size}/18`;
+            document.getElementById('completedSections').textContent = `${completedSections.size}/${pages.length}`;
             document.getElementById('userLevel').textContent = userLevel;
             
             // レベルアップチェック
@@ -7018,37 +7089,69 @@ Wait for the bus. → Wait the bus for. ❌
             showMotivation(message);
         }
 
-        // 各セクションの小目次を事前に抽出
-        sections.forEach(section => {
-            section.subsections = extractSubsections(section.content);
-        });
+        function extractInnerHeadings(content) {
+            const headings = [];
+            const lines = content.split('\n');
+
+            lines.forEach(line => {
+                if (line.startsWith('#### ')) {
+                    const title = line.replace('#### ', '').trim();
+                    const slug = title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                    const id = `sub-${slug}-${headings.length}`;
+                    headings.push({ title, id });
+                }
+            });
+
+            return headings;
+        }
+
+        function generateInnerTOC(headings) {
+            if (headings.length === 0) return '';
+
+            return `
+                <div class="sub-toc">
+                    <h3>📑 このセクションの内容</h3>
+                    <ul>
+                        ${headings.map(head => `
+                            <li><a href="#${head.id}" onclick="scrollToSubsection('${head.id}'); return false;">${head.title}</a></li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
 
         // ナビゲーションを生成
         function renderNavigation() {
             const navSection = document.getElementById('navSection');
+            const currentPage = pages[currentPageIndex];
+
             navSection.innerHTML = sections.map((section, index) => {
-                const isActive = index === currentSectionIndex;
-                const isExpanded = expandedSections.has(index);
-                const hasSubsections = section.subsections.length > 0;
+                const sectionPages = section.pages || [];
+                const isActiveSection = currentPage && currentPage.parentIndex === index;
+                const isExpanded = isActiveSection || expandedSections.has(index);
+                const hasMultiplePages = sectionPages.length > 1;
                 
+                const subNavHtml = hasMultiplePages ? `
+                    <div class="sub-nav ${isExpanded ? 'expanded' : ''}" id="sub-nav-${index}">
+                        ${sectionPages.map(page => `
+                            <div class="sub-nav-item ${page.globalIndex === currentPageIndex ? 'active-sub' : ''}"
+                                 onclick="navigateToPage(${page.globalIndex})">
+                                ${page.title}
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : '';
+
                 return `
                     <div>
-                        <div class="nav-item ${isActive ? 'active' : ''} ${isExpanded ? 'expanded' : ''}" 
+                        <div class="nav-item ${isActiveSection ? 'active' : ''} ${isExpanded ? 'expanded' : ''}" 
                              onclick="handleNavClick(${index}, event)" 
                              data-section="${index}">
                             <span class="nav-item-number">${index}.</span>
                             ${section.title}
-                            ${hasSubsections ? '<span class="expand-icon">▶</span>' : ''}
+                            ${hasMultiplePages ? '<span class="expand-icon">▶</span>' : ''}
                         </div>
-                        ${hasSubsections ? `
-                            <div class="sub-nav ${isExpanded ? 'expanded' : ''}" id="sub-nav-${index}">
-                                ${section.subsections.map(sub => `
-                                    <div class="sub-nav-item" onclick="navigateToSubsection(${index}, '${sub.id}')">
-                                        ${sub.title}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
+                        ${subNavHtml}
                     </div>
                 `;
             }).join('');
@@ -7056,23 +7159,23 @@ Wait for the bus. → Wait the bus for. ❌
 
         // ナビゲーションクリックハンドラ
         function handleNavClick(index, event) {
-            const hasSubsections = sections[index].subsections.length > 0;
-            
-            // 展開アイコンをクリックした場合
-            if (hasSubsections && event.target.classList.contains('expand-icon')) {
+            const section = sections[index];
+            const sectionPages = section.pages || [];
+            const hasMultiplePages = sectionPages.length > 1;
+
+            if (hasMultiplePages && event.target.classList.contains('expand-icon')) {
                 toggleExpand(index);
                 event.stopPropagation();
                 return;
             }
-            
-            // セクション自体をクリックした場合
-            navigateToSection(index);
-            
-            // 小目次がある場合は自動展開
-            if (hasSubsections && !expandedSections.has(index)) {
+
+            if (sectionPages.length === 0) return;
+
+            if (hasMultiplePages && !expandedSections.has(index)) {
                 expandedSections.add(index);
-                renderNavigation();
             }
+
+            navigateToPage(sectionPages[0].globalIndex);
         }
 
         // 展開/折りたたみトグル
@@ -7085,91 +7188,44 @@ Wait for the bus. → Wait the bus for. ❌
             renderNavigation();
         }
 
-        // サブセクションへ直接ナビゲート
-        function navigateToSubsection(sectionIndex, subsectionId) {
-            // まずセクションに移動
-            if (currentSectionIndex !== sectionIndex) {
-                navigateToSection(sectionIndex);
-            }
-            
-            // 少し待ってからサブセクションにスクロール
-            setTimeout(() => {
-                scrollToSubsection(subsectionId);
-            }, 100);
-        }
-
-        // 小目次を抽出（### の見出し）
-        function extractSubsections(content) {
-            const subsections = [];
-            const lines = content.split('\n');
-            
-            for (let line of lines) {
-                if (line.startsWith('### ')) {
-                    const title = line.replace('### ', '').trim();
-                    const id = 'sub-' + title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-                    subsections.push({ title, id });
-                }
-            }
-            
-            return subsections;
-        }
-
-        // 小目次HTML生成
-        function generateSubTOC(subsections) {
-            if (subsections.length === 0) return '';
-            
-            return `
-                <div class="sub-toc">
-                    <h3>📑 このセクションの内容</h3>
-                    <ul>
-                        ${subsections.map(sub => `
-                            <li><a href="#${sub.id}" onclick="scrollToSubsection('${sub.id}'); return false;">${sub.title}</a></li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-
         // コンテンツを表示
-        function renderContent(index) {
+        function renderContent(pageIndex) {
             const contentWrapper = document.getElementById('contentWrapper');
-            const section = sections[index];
+            const page = pages[pageIndex];
+
+            if (!page) return;
             
-            // 小目次を抽出
-            const subsections = extractSubsections(section.content);
-            
-            // マークダウンをHTMLに変換
-            let markdownHtml = marked.parse(section.content);
-            
-            // ### 見出しにIDを追加
-            subsections.forEach(sub => {
-                const regex = new RegExp(`<h3>(${sub.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})</h3>`, 'g');
-                markdownHtml = markdownHtml.replace(regex, `<h3 id="${sub.id}">$1</h3>`);
+            const headings = extractInnerHeadings(page.content);
+            let markdownHtml = page.content ? marked.parse(page.content) : '';
+
+            headings.forEach(head => {
+                const escaped = head.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`<h4>(${escaped})</h4>`, 'g');
+                markdownHtml = markdownHtml.replace(regex, `<h4 id="${head.id}">$1</h4>`);
             });
             
-            // 小目次HTML生成
-            const subTOCHtml = generateSubTOC(subsections);
+            const subTOCHtml = generateInnerTOC(headings);
+            const parentHeading = `<h1>${page.parentTitle}</h1>`;
+            const childHeading = page.title && page.title !== page.parentTitle ? `<h2>${page.title}</h2>` : '';
             
             contentWrapper.innerHTML = `
                 <div class="content-section active">
-                    <h1>${section.title}</h1>
+                    ${parentHeading}
+                    ${childHeading}
                     ${subTOCHtml}
                     ${markdownHtml}
                     <div class="nav-buttons">
-                        <button class="nav-button" onclick="previousSection()" ${index === 0 ? 'disabled' : ''}>
-                            ← 前のセクション
+                        <button class="nav-button" onclick="previousPage()" ${pageIndex === 0 ? 'disabled' : ''}>
+                            ← 前のページ
                         </button>
-                        <button class="nav-button" onclick="nextSection()" ${index === sections.length - 1 ? 'disabled' : ''}>
-                            次のセクション →
+                        <button class="nav-button" onclick="nextPage()" ${pageIndex === pages.length - 1 ? 'disabled' : ''}>
+                            次のページ →
                         </button>
                     </div>
                 </div>
             `;
 
-            // プログレスバー更新
-            updateProgress(index);
-            
-            // スクロールをトップに
+            updateProgress(pageIndex);
             document.getElementById('mainContent').scrollTop = 0;
         }
 
@@ -7181,67 +7237,71 @@ Wait for the bus. → Wait the bus for. ❌
             }
         }
 
-        // セクションに移動
-        function navigateToSection(index) {
-            currentSectionIndex = index;
-            
-            // 訪問記録
+        // ページに移動
+        function navigateToPage(index) {
+            if (index < 0 || index >= pages.length) return;
+
+            currentPageIndex = index;
+            const page = pages[index];
+
             if (!visitedSections.has(index)) {
                 visitedSections.add(index);
+                completedSections.add(index);
                 totalSectionsRead++;
-                
-                // ランダムで励まし
+
                 if (Math.random() > 0.5) {
                     showRandomEncouragement();
                 }
-                
+
                 saveProgress();
                 updateStats();
                 checkBadges();
             }
-            
-            // 小目次がある場合は自動展開
-            if (sections[index].subsections.length > 0 && !expandedSections.has(index)) {
-                expandedSections.add(index);
+
+            if ((sections[page.parentIndex].pages || []).length > 1) {
+                expandedSections.add(page.parentIndex);
             }
-            
+
             renderNavigation();
             renderContent(index);
         }
 
-        // 次のセクション
-        function nextSection() {
-            if (currentSectionIndex < sections.length - 1) {
-                navigateToSection(currentSectionIndex + 1);
+        // 次のページ
+        function nextPage() {
+            if (currentPageIndex < pages.length - 1) {
+                navigateToPage(currentPageIndex + 1);
             }
         }
 
-        // 前のセクション
-        function previousSection() {
-            if (currentSectionIndex > 0) {
-                navigateToSection(currentSectionIndex - 1);
+        // 前のページ
+        function previousPage() {
+            if (currentPageIndex > 0) {
+                navigateToPage(currentPageIndex - 1);
             }
         }
 
         // プログレスバー更新
         function updateProgress(index) {
-            const progress = ((index + 1) / sections.length) * 100;
+            const totalPages = pages.length || 1;
+            const progress = ((index + 1) / totalPages) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
         }
 
         // キーボードショートカット
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') {
-                nextSection();
+                nextPage();
             } else if (e.key === 'ArrowLeft') {
-                previousSection();
+                previousPage();
             }
         });
 
         // 初期化
         loadProgress();
         renderNavigation();
-        renderContent(0);
+        if (pages.length > 0) {
+            renderContent(0);
+        }
         updateStats();
         renderBadges();
         
