@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOEFL文法完全ガイド</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232c3e50'/%3E%3Ctext x='50' y='70' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3ET%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -847,21 +848,73 @@
         }
 
         .example-checkbox-cell {
-            width: 40px;
+            width: 80px;
             padding: 8px 12px;
             vertical-align: middle;
+            text-align: center;
         }
 
-        .example-checkbox {
-            width: 18px;
-            height: 18px;
+        .example-mistake-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .mistake-badge {
+            min-width: 50px;
+            padding: 4px 8px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            cursor: default;
+            display: none;
+        }
+
+        .mistake-badge.visible {
+            display: inline-block;
+        }
+
+        .mistake-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            border-radius: 50%;
             cursor: pointer;
-            margin: 0;
-            accent-color: #3498db;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            line-height: 1;
         }
 
-        .example-checkbox:hover {
+        .mistake-btn-add {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .mistake-btn-add:hover {
+            background: #c0392b;
             transform: scale(1.1);
+        }
+
+        .mistake-btn-remove {
+            background: #27ae60;
+            color: white;
+        }
+
+        .mistake-btn-remove:hover {
+            background: #229954;
+            transform: scale(1.1);
+        }
+
+        .mistake-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .example-content-cell {
@@ -913,8 +966,24 @@
             background: #1f2d3c;
         }
 
-        body.dark-mode .example-checkbox {
-            accent-color: #4fa3ff;
+        body.dark-mode .mistake-badge {
+            background: #e74c3c;
+        }
+
+        body.dark-mode .mistake-btn-add {
+            background: #e74c3c;
+        }
+
+        body.dark-mode .mistake-btn-add:hover {
+            background: #c0392b;
+        }
+
+        body.dark-mode .mistake-btn-remove {
+            background: #27ae60;
+        }
+
+        body.dark-mode .mistake-btn-remove:hover {
+            background: #229954;
         }
 
         body.dark-mode .example-english {
@@ -3538,9 +3607,9 @@ that CORROBORATED the theory.
 - 確定した未来（時刻表など）
 
 **例文**
-- Water boils at 100 degrees Celsius.（一般的事実）
-- The train leaves at 9:00 AM.（確定した未来）
-- She studies English every day.（習慣）
+- Water boils at 100 degrees Celsius.（一般的事実）＜水は100度で沸騰する。＞
+- The train leaves at 9:00 AM.（確定した未来）＜列車は午前9時に出発する。＞
+- She studies English every day.（習慣）＜彼女は毎日英語を勉強する。＞
 
 ### 1.2 現在進行形
 **用法**
@@ -3549,9 +3618,9 @@ that CORROBORATED the theory.
 - 近い未来の予定（already plannedな事柄）
 
 **例文**
-- I am studying for the TOEFL right now.（今の動作）
-- He is living in Tokyo temporarily.（一時的状況）
-- We are meeting tomorrow at 3 PM.（近い未来の予定）
+- I am studying for the TOEFL right now.（今の動作）＜私は今TOEFLの勉強をしている。＞
+- He is living in Tokyo temporarily.（一時的状況）＜彼は一時的に東京に住んでいる。＞
+- We are meeting tomorrow at 3 PM.（近い未来の予定）＜私たちは明日午後3時に会う予定だ。＞
 
 **進行形にできない動詞（状態動詞）**
 - know, understand, believe, think（考えている）
@@ -3565,9 +3634,9 @@ that CORROBORATED the theory.
 - 過去の習慣
 
 **例文**
-- She graduated from university in 2020.
-- I visited Paris last year.
-- He used to play tennis every weekend.（過去の習慣）
+- She graduated from university in 2020.＜彼女は2020年に大学を卒業した。＞
+- I visited Paris last year.＜私は去年パリを訪れた。＞
+- He used to play tennis every weekend.（過去の習慣）＜彼は毎週末テニスをしていた。＞
 
 **時を表す副詞（句）**
 - yesterday, last week/month/year, ago, in 2020
@@ -3578,9 +3647,9 @@ that CORROBORATED the theory.
 - 過去の2つの動作（一方が進行中、もう一方が割り込む）
 
 **例文**
-- I was reading a book at 8 PM yesterday.
-- While I was cooking, the phone rang.
-- They were discussing the project when the boss arrived.
+- I was reading a book at 8 PM yesterday.＜私は昨日午後8時に本を読んでいた。＞
+- While I was cooking, the phone rang.＜料理をしている間に、電話が鳴った。＞
+- They were discussing the project when the boss arrived.＜上司が到着した時、彼らはプロジェクトについて話し合っていた。＞
 
 ### 1.5 現在完了形
 **用法**
@@ -3590,10 +3659,10 @@ that CORROBORATED the theory.
 - 結果：過去の動作が現在に影響
 
 **例文**
-- I have just finished my homework.（完了）
-- Have you ever been to Japan?（経験）
-- She has lived here for 5 years.（継続）
-- He has lost his key.（結果：今も見つかっていない）
+- I have just finished my homework.（完了）＜私はちょうど宿題を終えたところだ。＞
+- Have you ever been to Japan?（経験）＜あなたは今までに日本に行ったことがありますか？＞
+- She has lived here for 5 years.（継続）＜彼女はここに5年間住んでいる。＞
+- He has lost his key.（結果：今も見つかっていない）＜彼は鍵をなくしてしまった。＞
 
 **現在完了 vs 過去形**
 | 現在完了 | 過去形 |
@@ -3614,9 +3683,9 @@ that CORROBORATED the theory.
 - 動作の継続性を強調
 
 **例文**
-- I have been studying English for 3 hours.
-- She has been working here since 2020.
-- It has been raining all day.
+- I have been studying English for 3 hours.＜私は3時間英語を勉強し続けている。＞
+- She has been working here since 2020.＜彼女は2020年からここで働き続けている。＞
+- It has been raining all day.＜一日中雨が降り続けている。＞
 
 **現在完了 vs 現在完了進行形**
 - I have read 5 books.（完了：5冊読み終えた）
@@ -3628,10 +3697,9 @@ that CORROBORATED the theory.
 - 大過去：過去の2つの出来事の前後関係を明確化
 
 **例文**
-- When I arrived at the station, the train had already left.
-  （駅に着いた時、電車はすでに出発していた）
-- She had finished her homework before dinner.
-- By the time he got home, his wife had cooked dinner.
+- When I arrived at the station, the train had already left.＜駅に着いた時、電車はすでに出発していた。＞
+- She had finished her homework before dinner.＜彼女は夕食前に宿題を終えていた。＞
+- By the time he got home, his wife had cooked dinner.＜彼が帰宅した時までに、妻は夕食を作り終えていた。＞
 
 **時系列の理解**
 \`\`\`
@@ -3649,8 +3717,8 @@ had finished → arrived
 - 過去のある時点まで継続していた動作
 
 **例文**
-- I had been waiting for 30 minutes when she finally arrived.
-- They had been living in Tokyo for 5 years before they moved to Osaka.
+- I had been waiting for 30 minutes when she finally arrived.＜彼女がようやく到着した時、私は30分間待ち続けていた。＞
+- They had been living in Tokyo for 5 years before they moved to Osaka.＜彼らは大阪に引っ越す前に5年間東京に住んでいた。＞
 
 ### 1.9 未来形
 **will**
@@ -3662,18 +3730,18 @@ had finished → arrived
 - 根拠のある予測
 
 **例文**
-- I will help you.（今決めた）
-- I am going to visit my parents next week.（計画済み）
-- Look at those clouds! It's going to rain.（根拠のある予測）
+- I will help you.（今決めた）＜手伝うよ。＞
+- I am going to visit my parents next week.（計画済み）＜来週両親を訪ねる予定だ。＞
+- Look at those clouds! It's going to rain.（根拠のある予測）＜あの雲を見て！雨が降りそうだ。＞
 
 ### 1.10 未来完了形
 **用法**
 - 未来のある時点までに完了する動作
 
 **例文**
-- I will have finished this report by tomorrow.
-- By the time you arrive, I will have left.
-- She will have graduated by next June.
+- I will have finished this report by tomorrow.＜明日までにこの報告書を終えているだろう。＞
+- By the time you arrive, I will have left.＜あなたが到着する頃には、私は出発しているだろう。＞
+- She will have graduated by next June.＜彼女は来年の6月までに卒業しているだろう。＞
 
 ---
 
@@ -3684,11 +3752,9 @@ had finished → arrived
 - If + 主語 + 過去形, 主語 + would/could/might + 動詞原形
 
 **例文**
-- If I were rich, I would buy a big house.
-  （実際：私は金持ちではない）
-- If she studied harder, she could pass the exam.
-  （実際：彼女は一生懸命勉強していない）
-- If I had more time, I would travel around the world.
+- If I were rich, I would buy a big house.（実際：私は金持ちではない）＜もし私が金持ちなら、大きな家を買うだろう。＞
+- If she studied harder, she could pass the exam.（実際：彼女は一生懸命勉強していない）＜もし彼女がもっと一生懸命勉強すれば、試験に合格できるだろう。＞
+- If I had more time, I would travel around the world.＜もし時間がもっとあれば、世界中を旅行するだろう。＞
 
 **注意点**
 - be動詞は主語に関わらず "were" を使う（口語では was も可）
@@ -3699,11 +3765,9 @@ had finished → arrived
 - If + 主語 + had + 過去分詞, 主語 + would/could/might + have + 過去分詞
 
 **例文**
-- If I had studied harder, I would have passed the exam.
-  （実際：勉強しなかったので試験に落ちた）
-- If he had taken the train, he would have arrived on time.
-  （実際：電車に乗らなかったので遅刻した）
-- If she had known the truth, she might have acted differently.
+- If I had studied harder, I would have passed the exam.（実際：勉強しなかったので試験に落ちた）＜もしもっと一生懸命勉強していたら、試験に合格していただろう。＞
+- If he had taken the train, he would have arrived on time.（実際：電車に乗らなかったので遅刻した）＜もし彼が電車に乗っていたら、時間通りに到着していただろう。＞
+- If she had known the truth, she might have acted differently.＜もし彼女が真実を知っていたら、違う行動をしていたかもしれない。＞
 
 ### 2.3 混合型仮定法
 **形式**
@@ -3711,9 +3775,8 @@ had finished → arrived
 - If + 主語 + had + 過去分詞, 主語 + would/could + 動詞原形
 
 **例文**
-- If I had saved money, I would be rich now.
-  （過去に貯金していれば、今金持ちだろう）
-- If he had studied medicine, he would be a doctor now.
+- If I had saved money, I would be rich now.（過去に貯金していれば、今金持ちだろう）＜もし貯金していたら、今金持ちだろう。＞
+- If he had studied medicine, he would be a doctor now.＜もし彼が医学を勉強していたら、今医者だろう。＞
 
 ### 2.4 I wish / If only（願望）
 **現在の願望（仮定法過去）**
@@ -3875,7 +3938,7 @@ had finished → arrived
 
 **注意点**
 - 関係代名詞の後の動詞は先行詞に一致
-- The students who study hard will succeed.（studentsに合わせて複数形）
+- The students who study hard will succeed.（studentsに合わせて複数形）＜一生懸命勉強する学生は成功するだろう。＞
 
 ### 4.3 所有格の関係代名詞
 **形式**
@@ -3887,8 +3950,8 @@ had finished → arrived
 - This is the house whose roof was damaged in the storm.
 
 **of which（物の場合）**
-- The book, the cover of which is red, is interesting.
-- = The book whose cover is red is interesting.
+- The book, the cover of which is red, is interesting.＜表紙が赤いその本は面白い。＞
+- = The book whose cover is red is interesting.＜表紙が赤い本は面白い。＞
 
 ### 4.4 目的格の関係代名詞
 **形式**
@@ -3917,7 +3980,7 @@ had finished → arrived
 **TOEFL重要ポイント**
 - フォーマルな文章では「前置詞 + which/whom」を好む
 - 前置詞 + that は不可
-- ❌ The house in that I live...
+- ❌ The house in that I live...＜私が住んでいる家。＞
 
 ### 4.6 関係代名詞 that の特別な用法
 **that を使うべき場合**
@@ -4020,16 +4083,16 @@ had finished → arrived
 
 ### 4.10 複合関係副詞
 **wherever（どこへ〜しても）**
-- I'll follow you wherever you go.
-- = I'll follow you no matter where you go.
+- I'll follow you wherever you go.＜あなたがどこへ行こうとついていきます。＞
+- = I'll follow you no matter where you go.＜あなたがどこへ行こうとついていきます。＞
 
 **whenever（いつ〜しても）**
-- You can come whenever you like.
-- = You can come no matter when you like.
+- You can come whenever you like.＜いつでも好きな時に来てください。＞
+- = You can come no matter when you like.＜いつでも好きな時に来てください。＞
 
 **however（どんなに〜しても）**
-- However hard I try, I can't solve it.
-- = No matter how hard I try, I can't solve it.
+- However hard I try, I can't solve it.＜どんなに一生懸命やっても、解けません。＞
+- = No matter how hard I try, I can't solve it.＜どんなに一生懸命やっても、解けません。＞
 
 ---
 
@@ -4127,10 +4190,10 @@ had finished → arrived
 - 主節より前の時を表す
 
 **例文**
-- Having finished my homework, I went out.
-- = After I had finished my homework, I went out.
-- Having lived in Japan for 10 years, she speaks Japanese fluently.
-- = Because she has lived in Japan for 10 years, she speaks Japanese fluently.
+- Having finished my homework, I went out.＜宿題を終えて、私は外出した。＞
+- = After I had finished my homework, I went out.＜宿題を終えた後、私は外出した。＞
+- Having lived in Japan for 10 years, she speaks Japanese fluently.＜10年間日本に住んでいるので、彼女は日本語を流暢に話す。＞
+- = Because she has lived in Japan for 10 years, she speaks Japanese fluently.＜10年間日本に住んでいるので、彼女は日本語を流暢に話す。＞
 
 ### 5.7 受動態の分詞構文
 **形式**
@@ -4144,28 +4207,28 @@ had finished → arrived
 - = Because it was built in 1850, the house is now a museum.
 
 **Being の省略**
-- (Being) Written in simple English, the book is easy to read.
-- (Being) Tired, I went to bed early.
+- (Being) Written in simple English, the book is easy to read.＜簡単な英語で書かれているので、その本は読みやすい。＞
+- (Being) Tired, I went to bed early.＜疲れていたので、私は早く寝た。＞
 
 ### 5.8 否定の分詞構文
 **形式**
 - Not + 分詞構文
 
 **例文**
-- Not knowing what to say, I remained silent.
-- = Because I didn't know what to say, I remained silent.
-- Not having enough money, I couldn't buy the car.
-- = Because I didn't have enough money, I couldn't buy the car.
+- Not knowing what to say, I remained silent.＜何を言えばいいか分からなかったので、私は黙っていた。＞
+- = Because I didn't know what to say, I remained silent.＜何を言えばいいか分からなかったので、私は黙っていた。＞
+- Not having enough money, I couldn't buy the car.＜十分なお金がなかったので、私は車を買えなかった。＞
+- = Because I didn't have enough money, I couldn't buy the car.＜十分なお金がなかったので、私は車を買えなかった。＞
 
 ### 5.9 独立分詞構文
 **主語が異なる場合**
 - 分詞構文の主語を省略せず残す
 
 **例文**
-- The weather being fine, we went on a picnic.
-- = Because the weather was fine, we went on a picnic.
-- All things considered, the plan was successful.
-- = When all things are considered, the plan was successful.
+- The weather being fine, we went on a picnic.＜天気が良かったので、私たちはピクニックに行った。＞
+- = Because the weather was fine, we went on a picnic.＜天気が良かったので、私たちはピクニックに行った。＞
+- All things considered, the plan was successful.＜あらゆることを考慮すると、その計画は成功だった。＞
+- = When all things are considered, the plan was successful.＜あらゆることを考慮すると、その計画は成功だった。＞
 
 **慣用表現**
 - generally speaking（一般的に言えば）
@@ -4308,8 +4371,8 @@ had finished → arrived
 - prior to（〜より前の）
 
 **例文**
-- This product is superior to that one.
-- He is senior to me by three years.
+- This product is superior to that one.＜この製品はあの製品より優れている。＞
+- He is senior to me by three years.＜彼は私より3年先輩だ。＞
 
 **注意：than ではなく to を使う**
 
@@ -4574,8 +4637,8 @@ had finished → arrived
 - They haven't decided when to leave.
 
 **注意：why to do は通常使わない**
-- ✅ I don't know why I should do it.
-- ❌ I don't know why to do it.
+- ✅ I don't know why I should do it.＜なぜそれをすべきか分からない。＞
+- ❌ I don't know why to do it.＜なぜそれをするべきか分からない。＞
 
 ### 8.6 動名詞の用法
 **主語**
@@ -6487,8 +6550,8 @@ Wait for the bus. → Wait the bus for. ❌
 ### 11.3 疑問文の書き換え
 **疑問詞のある疑問文**
 - 語順：疑問詞 + 主語 + 動詞
-- He asked, "Where do you live?"
-- → He asked me where I lived.
+- He asked, "Where do you live?"＜彼は「どこに住んでいますか」と尋ねた。＞
+- → He asked me where I lived.＜彼は私にどこに住んでいるか尋ねた。＞
 
 **Yes/No疑問文**
 - if/whether を使う
@@ -6835,9 +6898,9 @@ Wait for the bus. → Wait the bus for. ❌
 - They went to Tokyo, didn't they?
 
 **特殊な形**
-- I am right, aren't I?（am I not?）
-- Let's go, shall we?
-- Open the door, will you/won't you?
+- I am right, aren't I?（am I not?）＜私は正しいですよね。＞
+- Let's go, shall we?＜行きましょうか。＞
+- Open the door, will you/won't you?＜ドアを開けてくれませんか。＞
 - Don't be late, will you?
 - There is a book, isn't there?
 
@@ -7234,9 +7297,9 @@ Wait for the bus. → Wait the bus for. ❌
 - As they say, ...（よく言われるように）
 
 **例文**
-- As the saying goes, "Practice makes perfect."
-- There's a proverb that says, "The early bird catches the worm."
-- As they say, "Actions speak louder than words."
+- As the saying goes, "Practice makes perfect."＜諺にあるように、「習うより慣れろ」。＞
+- There's a proverb that says, "The early bird catches the worm."＜「早起きは三文の徳」という諺がある。＞
+- As they say, "Actions speak louder than words."＜よく言われるように、「行動は言葉よりも雄弁だ」。＞
 
 ---
 
@@ -8099,7 +8162,7 @@ Wait for the bus. → Wait the bus for. ❌
         function setupTranslationToggles(wrapper) {
             if (!wrapper) return;
             const englishRegex = /[A-Za-z]/;
-            const elements = wrapper.querySelectorAll('p, li');
+            const elements = wrapper.querySelectorAll('p, li, td');
 
             elements.forEach(element => {
                 if (element.dataset.translationProcessed === 'true') return;
@@ -8284,25 +8347,45 @@ Wait for the bus. → Wait the bus for. ❌
                     expressionCell.setAttribute('hidden', '');
                     meaningCell.setAttribute('hidden', '');
 
-                    // チェックボックスセルを作成
-                    const checkboxCell = document.createElement('td');
-                    checkboxCell.classList.add('example-checkbox-cell');
+                    // 間違えカウンターセルを作成
+                    const counterCell = document.createElement('td');
+                    counterCell.classList.add('example-checkbox-cell');
 
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.classList.add('example-checkbox');
-                    checkbox.setAttribute('aria-label', '復習済みにする');
+                    // ローカルストレージから間違え回数を復元
+                    const storageKey = `example-mistakes-${currentPageIndex}-${index}`;
+                    let mistakeCount = parseInt(localStorage.getItem(storageKey) || '0', 10);
 
-                    // ローカルストレージから状態を復元
-                    const storageKey = `example-check-${currentPageIndex}-${index}`;
-                    const isChecked = localStorage.getItem(storageKey) === 'true';
-                    checkbox.checked = isChecked;
-                    if (isChecked) {
-                        row.classList.add('checked');
+                    const counterContainer = document.createElement('div');
+                    counterContainer.classList.add('example-mistake-counter');
+
+                    // 間違えボタン（×追加）
+                    const addBtn = document.createElement('button');
+                    addBtn.classList.add('mistake-btn', 'mistake-btn-add');
+                    addBtn.innerHTML = '×';
+                    addBtn.setAttribute('aria-label', '間違えた');
+                    addBtn.setAttribute('title', '間違えた');
+
+                    // カウンターバッジ
+                    const badge = document.createElement('span');
+                    badge.classList.add('mistake-badge');
+                    if (mistakeCount > 0) {
+                        badge.classList.add('visible');
+                        badge.textContent = `×${mistakeCount}`;
                     }
 
-                    checkboxCell.appendChild(checkbox);
-                    row.insertBefore(checkboxCell, row.firstChild);
+                    // 正解ボタン（×削除）
+                    const removeBtn = document.createElement('button');
+                    removeBtn.classList.add('mistake-btn', 'mistake-btn-remove');
+                    removeBtn.innerHTML = '○';
+                    removeBtn.setAttribute('aria-label', '正解した');
+                    removeBtn.setAttribute('title', '正解した');
+                    removeBtn.disabled = mistakeCount === 0;
+
+                    counterContainer.appendChild(addBtn);
+                    counterContainer.appendChild(badge);
+                    counterContainer.appendChild(removeBtn);
+                    counterCell.appendChild(counterContainer);
+                    row.insertBefore(counterCell, row.firstChild);
 
                     // 例文セルを英語のみに書き換え、詳細情報を追加
                     exampleCell.classList.add('example-content-cell');
@@ -8315,22 +8398,37 @@ Wait for the bus. → Wait the bus for. ❌
                         </div>
                     `;
 
-                    // チェックボックスのイベント
-                    checkbox.addEventListener('change', (event) => {
+                    // 間違えボタンのイベント
+                    addBtn.addEventListener('click', (event) => {
                         event.stopPropagation();
-                        if (checkbox.checked) {
-                            row.classList.add('checked');
-                            localStorage.setItem(storageKey, 'true');
-                        } else {
-                            row.classList.remove('checked');
-                            localStorage.setItem(storageKey, 'false');
+                        mistakeCount++;
+                        badge.textContent = `×${mistakeCount}`;
+                        badge.classList.add('visible');
+                        removeBtn.disabled = false;
+                        localStorage.setItem(storageKey, String(mistakeCount));
+                    });
+
+                    // 正解ボタンのイベント
+                    removeBtn.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        if (mistakeCount > 0) {
+                            mistakeCount--;
+                            if (mistakeCount === 0) {
+                                badge.classList.remove('visible');
+                                removeBtn.disabled = true;
+                            } else {
+                                badge.textContent = `×${mistakeCount}`;
+                            }
+                            localStorage.setItem(storageKey, String(mistakeCount));
                         }
                     });
 
-                    // トグル機能を追加（チェックボックス以外をクリック）
+                    // トグル機能を追加（カウンター以外をクリック）
                     const toggleExample = (event) => {
-                        // チェックボックスのクリックは無視
-                        if (event.target === checkbox || event.target === checkboxCell) {
+                        // カウンターボタンのクリックは無視
+                        if (event.target === addBtn || event.target === removeBtn ||
+                            event.target === badge || event.target === counterCell ||
+                            event.target === counterContainer) {
                             return;
                         }
 
