@@ -8141,8 +8141,8 @@ Wait for the bus. → Wait the bus for. ❌
             `;
 
             applyInlineSubheadingStyles(contentWrapper);
-            setupTranslationToggles(contentWrapper);
             setupExampleTableToggles(contentWrapper);
+            setupTranslationToggles(contentWrapper);
             updateProgress(pageIndex);
             document.getElementById('mainContent').scrollTop = 0;
         }
@@ -8166,6 +8166,11 @@ Wait for the bus. → Wait the bus for. ❌
 
             elements.forEach(element => {
                 if (element.dataset.translationProcessed === 'true') return;
+
+                // example-toggle-table内のtdは除外（setupExampleTableTogglesで処理される）
+                if (element.tagName === 'TD' && element.closest('.example-toggle-table')) {
+                    return;
+                }
 
                 const text = element.textContent.trim();
 
