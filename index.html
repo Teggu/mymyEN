@@ -51,6 +51,40 @@
             color: #95a5a6;
         }
 
+        /* 特別メニューボタン */
+        .special-menu {
+            padding: 10px 20px;
+            background: #1a252f;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .special-menu-button {
+            width: 100%;
+            padding: 12px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .special-menu-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+        }
+
+        .special-menu-button:active {
+            transform: translateY(0);
+        }
+
         /* 学習統計 */
         .learning-stats {
             padding: 15px 20px;
@@ -639,6 +673,115 @@
             cursor: not-allowed;
         }
 
+        .nav-button-secondary {
+            padding: 12px 24px;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .nav-button-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        /* 間違えた例文一覧のスタイル */
+        .mistakes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mistake-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        .mistake-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .mistake-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .mistake-number {
+            font-weight: bold;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .mistake-badge-display {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .mistake-page-title {
+            color: #3498db;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .mistake-content {
+            margin-bottom: 15px;
+        }
+
+        .mistake-english {
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .mistake-translation {
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 12px;
+            padding-left: 15px;
+            border-left: 3px solid #3498db;
+        }
+
+        .mistake-details {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .mistake-details > div {
+            margin: 4px 0;
+        }
+
+        .mistake-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .mistake-actions button {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
         /* プログレスバー */
         .progress-bar {
             height: 3px;
@@ -816,6 +959,49 @@
             display: none !important;
         }
 
+        /* 例文マークボタン */
+        .translation-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .translation-content {
+            flex: 1;
+        }
+
+        .mark-example-btn {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border: 2px solid #3498db;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .mark-example-btn:hover {
+            background: #e3f2fd;
+            transform: scale(1.1);
+        }
+
+        .mark-example-btn.marked {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .mark-example-btn.marked:hover {
+            background: #2980b9;
+            border-color: #2980b9;
+        }
+
         /* 例文表のトグルスタイル */
         .example-toggle-table {
             table-layout: auto;
@@ -841,6 +1027,10 @@
 
         .example-row-collapsible.checked {
             opacity: 0.6;
+        }
+
+        .example-row-correct {
+            opacity: 0.4;
         }
 
         .example-detail {
@@ -974,6 +1164,24 @@
             background: #e74c3c;
         }
 
+        body.dark-mode .mistake-card {
+            background: #1a252f;
+            border-color: #2c3e50;
+        }
+
+        body.dark-mode .mistake-english {
+            color: #ecf0f1;
+        }
+
+        body.dark-mode .mistake-translation {
+            color: #bdc3c7;
+        }
+
+        body.dark-mode .mistake-details {
+            background: #121a24;
+            color: #bdc3c7;
+        }
+
         body.dark-mode .mistake-btn-add:hover {
             background: #c0392b;
         }
@@ -999,6 +1207,33 @@
         body.dark-mode .example-meaning,
         body.dark-mode .example-translation {
             color: #f0f0f0;
+        }
+
+        body.dark-mode .special-menu {
+            background: #121a24;
+            border-color: #1f2b3a;
+        }
+
+        body.dark-mode .special-menu-button:hover {
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.5);
+        }
+
+        body.dark-mode .mark-example-btn {
+            background: #1a252f;
+            border-color: #4fa3ff;
+        }
+
+        body.dark-mode .mark-example-btn:hover {
+            background: #1f2d3c;
+        }
+
+        body.dark-mode .mark-example-btn.marked {
+            background: #4fa3ff;
+            border-color: #4fa3ff;
+        }
+
+        body.dark-mode .mark-example-btn.marked:hover {
+            background: #3d8bd9;
         }
     </style>
 </head>
@@ -1038,6 +1273,14 @@
             <div class="badges">
                 <h3>🏆 獲得バッジ</h3>
                 <div class="badge-container" id="badgeContainer"></div>
+            </div>
+
+            <!-- 特別メニュー -->
+            <div class="special-menu">
+                <button class="special-menu-button" onclick="showMistakesList(false)">
+                    <span>📝</span>
+                    <span>間違えた例文一覧</span>
+                </button>
             </div>
 
             <div class="nav-section" id="navSection"></div>
@@ -8249,17 +8492,35 @@ Wait for the bus. → Wait the bus for. ❌
                     if (!englishHtml) return;
 
                     element.dataset.translationProcessed = 'true';
+
+                    // ユニークなIDを生成
+                    const exampleId = `example-${currentPageIndex}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+                    const storageKey = `marked-example-${exampleId}`;
+                    const isMarked = localStorage.getItem(storageKey) === 'true';
+
                     element.innerHTML = `
-                        <span class="translation-sentence" tabindex="0" role="button" aria-expanded="false">
-                            ${englishHtml}
-                        </span>
-                        <div class="translation-text" hidden aria-hidden="true">
-                            ${rawTranslation.trim()}
+                        <div class="translation-wrapper">
+                            <div class="translation-content">
+                                <span class="translation-sentence" tabindex="0" role="button" aria-expanded="false">
+                                    ${englishHtml}
+                                </span>
+                                <div class="translation-text" hidden aria-hidden="true">
+                                    ${rawTranslation.trim()}
+                                </div>
+                            </div>
+                            <button class="mark-example-btn ${isMarked ? 'marked' : ''}"
+                                    data-example-id="${exampleId}"
+                                    data-english="${englishHtml.replace(/"/g, '&quot;')}"
+                                    data-translation="${rawTranslation.trim().replace(/"/g, '&quot;')}"
+                                    title="${isMarked ? 'マーク解除' : 'マーク'}">
+                                📌
+                            </button>
                         </div>
                     `;
 
                     const sentenceEl = element.querySelector('.translation-sentence');
                     const translationEl = element.querySelector('.translation-text');
+                    const markBtn = element.querySelector('.mark-example-btn');
 
                     const toggle = () => {
                         const expanded = sentenceEl.getAttribute('aria-expanded') === 'true';
@@ -8273,6 +8534,38 @@ Wait for the bus. → Wait the bus for. ❌
                         if (event.key === 'Enter' || event.key === ' ') {
                             event.preventDefault();
                             toggle();
+                        }
+                    });
+
+                    // マークボタンのイベント
+                    markBtn.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const currentlyMarked = markBtn.classList.contains('marked');
+
+                        if (currentlyMarked) {
+                            markBtn.classList.remove('marked');
+                            markBtn.title = 'マーク';
+                            localStorage.removeItem(storageKey);
+
+                            // データも削除
+                            const dataKey = `marked-example-data-${exampleId}`;
+                            localStorage.removeItem(dataKey);
+                        } else {
+                            markBtn.classList.add('marked');
+                            markBtn.title = 'マーク解除';
+                            localStorage.setItem(storageKey, 'true');
+
+                            // 例文データを保存
+                            const page = pages[currentPageIndex];
+                            const exampleData = {
+                                englishText: englishText,
+                                translation: rawTranslation.trim(),
+                                pageIndex: currentPageIndex,
+                                pageTitle: page.parentTitle,
+                                exampleId: exampleId
+                            };
+                            const dataKey = `marked-example-data-${exampleId}`;
+                            localStorage.setItem(dataKey, JSON.stringify(exampleData));
                         }
                     });
                 }
@@ -8403,14 +8696,36 @@ Wait for the bus. → Wait the bus for. ❌
                         </div>
                     `;
 
+                    // 間違えカウントが-1の場合、行を薄くする（正解としてマークされた状態）
+                    const updateRowOpacity = () => {
+                        if (mistakeCount === -1) {
+                            row.classList.add('example-row-correct');
+                        } else {
+                            row.classList.remove('example-row-correct');
+                        }
+                    };
+
+                    // 初期状態を設定
+                    updateRowOpacity();
+
+                    // ○ボタンの状態を更新
+                    if (mistakeCount === -1) {
+                        removeBtn.disabled = true;
+                    }
+
                     // 間違えボタンのイベント
                     addBtn.addEventListener('click', (event) => {
                         event.stopPropagation();
+                        // -1（正解マーク）の場合は0に戻してからインクリメント
+                        if (mistakeCount === -1) {
+                            mistakeCount = 0;
+                        }
                         mistakeCount++;
                         badge.textContent = `×${mistakeCount}`;
                         badge.classList.add('visible');
                         removeBtn.disabled = false;
                         localStorage.setItem(storageKey, String(mistakeCount));
+                        updateRowOpacity();
                     });
 
                     // 正解ボタンのイベント
@@ -8425,6 +8740,14 @@ Wait for the bus. → Wait the bus for. ❌
                                 badge.textContent = `×${mistakeCount}`;
                             }
                             localStorage.setItem(storageKey, String(mistakeCount));
+                            updateRowOpacity();
+                        } else if (mistakeCount === 0) {
+                            // カウントが0の場合、-1にして正解としてマーク
+                            mistakeCount = -1;
+                            badge.classList.remove('visible');
+                            removeBtn.disabled = true;
+                            localStorage.setItem(storageKey, String(mistakeCount));
+                            updateRowOpacity();
                         }
                     });
 
@@ -8572,6 +8895,252 @@ Wait for the bus. → Wait the bus for. ❌
                 const shouldEnable = !document.body.classList.contains('dark-mode');
                 setTheme(shouldEnable);
             });
+        }
+
+        // 間違えた例文を収集する
+        function collectMistakeExamples() {
+            const mistakes = [];
+
+            // LocalStorageから全ての間違えカウントを取得
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('example-mistakes-')) {
+                    const value = parseInt(localStorage.getItem(key), 10);
+                    if (value > 0) {
+                        // キーから pageIndex と exampleIndex を抽出
+                        const match = key.match(/^example-mistakes-(\d+)-(\d+)$/);
+                        if (match) {
+                            const pageIndex = parseInt(match[1], 10);
+                            const exampleIndex = parseInt(match[2], 10);
+                            mistakes.push({
+                                pageIndex,
+                                exampleIndex,
+                                mistakeCount: value,
+                                key,
+                                type: 'mistake'
+                            });
+                        }
+                    }
+                }
+            }
+
+            return mistakes;
+        }
+
+        // マークされた例文を収集する
+        function collectMarkedExamples() {
+            const marked = [];
+
+            // LocalStorageから全てのマークされた例文を取得
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('marked-example-data-')) {
+                    const dataStr = localStorage.getItem(key);
+                    if (dataStr) {
+                        try {
+                            const data = JSON.parse(dataStr);
+                            marked.push({
+                                ...data,
+                                type: 'marked',
+                                key: key.replace('marked-example-data-', 'marked-example-')
+                            });
+                        } catch (e) {
+                            console.error('Failed to parse marked example data:', e);
+                        }
+                    }
+                }
+            }
+
+            return marked;
+        }
+
+        // 間違えた例文の一覧ページを表示
+        function showMistakesList(random = false) {
+            const contentWrapper = document.getElementById('contentWrapper');
+            const mistakes = collectMistakeExamples();
+            const markedExamples = collectMarkedExamples();
+
+            if (mistakes.length === 0 && markedExamples.length === 0) {
+                contentWrapper.innerHTML = `
+                    <div class="content-section active">
+                        <h1>📝 間違えた例文一覧</h1>
+                        <div style="padding: 40px; text-align: center; color: #95a5a6;">
+                            <p style="font-size: 18px; margin-bottom: 20px;">まだ間違えた例文はありません</p>
+                            <p>例文を学習して、×ボタンで間違えた例文をマークするか、📌ボタンで例文をマークしましょう！</p>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="nav-button" onclick="navigateToPage(${currentPageIndex})">
+                                ← メインコンテンツに戻る
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('mainContent').scrollTop = 0;
+                return;
+            }
+
+            // ランダムソートまたは間違えた回数でソート
+            if (random) {
+                mistakes.sort(() => Math.random() - 0.5);
+            } else {
+                mistakes.sort((a, b) => b.mistakeCount - a.mistakeCount);
+            }
+
+            // 例文データを収集
+            const exampleData = [];
+
+            // 間違えた例文を追加
+            mistakes.forEach(mistake => {
+                const page = pages[mistake.pageIndex];
+                if (!page) return;
+
+                // ページのコンテンツから例文テーブルを探す
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = marked.parse(page.content || '');
+                const tables = tempDiv.querySelectorAll('table');
+
+                tables.forEach(table => {
+                    const rows = table.querySelectorAll('tbody tr');
+                    if (rows.length > mistake.exampleIndex) {
+                        const row = rows[mistake.exampleIndex];
+                        const cells = row.querySelectorAll('td');
+                        if (cells.length === 3) {
+                            const expression = cells[0].textContent.trim();
+                            const meaning = cells[1].textContent.trim();
+                            const exampleText = cells[2].textContent.trim();
+                            const translationMatch = exampleText.match(/＜([^＜＞]+)＞\s*$/);
+                            const englishExample = translationMatch ?
+                                exampleText.replace(/＜[^＜＞]+＞\s*$/, '').trim() :
+                                exampleText;
+                            const translation = translationMatch ? translationMatch[1] : '';
+
+                            exampleData.push({
+                                expression,
+                                meaning,
+                                englishExample,
+                                translation,
+                                mistakeCount: mistake.mistakeCount,
+                                pageTitle: page.parentTitle,
+                                pageIndex: mistake.pageIndex,
+                                exampleIndex: mistake.exampleIndex,
+                                key: mistake.key,
+                                type: 'mistake'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // マークされた例文を追加
+            markedExamples.forEach(marked => {
+                exampleData.push({
+                    expression: '-',
+                    meaning: '-',
+                    englishExample: marked.englishText,
+                    translation: marked.translation,
+                    mistakeCount: 0,
+                    pageTitle: marked.pageTitle,
+                    pageIndex: marked.pageIndex,
+                    exampleIndex: -1,
+                    key: marked.key,
+                    type: 'marked',
+                    exampleId: marked.exampleId
+                });
+            });
+
+            const randomButtonClass = random ? 'nav-button' : 'nav-button-secondary';
+            const sortButtonClass = random ? 'nav-button-secondary' : 'nav-button';
+
+            const mistakeCount = exampleData.filter(d => d.type === 'mistake').length;
+            const markedCount = exampleData.filter(d => d.type === 'marked').length;
+
+            contentWrapper.innerHTML = `
+                <div class="content-section active">
+                    <h1>📝 間違えた例文一覧</h1>
+                    <div style="padding: 15px 20px; background: #f0f7ff; border-left: 4px solid #3498db; margin-bottom: 20px; border-radius: 4px;">
+                        <p style="margin: 0; color: #2c3e50;">
+                            <strong>全${exampleData.length}件</strong> (間違え: ${mistakeCount}件、マーク: ${markedCount}件)
+                        </p>
+                    </div>
+                    <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+                        <button class="${sortButtonClass}" onclick="showMistakesList(false)">
+                            間違え回数順
+                        </button>
+                        <button class="${randomButtonClass}" onclick="showMistakesList(true)">
+                            ランダム
+                        </button>
+                    </div>
+                    <div class="mistakes-list">
+                        ${exampleData.map((data, index) => {
+                            const isMistake = data.type === 'mistake';
+                            const badgeHtml = isMistake
+                                ? `<span class="mistake-badge-display">×${data.mistakeCount}</span>`
+                                : `<span class="mistake-badge-display" style="background: #3498db;">📌 マーク</span>`;
+
+                            const detailsHtml = isMistake && data.expression !== '-'
+                                ? `<div class="mistake-details">
+                                        <div><strong>表現:</strong> ${data.expression}</div>
+                                        <div><strong>意味:</strong> ${data.meaning}</div>
+                                    </div>`
+                                : '';
+
+                            const clearButtonText = isMistake ? 'クリア' : 'マーク解除';
+                            const clearFunction = isMistake
+                                ? `clearMistake('${data.key}')`
+                                : `clearMarkedExample('${data.exampleId}')`;
+
+                            return `
+                            <div class="mistake-card" data-key="${data.key}">
+                                <div class="mistake-header">
+                                    <span class="mistake-number">#${index + 1}</span>
+                                    ${badgeHtml}
+                                    <span class="mistake-page-title">${data.pageTitle}</span>
+                                </div>
+                                <div class="mistake-content">
+                                    <div class="mistake-english">${data.englishExample}</div>
+                                    <div class="mistake-translation">${data.translation}</div>
+                                    ${detailsHtml}
+                                </div>
+                                <div class="mistake-actions">
+                                    <button class="nav-button-secondary" onclick="navigateToPage(${data.pageIndex})">
+                                        ページへ移動
+                                    </button>
+                                    <button class="nav-button" onclick="${clearFunction}">
+                                        ${clearButtonText}
+                                    </button>
+                                </div>
+                            </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div class="nav-buttons" style="margin-top: 30px;">
+                        <button class="nav-button" onclick="navigateToPage(${currentPageIndex})">
+                            ← メインコンテンツに戻る
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('mainContent').scrollTop = 0;
+        }
+
+        // 間違えをクリアする
+        function clearMistake(key) {
+            if (confirm('この例文の間違えカウントをクリアしますか？')) {
+                localStorage.removeItem(key);
+                showMistakesList(false);
+            }
+        }
+
+        // マークされた例文を削除する
+        function clearMarkedExample(exampleId) {
+            if (confirm('この例文のマークを解除しますか？')) {
+                const storageKey = `marked-example-${exampleId}`;
+                const dataKey = `marked-example-data-${exampleId}`;
+                localStorage.removeItem(storageKey);
+                localStorage.removeItem(dataKey);
+                showMistakesList(false);
+            }
         }
 
         function init() {
