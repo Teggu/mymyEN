@@ -8008,6 +8008,148 @@ Wait for the bus. → Wait the bus for. ❌
 | illustrate | 例証する | This example illustrates the concept clearly.＜この例は概念を明確に例証している。＞ |
 
 ---
+### 24. 技術文書でよく使われる表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| prepend A to B | AをBの前に追加する | The system prepends a timestamp to each filename.＜システムは各ファイル名の前にタイムスタンプを追加する。＞ |
+| filter via | ～を経由してフィルタリング | The data is filtered via the UnsavedFilesManager.＜データはUnsavedFilesManagerを経由してフィルタリングされる。＞ |
+| tag A with B | AにBというタグを付ける | Each item is tagged with a priority level.＜各項目に優先度レベルがタグ付けされる。＞ |
+| skip | 飛ばす、スキップする | The program skips invalid entries automatically.＜プログラムは無効なエントリを自動的にスキップする。＞ |
+| emit | 発信する、送出する | The component emits an event when clicked.＜そのコンポーネントはクリックされるとイベントを発行する。＞ |
+| stay in sync | 同期を保つ | The database stays in sync with the cloud server.＜データベースはクラウドサーバーと同期を保つ。＞ |
+| monitor | 監視する | The system monitors CPU usage in real time.＜システムはCPU使用率をリアルタイムで監視する。＞ |
+| hit the bottom | 底に到達する | When you hit the bottom of the page, more content loads automatically.＜ページの底に到達すると、自動的にコンテンツが追加読み込みされる。＞ |
+| wire into | 組み込む、統合する | The plugin is wired into the main application.＜プラグインはメインアプリケーションに統合されている。＞ |
+| react to | ～に反応する | The application reacts to user input instantly.＜アプリケーションはユーザー入力に即座に反応する。＞ |
+| keep ... and add | ～を保持して追加する | We kept the old design and added new features.＜古いデザインを保持して新機能を追加した。＞ |
+| ensure | 確実にする | Please ensure that all doors are locked.＜全てのドアが施錠されていることを確認してください。＞ |
+
+### 25. 技術文書特有の文法パターン
+
+**現在形での動作説明**
+- The function emits a notification.＜関数は通知を発信する。＞
+- The system monitors the scroll position.＜システムはスクロール位置を監視する。＞
+- FolderListView prepends unsaved files to the list.＜FolderListViewは未保存ファイルをリストの前に追加する。＞
+
+**受動態の多用**
+- The data is filtered via the manager.＜データはマネージャーを経由してフィルタリングされる。＞
+- Each file is tagged with metadata.＜各ファイルはメタデータでタグ付けされる。＞
+- The event was triggered by user action.＜イベントはユーザーアクションによってトリガーされた。＞
+
+**分詞構文での説明**
+- Ensuring proper synchronization, the system refreshes immediately.＜適切な同期を保証して、システムはすぐに更新される。＞
+- Monitoring the scroll offset, we can implement prefetch.＜スクロールオフセットを監視することで、プリフェッチを実装できる。＞
+- Keeping backward compatibility, the update adds new features.＜後方互換性を保ちながら、アップデートは新機能を追加する。＞
+
+**whenever の使用（反復的な動作）**
+- The view refreshes whenever the data changes.＜データが変わるたびにビューが更新される。＞
+- A notification is sent whenever an error occurs.＜エラーが発生するたびに通知が送られる。＞
+- The cache clears whenever the user logs out.＜ユーザーがログアウトするたびにキャッシュがクリアされる。＞
+
+**ensure that 節**
+- The code ensures that updates are applied correctly.＜コードは更新が正しく適用されることを保証する。＞
+- We must ensure that all tests pass before deployment.＜デプロイ前に全てのテストが通ることを確実にしなければならない。＞
+- The system ensures that data integrity is maintained.＜システムはデータの整合性が維持されることを保証する。＞
+
+### 26. 技術レビュー・バグレポートでよく使われる表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| Blocking / Major / Minor | 致命的 / 重大 / 軽微（問題の重要度） | This is a blocking issue that prevents deployment.＜これはデプロイを妨げる致命的な問題だ。＞ |
+| remain | ～のままである | The status remains unchanged after the update.＜アップデート後もステータスは変わらないままだ。＞ |
+| fail | 失敗する | The connection fails intermittently.＜接続が断続的に失敗する。＞ |
+| in that case | その場合 | In that case, the user will see an error message.＜その場合、ユーザーはエラーメッセージを見ることになる。＞ |
+| be stuck on | ～で動けなくなる | Users get stuck on the loading screen.＜ユーザーはローディング画面で動けなくなる。＞ |
+| previously | 以前は | Previously, this feature was not available.＜以前は、この機能は利用できなかった。＞ |
+| regression | リグレッション（機能退行） | The update introduced a regression in the login flow.＜アップデートはログインフローにリグレッションを引き起こした。＞ |
+| handle ... explicitly | 明示的に処理する | The code should handle errors explicitly.＜コードはエラーを明示的に処理すべきだ。＞ |
+| make sure | 確実にする | Make sure all tests pass before committing.＜コミット前に全てのテストが通ることを確認して。＞ |
+| bail out | 早期終了する | The function bails out if the input is invalid.＜入力が無効な場合、関数は早期終了する。＞ |
+| in parallel | 並行して | The tasks run in parallel to improve performance.＜パフォーマンス向上のためタスクは並行実行される。＞ |
+| decouple A from B | AをBから切り離す | We need to decouple the frontend from the backend.＜フロントエンドとバックエンドを切り離す必要がある。＞ |
+| fall back to | ～にフォールバックする | If the API is unavailable, fall back to cached data.＜APIが利用できない場合、キャッシュデータにフォールバックせよ。＞ |
+| blindly | 盲目的に、無条件に | Don't blindly trust user input.＜ユーザー入力を盲目的に信用してはいけない。＞ |
+| propagate | 伝播する、伝える | Errors should propagate up the call stack.＜エラーはコールスタックを上に伝播すべきだ。＞ |
+
+### 27. バグレポート・コードレビューの定型表現
+
+**問題の指摘**
+- This is a blocking issue.＜これは致命的な問題だ。＞
+- This causes the application to crash.＜これによりアプリケーションがクラッシュする。＞
+- This is a regression from the previous version.＜これは以前のバージョンからのリグレッションだ。＞
+- The user is stuck on an infinite loading screen.＜ユーザーは終わらないローディング画面で動けなくなる。＞
+- This breaks the existing functionality.＜これは既存の機能を壊す。＞
+
+**原因の説明**
+- X remains null when Y fails.＜Yが失敗するとXはnullのままになる。＞
+- In that case, the callback never runs.＜その場合、コールバックは決して実行されない。＞
+- This happens because the guard condition is too strict.＜これはガード条件が厳しすぎるために起こる。＞
+- Previously, errors were handled gracefully.＜以前は、エラーは適切に処理されていた。＞
+- The function bails out early without cleaning up resources.＜関数はリソースをクリーンアップせずに早期終了する。＞
+
+**解決策の提案**
+- You need to handle the nil case explicitly.＜nilケースを明示的に処理する必要がある。＞
+- Make sure isLoading is cleared even when errors occur.＜エラーが発生してもisLoadingが確実にクリアされるようにせよ。＞
+- Please decouple the local refresh from the remote fetch.＜ローカルリフレッシュをリモートフェッチから切り離してください。＞
+- Fall back to cached data when the network is unavailable.＜ネットワークが利用できない時はキャッシュデータにフォールバックせよ。＞
+- Propagate the error so the UI can display it properly.＜UIが適切に表示できるようにエラーを伝播せよ。＞
+- The local files should render in parallel with the API call.＜ローカルファイルはAPI呼び出しと並行してレンダリングすべきだ。＞
+
+**影響の説明**
+- This prevents users from accessing their files.＜これによりユーザーはファイルにアクセスできなくなる。＞
+- Without this fix, the spinner never stops.＜この修正がなければ、スピナーは決して止まらない。＞
+- Users must wait for the remote lookup before seeing local content.＜ユーザーはローカルコンテンツを見る前にリモート検索を待たなければならない。＞
+- This degrades the user experience significantly.＜これはユーザー体験を著しく低下させる。＞
+- The application becomes unresponsive in offline mode.＜オフラインモードではアプリケーションが応答しなくなる。＞
+
+**テストと検証**
+- This should be tested with network failures.＜これはネットワーク障害でテストすべきだ。＞
+- Please verify that the fix works in offline mode.＜修正がオフラインモードで機能することを確認してください。＞
+- Make sure to run regression tests before merging.＜マージ前にリグレッションテストを実行するようにせよ。＞
+- We need to add unit tests for edge cases.＜エッジケースのユニットテストを追加する必要がある。＞
+- Confirm that no other features are affected.＜他の機能が影響を受けていないことを確認せよ。＞
+
+### 28. 技術文書での問題解決フロー表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| valid | 妥当な、正当な | The argument is valid.＜その議論は妥当だ。＞ |
+| apply fixes to | ～に修正を適用する | We applied the patch to the production server.＜本番サーバーにパッチを適用した。＞ |
+| explicitly handle | 明示的に処理する | We should explicitly handle all error cases.＜全てのエラーケースを明示的に処理すべきだ。＞ |
+| user-friendly | ユーザーフレンドリーな | The error messages should be user-friendly.＜エラーメッセージはユーザーフレンドリーであるべきだ。＞ |
+| prevent ... from -ing | ～が...するのを防ぐ | Error handling prevents the application from crashing.＜エラーハンドリングによりアプリケーションがクラッシュするのを防ぐ。＞ |
+| hang on | ハングする、固まる | The application hangs on startup.＜アプリケーションは起動時にハングする。＞ |
+| indefinitely | 無期限に、無限に | The request may wait indefinitely without a timeout.＜タイムアウトがないとリクエストは無限に待つ可能性がある。＞ |
+| launch ... concurrently | 並行して起動する | Multiple tasks are launched concurrently to improve performance.＜パフォーマンス向上のため複数のタスクが並行起動される。＞ |
+| alongside | ～と並行して | Run tests alongside deployment.＜デプロイと並行してテストを実行せよ。＞ |
+| optimistically | 楽観的に | The UI updates optimistically before the server responds.＜サーバーが応答する前にUIは楽観的に更新される。＞ |
+| restore | 復元する | We need to restore the previous functionality.＜以前の機能を復元する必要がある。＞ |
+| re-run | 再実行する | Re-run the script after fixing the error.＜エラー修正後にスクリプトを再実行せよ。＞ |
+| robustness | 堅牢性、頑健性 | Error handling increases code robustness.＜エラーハンドリングはコードの堅牢性を高める。＞ |
+| check for | ～をチェックする | Always check for null values before accessing properties.＜プロパティにアクセスする前に常にnull値をチェックせよ。＞ |
+| safely exit | 安全に終了する | The program safely exits on receiving SIGTERM.＜SIGTERMを受信するとプログラムは安全に終了する。＞ |
+
+### 29. 問題解決レポートの構造
+
+**問題の確認**
+- The feedback was valid and has been addressed.＜フィードバックは妥当で対処された。＞
+- I have applied the fixes to the affected files.＜影響を受けたファイルに修正を適用した。＞
+
+**修正の説明（各項目）**
+- The code now explicitly handles the failure case.＜コードは今や明示的に失敗ケースを処理する。＞
+- This prevents the UI from hanging indefinitely.＜これによりUIが無限にハングするのを防ぐ。＞
+- I have decoupled X from Y to improve performance.＜パフォーマンス向上のためXをYから切り離した。＞
+- The function is now launched concurrently via async let.＜関数は今やasync letを介して並行起動される。＞
+- It optimistically uses the available data.＜楽観的に利用可能なデータを使う。＞
+- This restores the original responsive behavior.＜これにより元の応答性の高い動作が復元される。＞
+
+**追加の改善**
+- Added logic to re-run the function after ID resolution.＜ID解決後に関数を再実行するロジックを追加した。＞
+- Updated the block to check for missing data first.＜最初に欠落データをチェックするようブロックを更新した。＞
+- If validation fails, it safely exits and sets an error state.＜検証が失敗すると、安全に終了してエラー状態を設定する。＞
+- Tasks now execute in parallel for better performance.＜タスクは今やパフォーマンス向上のため並行実行される。＞
+---
 
 ## 間違えやすい・分かりにくい例文集
 
