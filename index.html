@@ -8202,6 +8202,80 @@ Wait for the bus. → Wait the bus for. ❌
 - find/keep/leave + O + **現在分詞/過去分詞/形容詞**：I found him sleeping.＜彼が寝ているのを見つけた。＞ / Keep the door closed.＜ドアを閉めたままにして。＞
 - **SVOCの受動態**: He was made **to** apologize.＜彼は謝罪させられた。＞ / She was seen **to** enter the room.＜彼女が部屋に入るのを見られた。＞
 
+### 30. コードレビュー・技術解説でよく使う表現
+
+#### 基本的な動詞表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| resolve | 解決する／特定する | [camera/FolderListView.swift:1078](camera/FolderListView.swift#L1078) resolves the folder ID and explicitly handles the failure branch.＜FolderListView.swiftの1078行目はフォルダIDを特定し、明示的に失敗分岐を処理する。＞ |
+| determine | 決定する／特定する | The code determines the folder ID before proceeding.＜コードは処理を進める前にフォルダIDを特定する。＞ |
+| obtain | 取得する | It obtains the folder ID from the server.＜サーバーからフォルダIDを取得する。＞ |
+| decouple A from B | AをBから切り離す | [camera/FolderListView.swift:941](camera/FolderListView.swift#L941) decouples refreshPendingLocalFiles() from the Drive folder lookup.＜FolderListView.swiftの941行目はrefreshPendingLocalFiles()をDriveフォルダ検索から切り離す。＞ |
+| separate A from B | AをBから分離する | This change separates the local refresh from the remote API call.＜この変更はローカルリフレッシュをリモートAPI呼び出しから分離する。＞ |
+| make A independent of B | AをBから独立させる | The update makes refreshPendingLocalFiles() independent of the Drive folder lookup.＜このアップデートはrefreshPendingLocalFiles()をDriveフォルダ検索から独立させる。＞ |
+
+#### エラー処理・検証の表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| explicitly handle | 明示的に処理する | The code now explicitly handles the failure branch by clearing isLoading.＜コードは今やisLoadingをクリアすることで失敗分岐を明示的に処理する。＞ |
+| properly manage | 適切に管理する | The implementation properly manages error cases.＜実装はエラーケースを適切に管理する。＞ |
+| gracefully handle | 適切に処理する | The system gracefully handles error scenarios by presenting a clear message.＜システムは明確なメッセージを提示することでエラーシナリオを適切に処理する。＞ |
+| guard | ガードする／検証する | Pull-to-refresh now guards the ID before calling loadDriveFiles(reset:).＜プルトゥリフレッシュは今やloadDriveFiles(reset:)を呼ぶ前にIDをガードする。＞ |
+| validate | 検証する | The code validates the ID before calling the function.＜コードは関数を呼ぶ前にIDを検証する。＞ |
+| check for | ～を確認する | Pull-to-refresh checks for the ID before proceeding.＜プルトゥリフレッシュは処理を進める前にIDを確認する。＞ |
+
+#### エラー表示・フィードバックの表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| surface an error | エラーを表示する | The implementation surfaces an error if the folder ID cannot be obtained.＜実装はフォルダIDが取得できない場合にエラーを表示する。＞ |
+| display an error | エラーを表示する | Pull-to-refresh displays an error when the ID resolution fails.＜プルトゥリフレッシュはID解決が失敗したときにエラーを表示する。＞ |
+| expose an error | エラーを明示する | The code exposes an error to the user, improving debuggability.＜コードはユーザーにエラーを明示し、デバッグ可能性を向上させる。＞ |
+| push a friendly error | 分かりやすいエラーを提示する | The code pushes a friendly fetchError, eliminating the infinite spinner issue.＜コードは分かりやすいfetchErrorを提示し、無限スピナー問題を解消する。＞ |
+
+#### 動作の復元・維持の表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| restore the original behaviour | 元の動作を復元する | After the ID resolves, the extra Task re-filters with the final ID, restoring the original behaviour.＜ID解決後、追加のTaskは最終IDで再フィルタリングし、元の動作を復元する。＞ |
+| maintain the original functionality | 元の機能を維持する | The update maintains the original functionality while fixing the race condition.＜このアップデートは競合状態を修正しながら元の機能を維持する。＞ |
+| preserve the original behavior | 元の動作を保持する | The re-filtering step preserves the original behavior.＜再フィルタリングステップは元の動作を保持する。＞ |
+
+#### フォールバック・代替処理の表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| fall back to | ～にフォールバックする | The function falls back to driveCAMFolderID when the lookup fails.＜関数は検索が失敗したときdriveCAMFolderIDにフォールバックする。＞ |
+| default to | デフォルトで～を使う | It defaults to an empty string if no folder ID is available.＜フォルダIDが利用できない場合、デフォルトで空文字列を使用する。＞ |
+| use as a fallback | フォールバックとして使用する | The code uses driveCAMFolderID as a fallback value.＜コードはdriveCAMFolderIDをフォールバック値として使用する。＞ |
+
+#### 問題の説明・影響の表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| eliminate | 解消する | This fix eliminates the infinite spinner case from the missing ID path.＜この修正は欠落IDパスからの無限スピナーケースを解消する。＞ |
+| prevent | 防ぐ | This prevents the previous silent failure.＜これは以前の無音の失敗を防ぐ。＞ |
+| fix | 修正する | The infinite spinner case from the missing ID path is fixed.＜欠落IDパスからの無限スピナーケースが修正された。＞ |
+| resolve (問題を) | 解決する | This change resolves the issue where users were stuck on loading.＜この変更はユーザーがローディングで動けなくなる問題を解決する。＞ |
+
+#### 改善・最適化の表現
+
+| 表現 | 意味 | 例文 |
+|------|------|------|
+| improve | 改善する | This improves the user experience by showing pending uploads immediately.＜これは保留中のアップロードを即座に表示することでユーザー体験を改善する。＞ |
+| enhance | 強化する | The update enhances error handling capabilities.＜このアップデートはエラーハンドリング能力を強化する。＞ |
+| optimize | 最適化する | The code optimizes performance by running tasks in parallel.＜コードはタスクを並行実行することでパフォーマンスを最適化する。＞ |
+
+#### 技術レビューの総評表現
+
+- **Looks good to me (LGTM)**: いいと思います＜コードレビューの承認表現＞
+- **This approach makes sense**: このアプローチは理にかなっている＜設計判断の肯定＞
+- **Well done**: よくできました＜褒める表現＞
+- **Nice improvement**: いい改善ですね＜変更を評価する表現＞
+- **I agree with this change**: この変更に賛成です＜同意の表現＞
+
 > ※ 例文の **全角山括弧** \`＜…＞\` は、トグル機能で表示/非表示できます。`;
 
         const combinedMarkdown = `${markdownContent}\n\n---\n\n${extraExamples}`;
